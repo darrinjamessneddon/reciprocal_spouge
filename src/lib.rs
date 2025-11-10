@@ -66,6 +66,12 @@ pub mod spouge_reciprocal {
             if a < 2 {
                 panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
             }
+            // Ensure that the value of z is not too large to avoid
+            // overflow in calculations.
+            if z.re > 1e6 || z.im > 1e6 {
+                panic!("Value of 'z' is too large, may cause overflow in calculations.");
+            }
+            // Return the RSpouge instance
             RSpouge { z, a }
         }
         pub fn factorial(n: usize) -> BigUint {
@@ -122,5 +128,82 @@ pub mod spouge_reciprocal {
             numerator / denominator
         }
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::spouge_reciprocal::RSpouge;
+    use num_complex::Complex64;
+    use num_bigint::BigUint;
+    #[test]
+    fn test_factorial() {
+        let n = 5;
+        let five_factorial = RSpouge::factorial(n);
+        assert!(five_factorial == BigUint::from(120u32));
+
+    }
+
+    #[test]
+    fn test_reciprocal_gamma() {
+        let z = Complex64::new(5.0, 0.0);
+        let a = 10;
+        let spouge_rg = RSpouge::new(z, a);
+        let result = spouge_rg.compute();
+        let expected = Complex64::new(1.0 / 24.0, 0.0); // 1/ Γ(z) = 1/24
+        assert!((result.re - expected.re).abs() < 1e-10);
+        assert!((result.im - expected.im).abs() < 1e-10);
+    }
+    #[test]
+    fn test_reciprocal_gamma_a_11() {
+        let z = Complex64::new(5.0, 0.0);
+        let a = 11;
+        let spouge_rg = RSpouge::new(z, a);
+        let result = spouge_rg.compute();
+        let expected = Complex64::new(1.0 / 24.0, 0.0);
+        assert!((result.re - expected.re).abs() < 1e-10);
+        assert!((result.im - expected.im).abs() < 1e-10);
+    }
+    #[test]
+    fn test_reciprocal_gamma_negative_integer() {
+        let z = Complex64::new(-3.0, 0.0);
+        let a = 10;
+        let spouge_rg = RSpouge::new(z, a);
+        let result = spouge_rg.compute();
+        let expected = Complex64::new(0.0, 0.0); // 1/Γ(-3) = 0
+        assert!((result.re - expected.re).abs() < 1e-10);
+        assert!((result.im - expected.im).abs() < 1e-10);
+    }
+    #[test]
+    fn test_reciprocal_gamma_zero() {
+        let z = Complex64::new(0.0, 0.0);
+        let a = 10;
+        let spouge_rg = RSpouge::new(z, a);
+        let result = spouge_rg.compute();
+        let expected = Complex64::new(0.0, 0.0); // 1/Γ(0) = 0
+        assert!((result.re - expected.re).abs() < 1e-10);
+        assert!((result.im - expected.im).abs() < 1e-10);
+    }
+    #[test]
+    fn test_reciprocal_gamma_fractional() {
+        let z = Complex64::new(2.5, 0.0);
+        let a = 10;
+        let spouge_rg = RSpouge::new(z, a);
+        let result = spouge_rg.compute();
+        let expected = Complex64::new(1.0 / 1.329340388179137, 0.0); // 1/Γ(2.5)
+        assert!((result.re - expected.re).abs() < 1e-10);
+        assert!((result.im - expected.im).abs() < 1e-10);
+    }
+    #[test]
+    fn test_reciprocal_gamma_complex() {
+        let z = Complex64::new(3.5, 2.0);
+        let a = 10;
+        let spouge_rg = RSpouge::new(z, a);
+        let result = spouge_rg.compute();
+        // Expected value computed using a high-precision library or tool
+        let expected = Complex64::new(0.03608940886391987, -0.00890730874689545); // Approximate value of 1/Γ(3.5 + 2i)
+        assert!((result.re - expected.re).abs() < 1e-8);
+        assert!((result.im - expected.im).abs() < 1e-8);
+    }
+
 }
 
