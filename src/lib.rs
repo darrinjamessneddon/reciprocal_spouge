@@ -77,7 +77,7 @@ pub mod spouge_reciprocal {
         pub fn factorial(n: usize) -> BigUint {
             let mut result = BigUint::one();
             for i in 2..=n {
-                result *= BigUint::from_u32(i).unwrap();
+                result *= BigUint::from_usize(i).unwrap();
             }
             result
         }
