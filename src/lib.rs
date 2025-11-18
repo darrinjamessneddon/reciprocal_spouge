@@ -57,7 +57,7 @@ pub mod spouge_reciprocal {
     #[derive(Debug, Clone, Copy)]
 
     pub struct RSpouge {
-        pub a: usize,// Spouge's parameter 'a'
+        pub a: u32,// Spouge's parameter 'a'
         pub z: Complex64, // Input value 'z'
     }
     impl RSpouge {
@@ -77,7 +77,7 @@ pub mod spouge_reciprocal {
         pub fn factorial(n: usize) -> BigUint {
             let mut result = BigUint::one();
             for i in 2..=n {
-                result *= BigUint::from_usize(i).unwrap();
+                result *= BigUint::from_u32(i).unwrap();
             }
             result
         }
@@ -96,36 +96,37 @@ pub mod spouge_reciprocal {
                 let one_minus_z = Complex64::new(1.0, 0.0) - self.z;
                 let spouge_rg_one_minus_z = RSpouge::new(one_minus_z, self.a);
                 // next compute sin(pi * z)
-                let pi_z = Complex64::new(PI * self.z.re, PI * self.z.im);
-                let sin_pi_z = pi_z.sin();
-                let sin_pi_z_over_pi = sin_pi_z / Complex64::new(PI, 0.0);
-                // finally compute the reciprocal gamma using the reflection formula
-                return sin_pi_z_over_pi * spouge_rg_one_minus_z.compute();
-            }
+                let pi_times_spouge_rg_one_minus_z = Complex64::new(PI, 0.0) * spouge_rg_one_minus_z.compute();
+                let denominator = pi_times_spouge_rg_one_minus_z;
+                let mut numerator = Complex64::new(PI, 0.0) * self.z;
+                numerator = numerator.sin();
+                return numerator / denominator;
+            } 
             // If 0 < Re(z) < 1, use the property Γ(z) = Γ(z + 1) / z
             if self.z.re > 0.0 && self.z.re < 1.0 {
-                let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
-                return spouge_rg_shifted.compute() * self.z;
+            let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
+            return spouge_rg_shifted.compute() * self.z;
+            } else {
+                // Spouge's approximation for Re(z) >= 1
+                let a = self.a;
+                let z = self.z - Complex64::new(1.0, 0.0);
+                let z_plus_a = z + Complex64::new(a as f64, 0.0);
+                let mut numerator = z_plus_a.powc(-(z + Complex64::new(0.5, 0.0)));
+                numerator *= z_plus_a.exp();
+                let c_0 = Complex64::new((2.0 * PI).sqrt(), 0.0);
+                let mut sum = Complex64::new(0.0, 0.0);
+                for k in 1..a {
+                    let k_f64 = k as f64;
+                    let c_k = ((-1.0f64).powf(k_f64 - 1.0)
+                    / RSpouge::factorial(k - 1).to_f64().unwrap())
+                    * (a as f64 - k_f64).powf(k_f64 - 0.5)
+                    * (a as f64 - k_f64).exp();
+                let term = c_k / (z + Complex64::new(k_f64, 0.0));
+                sum += term;
+                }
+                let denominator = c_0 + sum;
+                numerator / denominator
             }
-            // Spouge's approximation for Re(z) >= 1
-            let a = self.a;
-            let z = self.z;
-            let z_plus_a = z + Complex64::new(a as f64, 0.0);
-            let mut numerator = z_plus_a.powc(-(z + Complex64::new(0.5, 0.0)));
-            numerator *= z_plus_a.exp();
-            let c_0 = Complex64::new((2.0 * PI).sqrt(), 0.0);
-            let mut sum = Complex64::new(0.0, 0.0);
-            for k in 1..self.a {
-                let k_f64 = k as f64;
-                let c_k = ((-1.0f64).powf(k_f64 - 1.0)
-                / RSpouge::factorial(k - 1).to_f64().unwrap())
-                * (a as f64 - k_f64).powf(k_f64 - 0.5)
-                * (a as f64 - k_f64).exp();
-            let term = c_k / (z + Complex64::new(k_f64, 0.0));
-            sum += term;
-            }
-            let denominator = c_0 + sum;
-            numerator / denominator
         }
     }
 }
