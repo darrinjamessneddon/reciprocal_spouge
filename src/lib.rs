@@ -57,12 +57,12 @@ pub mod spouge_reciprocal {
     #[derive(Debug, Clone, Copy)]
 
     pub struct RSpouge {
-        pub a: u32,// Spouge's parameter 'a'
+        pub a: usize,// Spouge's parameter 'a'
         pub z: Complex64, // Input value 'z'
     }
     impl RSpouge {
         // Constructor for RSpouge
-        pub fn new(z: Complex64, a: u32) -> Self {
+        pub fn new(z: Complex64, a: usize) -> Self {
             if a < 2 {
                 panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
             }
@@ -74,10 +74,10 @@ pub mod spouge_reciprocal {
             // Return the RSpouge instance
             RSpouge { z, a }
         }
-        pub fn factorial(n: u32) -> BigUint {
+        pub fn factorial(n: usize) -> BigUint {
             let mut result = BigUint::one();
             for i in 2..=n {
-                result *= BigUint::from_u32(i).unwrap();
+                result *= BigUint::from_usize(i).unwrap();
             }
             result
         }
@@ -140,7 +140,7 @@ mod tests {
     fn test_factorial() {
         let n = 5;
         let five_factorial = RSpouge::factorial(n);
-        assert!(five_factorial == BigUint::from(120u32));
+        assert!(five_factorial == BigUint::from(120 as usize));
 
     }
 
