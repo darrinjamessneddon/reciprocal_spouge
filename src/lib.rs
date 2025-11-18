@@ -62,7 +62,7 @@ pub mod spouge_reciprocal {
     }
     impl RSpouge {
         // Constructor for RSpouge
-        pub fn new(z: Complex64, a: usize) -> Self {
+        pub fn new(z: Complex64, a: u32) -> Self {
             if a < 2 {
                 panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
             }
