@@ -74,10 +74,10 @@ pub mod spouge_reciprocal {
             // Return the RSpouge instance
             RSpouge { z, a }
         }
-        pub fn factorial(n: usize) -> BigUint {
+        pub fn factorial(n: u32) -> BigUint {
             let mut result = BigUint::one();
             for i in 2..=n {
-                result *= BigUint::from_usize(i).unwrap();
+                result *= BigUint::from_u32(i).unwrap();
             }
             result
         }
