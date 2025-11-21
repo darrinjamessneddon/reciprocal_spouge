@@ -128,6 +128,28 @@ pub mod spouge_reciprocal {
                 numerator / denominator
             }
         }
+        // Create a function to automatically generate a value for the Spouge parameter 'a'
+        fn with_auto_a(z: Complex64) -> Self {
+            if z.re.abs() > 0.0 && z.re.abs() < 1.0 {
+                MyReciprocal::new(z, 21)
+            } else if z.re.abs() >= 1.0 && z.re.abs() < 2.5 {
+                MyReciprocal::new(z, 22)
+            } else if z.re.abs() > 2.5 && z.re.abs() <= 3.5 {
+                MyReciprocal::new(z, 21)
+            } else if z.re.abs() > 3.5 && z.re.abs() < 5.5 {
+                MyReciprocal::new(z, 15)
+            } else if z.re.abs() >= 5.5 && z.re.abs() <= 7.5 {
+                MyReciprocal::new(z, 14)
+            } else if z.re.abs() > 7.5 && z.re.abs() <= 15.5 {
+                MyReciprocal::new(z, 13)
+            } else if z.re.abs() > 15.5 && z.re.abs() <= 17.5 {
+                MyReciprocal::new(z, 12)
+            } else if z.re.abs() > 17.5 && z.re.abs() <= 18.5 {
+                MyReciprocal::new(z, 13)
+            } else if z.re.abs() > 18.5 && z.re.abs() <= 20.5 {
+                MyReciprocal::new(z, 12)
+            } else {
+                MyReciprocal::new(z, 14)
     }
 }
 
