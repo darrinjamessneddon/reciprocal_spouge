@@ -36,4 +36,3 @@ let gamma_result = Complex64::new(1.0, 0.0) / result;
 println!("Gamma function result for {}: {}", z, gamma_result);
 
 
-The library also contains a function to automatically generate the Spouge parameter.
