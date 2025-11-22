@@ -1,3 +1,5 @@
+THIS PROJECT IS VERY MUCH A WORK IN PROGRESS AND IS NOT YET COMPLETE
+
 A Rust library designed to directly calculate the reciprocal gamma function using a modified version of Spouge's
 approximation for the gamma function.
 The inputs for the Spouge approximation are a complex number z, and the Spouge parameter 'a'.
