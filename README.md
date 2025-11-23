@@ -42,4 +42,16 @@ println!("Reciprocal gamma for {}: {}", z, result);
 let gamma_result = Complex64::new(1.0, 0.0) / result;
 println!("Gamma function result for {}: {}", z, gamma_result);
 
+Issues to be addressed include:
+
+(1)  Documentation
+(2)  Improving the accuracy of reciprocal gamma calculation for complex numbers where z is large.
+(3)  Extending the range of complex numbers for which the reciprocal gamma value can be calculated.
+(4)  Only the real part of a complex number is used in the function to automatically calculate 'a'
+therefore this function may need to be tweaked if the imaginary part of the complex number has a substantial
+impact on whether the optimal value for 'a' is being chosen. Otherwise it is best to keep the function as simple
+as possible.
+(5) Optimization of the computation of reciprocal gamma (if this can be done with relatively simple functions or algorithms.
+(6)  Testing
+
 
