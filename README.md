@@ -51,7 +51,8 @@ Issues to be addressed include:
 therefore this function may need to be tweaked if the imaginary part of the complex number has a substantial
 impact on whether the optimal value for 'a' is being chosen. Otherwise it is best to keep the function as simple
 as possible.
-(5) Optimization of the computation of reciprocal gamma (if this can be done with relatively simple functions or algorithms.
-(6)  Testing
+(5)  Incorrect results are being outputted for z = {0 + i, 0 + 2i, 0 + 3i, 0 + 4i ... etc}, this needs fixing.
+(6) Optimization of the computation of reciprocal gamma (if this can be done with relatively simple functions or algorithms.
+(7)  Testing
 
 
