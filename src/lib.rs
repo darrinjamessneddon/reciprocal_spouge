@@ -100,8 +100,16 @@ pub mod spouge_reciprocal {
                 let denominator = pi_times_spouge_rg_one_minus_z;
                 let mut numerator = Complex64::new(PI, 0.0) * self.z;
                 numerator = numerator.sin();
-                return numerator / denominator;
-            } 
+                let result = numerator / denominator;
+                // Format the results using scientific notation:
+                println!("Reciprocal gamma function value (Precision (20e): {}", format!({:.20e}", result));
+                return result
+            }
+            // Add code here to allow computation of reciprocal gamma whe Re(z) == 0.0 && Im(z) !=0.0
+            // For now, add a placeholder, but the code block below will need to be fixed.
+            if self.z.re == 0.0 && self.im != 0.0 {
+                panic!("reciprocal gamma for z cannot be calculated");
+            }
             // If 0 < Re(z) < 1, use the property Γ(z) = Γ(z + 1) / z
             if self.z.re > 0.0 && self.z.re < 1.0 {
             let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
@@ -125,7 +133,9 @@ pub mod spouge_reciprocal {
                 sum += term;
                 }
                 let denominator = c_0 + sum;
-                numerator / denominator
+                let result = numerator / denominator
+                println!("Reciprocal gamma function value (Precision (20e)): {}", format!("{::.20e}", result));
+                return result
             }
         }
         // Create a function to automatically generate a value for the Spouge parameter 'a'
