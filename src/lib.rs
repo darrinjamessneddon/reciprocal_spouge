@@ -105,15 +105,15 @@ pub mod spouge_reciprocal {
                 println!("Reciprocal gamma function value (Precision (20e): {}", format!({:.20e}", result));
                 return result
             }
-            // Add code here to allow computation of reciprocal gamma whe Re(z) == 0.0 && Im(z) !=0.0
-            // For now, add a placeholder, but the code block below will need to be fixed.
+            // If Re(z) == 0.0 && Im(z) ! = 0.0, use the property Γ(z) = Γ(z + 1) / z
             if self.z.re == 0.0 && self.im != 0.0 {
-                panic!("reciprocal gamma for z cannot be calculated");
+                let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
+                return spouge_rg_shifted.compute() * self.z;
             }
             // If 0 < Re(z) < 1, use the property Γ(z) = Γ(z + 1) / z
             if self.z.re > 0.0 && self.z.re < 1.0 {
-            let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
-            return spouge_rg_shifted.compute() * self.z;
+                let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
+                return spouge_rg_shifted.compute() * self.z;
             } else {
                 // Spouge's approximation for Re(z) >= 1
                 let a = self.a;
