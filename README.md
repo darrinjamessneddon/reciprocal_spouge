@@ -11,12 +11,6 @@ The inputs for the Spouge approximation are a complex number z, and the Spouge p
 The Spouge parameter is an integer greater than 2. 
 
 
-Examples
-
-let z = Complex64::new(5.0, 0.0);
-let spouge_rg = RSpouge::new(z, 10);
-let result = spouge_rg.compute();
-println!("Approximate reciprocal gamma for {}: {}", z, result);
 
 let gamma_result = Complex64::new(1.0, 0.0) / result;
 println!("Approximate gamma function value for {}: {}", z, gamma_result);
