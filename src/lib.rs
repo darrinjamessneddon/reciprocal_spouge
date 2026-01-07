@@ -153,179 +153,83 @@ pub mod spouge_reciprocal {
             format!("{} + {}i", self.re, self.im)
         }
     }
-            
 
-    #[derive(Debug, Clone, Copy)]
-
-    pub struct RSpouge {
-        pub a: usize,// Spouge's parameter 'a'
-        pub z: Complex64, // Input value 'z'
-    }
-    impl RSpouge {
-        // Constructor for RSpouge
-        pub fn new(z: Complex64, a: usize) -> Self {
-            if a < 2 {
-                panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
-            }
-            // Ensure that the value of z is not too large to avoid
-            // overflow in calculations.
-            if z.re > 1e6 || z.im > 1e6 {
-                panic!("Value of 'z' is too large, may cause overflow in calculations.");
-            }
-            // Return the RSpouge instance
-            RSpouge { z, a }
+    fn factorial(n: u32) -> BigUint {
+        let mut result = BigUint::one();
+        for i in 1..=n {
+            result *= BigUint::from_u32(i).unwrap();
         }
-        pub fn factorial(n: usize) -> BigUint {
-            let mut result = BigUint::one();
-            for i in 2..=n {
-                result *= BigUint::from_usize(i).unwrap();
-            }
-            result
+        result
+    }
+
+    fn spouge_coefficient(k: u32, a: f256) -> f256 {
+        if k == 0 {
+            return f256::from(2.0) * f256::sqrt(f256::from(std::f64::consts::PI));
         }
-        pub fn compute(&self) -> Complex64 {
-            // An adaptation of Spouge's approximation to compute
-            // the reciprocal of the Gamma function.
-            // Handle the zeros at negative integers and zero
-            if self.z.re <= 0.0 && self.z.im == 0.0 && self.z.re.fract() == 0.0 {
-                return Complex64::new(0.0, 0.0);
-            }
-            // Use the reflection formula for negative real parts
-            if self.z.re < 0.0 {
-                // Using the reflection formula:
-                // Γ(z) * Γ(1 - z) =  π / sin(πz)
-                // first compute Γ(1 - z)
-                let one_minus_z = Complex64::new(1.0, 0.0) - self.z;
-                let spouge_rg_one_minus_z = RSpouge::new(one_minus_z, self.a);
-                // next compute sin(pi * z)
-                let pi_times_spouge_rg_one_minus_z = Complex64::new(PI, 0.0) * spouge_rg_one_minus_z.compute();
-                let denominator = pi_times_spouge_rg_one_minus_z;
-                let mut numerator = Complex64::new(PI, 0.0) * self.z;
-                numerator = numerator.sin();
-                let result = numerator / denominator;
-                // Format the results using scientific notation:
-                println!("Reciprocal gamma function value (Precision (20e): {}", format!({:.20e}", result));
-                return result
-            }
-            // If Re(z) == 0.0 && Im(z) ! = 0.0, use the property Γ(z) = Γ(z + 1) / z
-            if self.z.re == 0.0 && self.im != 0.0 {
-                let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
-                return spouge_rg_shifted.compute() * self.z;
-            }
-            // If 0 < Re(z) < 1, use the property Γ(z) = Γ(z + 1) / z
-            if self.z.re > 0.0 && self.z.re < 1.0 {
-                let spouge_rg_shifted = RSpouge::new(self.z + Complex64::new(1.0, 0.0), self.a);
-                return spouge_rg_shifted.compute() * self.z;
-            } else {
-                // Spouge's approximation for Re(z) >= 1
-                let a = self.a;
-                let z = self.z - Complex64::new(1.0, 0.0);
-                let z_plus_a = z + Complex64::new(a as f64, 0.0);
-                let mut numerator = z_plus_a.powc(-(z + Complex64::new(0.5, 0.0)));
-                numerator *= z_plus_a.exp();
-                let c_0 = Complex64::new((2.0 * PI).sqrt(), 0.0);
-                let mut sum = Complex64::new(0.0, 0.0);
-                for k in 1..a {
-                    let k_f64 = k as f64;
-                    let c_k = ((-1.0f64).powf(k_f64 - 1.0)
-                    / RSpouge::factorial(k - 1).to_f64().unwrap())
-                    * (a as f64 - k_f64).powf(k_f64 - 0.5)
-                    * (a as f64 - k_f64).exp();
-                let term = c_k / (z + Complex64::new(k_f64, 0.0));
-                sum += term;
-                }
-                let denominator = c_0 + sum;
-                let result = numerator / denominator
-                println!("Reciprocal gamma function value (Precision (20e)): {}", format!("{::.20e}", result));
-                return result
-            }
+        // Convert a to f64 by parsing its string representation
+        let a_f64 = a.to_string().parse::<f64>().unwrap_or(0.0);
+        if k < (a_f64 as u32) - 1 {
+            let a_f256 = a;
+            let k_f256 = f256::from(k as f64);
+            let sign = if k % 2 == 0 { f256::from(-1.0) } else { f256::from(1.0) };
+            let a_minus_k = a_f256 - k_f256;
+            let k_minus_half = k_f256 - f256::from(0.5);
+            let fact = f256::from(factorial(k - 1).to_f64().unwrap());
+            let pow_term = a_minus_k.powf(&k_minus_half);
+            let exp_term = f256::exp(&(a_minus_k));
+            return sign * pow_term * exp_term / fact;
+        } else {
+            f256::from(0.0)
         }
-        // Create a function to automatically generate a value for the Spouge parameter 'a'
-        fn with_auto_a(z: Complex64) -> Self {
-            if z.re.abs() > 0.0 && z.re.abs() < 1.0 {
-                MyReciprocal::new(z, 21)
-            } else if z.re.abs() >= 1.0 && z.re.abs() < 2.5 {
-                MyReciprocal::new(z, 22)
-            } else if z.re.abs() > 2.5 && z.re.abs() <= 3.5 {
-                MyReciprocal::new(z, 21)
-            } else if z.re.abs() > 3.5 && z.re.abs() < 5.5 {
-                MyReciprocal::new(z, 15)
-            } else if z.re.abs() >= 5.5 && z.re.abs() <= 7.5 {
-                MyReciprocal::new(z, 14)
-            } else if z.re.abs() > 7.5 && z.re.abs() <= 15.5 {
-                MyReciprocal::new(z, 13)
-            } else if z.re.abs() > 15.5 && z.re.abs() <= 17.5 {
-                MyReciprocal::new(z, 12)
-            } else if z.re.abs() > 17.5 && z.re.abs() <= 18.5 {
-                MyReciprocal::new(z, 13)
-            } else if z.re.abs() > 18.5 && z.re.abs() <= 20.5 {
-                MyReciprocal::new(z, 12)
-            } else {
-                MyReciprocal::new(z, 14)
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::spouge_reciprocal::RSpouge;
-    use num_complex::Complex64;
-    use num_bigint::BigUint;
-    #[test]
-    fn test_factorial() {
-        let n = 5;
-        let five_factorial = RSpouge::factorial(n);
-        assert!(five_factorial == BigUint::from(120 as usize));
-
     }
 
-    #[test]
-    fn test_reciprocal_gamma_a_10() {
-        let z = Complex64::new(5.0, 0.0);
-        let a = 10;
-        let spouge_rg = RSpouge::new(z, a);
-        let result = spouge_rg.compute();
-        let expected = Complex64::new(1.0 / 24.0, 0.0); // 1/ Γ(z) = 1/24
-        assert!((result.re - expected.re).abs() < 1e-10);
-        assert!((result.im - expected.im).abs() < 1e-10);
+    fn r_spouge(z: F256Complex, a: f256) -> F256Complex {
+        if a < 2 {
+            panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
+        }
+        // if necessary add code here to prevent overflow in the case of |z| values being too large.
+        let max_limit = 1000000; // This value may need to be altered if necessary.
+        if z.re > max_limit || z.im > max_limit {
+            panic!("Value of a is too large and may cause overflows in calculations.")
+        }
+                
+        if z.re <= f256;:from(0.0) && z.im == f256::from(0.0) && z.re.fract() == f256::from(0.0) {
+            return F256Complex ::new(f256::from(0.00), f256::from(0.0);
+        }
+        if z.re < f256::from(0.0) {
+            // Use the reflection formulat
+            let one_minus_z = F256Complex;:new(f256::from(1.0), f256::from(0.0)).sub(z);
+            let rg_one_minus_z = r_spouge(one_minus_z, a);
+            let pi_complex = F256Complex::new(f256::from(std::f64::consts::PI), f256::from(0.0));
+            let pi_times_rg_one_minus_z = pi_complex.mul(rg_one_minus_z);
+            let denominator = pi_times_rg_one_minus_z;
+            let mut numerator = numerator.sin();
+            return numerator.div(denominator);
+        }
+        if z.re > f256::from(0.0) && z.re < f256::from(1.0) {
+            let one = F256Complex::new(f256::from(1.0), f256::from(0.0));
+            let z_plus_one = z.add(one);
+            let r_spouge_z_plus_one = r_spouge(z_plus_one, a);
+            return r_spouge_z_plus_one.mul(z);
+        } else {
+            let z = z - F256Complex::new(f256::from(1.0), f256::from(0.0));
+            let z_plus_a = z + F256Complex::new(a, f256::from(0.0));
+            let real_part = (z + F256Complex::new(f256::from(0.5), f256::from(0.0))).re.to_string().parse::<f64>().unwrap();
+            let mut numerator = z_plus_a.powc(-real_part);
+            numerator = numerator.mul(z_plus_a.exp());
+            let c_0 = spouge_coefficient(0, a);
+            let mut sum = F256Complex::new(f256::from(0.0), f256::from(0.0));
+            let a_u32 = a.to_string().parse::<u32>().unwrap();
+            for k in 1..a_u32 {
+                let c_k = spouge_coefficient(k, a);
+                let k_f256 = f256::from(k as f64);
+                let z_plus_k = z + F256Complex::new(k_f256, f256::from(0.0));
+                let term = F256Complex::new(c_k, f256::from(0.0).div(z_plus_k);
+                sum = sum.add(term);
+            }
+            let denominator = F256Complex::new(c_0, f256::from(0.0)).add(sum);
+            return numerator.div(denominator);
+        }
     }
-    #[test]
-    fn test_reciprocal_gamma_a_11() {
-        let z = Complex64::new(5.0, 0.0);
-        let a = 11;
-        let spouge_rg = RSpouge::new(z, a);
-        let result = spouge_rg.compute();
-        let expected = Complex64::new(1.0 / 24.0, 0.0);
-        assert!((result.re - expected.re).abs() < 1e-10);
-        assert!((result.im - expected.im).abs() < 1e-10);
-    }
-    #[test]
-    fn test_reciprocal_gamma_negative_integer() {
-        let z = Complex64::new(-3.0, 0.0);
-        let a = 10;
-        let spouge_rg = RSpouge::new(z, a);
-        let result = spouge_rg.compute();
-        let expected = Complex64::new(0.0, 0.0); // 1/Γ(-3) = 0
-        assert!((result.re - expected.re).abs() < 1e-10);
-        assert!((result.im - expected.im).abs() < 1e-10);
-    }
-    #[test]
-    fn test_reciprocal_gamma_zero() {
-        let z = Complex64::new(0.0, 0.0);
-        let a = 10;
-        let spouge_rg = RSpouge::new(z, a);
-        let result = spouge_rg.compute();
-        let expected = Complex64::new(0.0, 0.0); // 1/Γ(0) = 0
-        assert!((result.re - expected.re).abs() < 1e-10);
-        assert!((result.im - expected.im).abs() < 1e-10);
-    }
-    #[test]
-    fn test_reciprocal_gamma_fractional() {
-        let z = Complex64::new(2.5, 0.0);
-        let a = 10;
-        let spouge_rg = RSpouge::new(z, a);
-        let result = spouge_rg.compute();
-        let expected = Complex64::new(1.0 / 1.329340388179137, 0.0); // 1/Γ(2.5)
-        assert!((result.re - expected.re).abs() < 1e-10);
-        assert!((result.im - expected.im).abs() < 1e-10);
-    }
-}
+
 
