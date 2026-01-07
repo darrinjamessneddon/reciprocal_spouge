@@ -9,8 +9,7 @@ A Rust library designed to directly calculate the reciprocal gamma function usin
 approximation for the gamma function.
 The inputs for the Spouge approximation are a complex number z, and the Spouge parameter 'a'.
 The Spouge parameter is an integer greater than 2. 
-The library also has a function to calculate the reciprocal gamma function using an automatically generated Spouge
-parameter.
+
 
 Examples
 
