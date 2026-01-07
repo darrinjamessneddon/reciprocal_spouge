@@ -12,18 +12,7 @@ The Spouge parameter is an integer greater than 2.
 
 
 
-l
-println!("Approximate gamma function value for {}: {}", z, gamma_result);
 
-// or to calculate the reciprocal gamma function using an automatically generated Spouge parameter.
-
-let z = Complex64::new(3.5, 1.5);
-let reciprocal = RSpouge::with_auto_a(z);
-let result = reciprocal.compute()
-println!("Reciprocal gamma for {}: {}", z, result);
-
-let gamma_result = Complex64::new(1.0, 0.0) / result;
-println!("Gamma function result for {}: {}", z, gamma_result);
 
 Issues to be addressed include:
 
