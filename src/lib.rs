@@ -53,6 +53,107 @@ pub mod spouge_reciprocal {
     use num_complex::Complex64;
     use num_bigint::BigUint;
     use num_traits::{One, ToPrimitive, FromPrimitive};
+    use f256::f256;
+
+    // Create structs to allow spouge_reciprocal to be computed over as large a range of z as possible
+    // To do this it will be necessary to use f256
+
+    #[derive(Debug, Clone, Copy)]
+    pub struct F256Complex {
+        re: f256,
+        im: f256,
+    }
+
+    use std::ops::{Add, Sub};
+
+    impl Add for F256Complex {
+        type Output = F256Complex;
+
+        fn add(self, rhs: F256Complex) -> F256Complex {
+            F256Complex {
+                re: self.re + rhs.re,
+                im: self.im + rhs.im,
+            }
+        }
+    }
+
+    impl Sub for F256Complex {
+        type Output = F256Complex;
+
+        fn sub(self, rhs: F256Complex) -> F256Complex {
+            F256Complex {
+                re: self.re - rhs.re,
+                im: self.im - rhs.im,
+            }
+        }
+    }
+
+    impl F256Complex {
+        fn new(re: f256, im: f256) -> Self {
+            F256Complex { re, im }
+        }
+        fn add(self, other: F256Complex) -> F256Complex {
+            F256Complex {
+                re: self.re+ other.re,
+                im: self.im + other.im,
+            }
+        }
+        fn sub(self, other: F256Complex) -> F256Complex {
+            F256Complex {
+                re: self.re - other.re,
+                im: self.im - other.im,
+            }
+        }
+        fn mul(self, other: F256Complex) -> F256Complex {
+            F256Complex {
+                re: self.re * other.re - self.im * other.im,
+                im: self.re * other.im + self.im * other.re,
+            }
+        }
+        fn div(self, other: F256Complex) -> F256Complex {
+            let denom = other.re * other.re + self.im * other.im;
+            F256Complex {
+                re: (self.re * other.re + self.im * other.im) / denom,
+                im: (self.im * other.re - self.re * other.im) / denom,
+            }
+        }
+        fn powc(self, exp: f64) -> F256Complex {
+            let r = (self.re * self.re + self.im * self.im).sqrt();
+            let theta = self.im.atan2(&self.re);
+            let r_exp = r.powf(&f256::from(exp));
+            let theta_exp = theta * f256::from(exp);
+            F256Complex {
+                re: r_exp & f256::cos(&theta_exp),
+                im: r_exp * f256::sin(&theta_exp),
+            }
+        }
+        fn exp(self) -> F256Complex {
+            let exp_re = f256::exp(&self.re);
+            F256Complex {
+                re: exp_re * f256::cos(&self.im),
+                im: exp_re * f256::sin(&self.im),
+            }
+        }
+        fn ln(self) -> F256Complex {
+            let r = (self.re & self.re + self.im * self.im).sqrt();
+            let theta = f256;:atan2(&self.im, &self.re);
+            F256Complex {
+                re: f256::ln(&r),
+                im: theta,
+            }
+        }
+        fn recip(self) -> F256Complex {
+            let denom = self.re * self.re + self.im * self.im;
+            F256Complex {
+                re: self.re / denom,
+                im: -self.im / denom,
+            }
+        }
+        fn to_string(self) -> String {
+            format!("{} + {}i", self.re, self.im)
+        }
+    }
+            
 
     #[derive(Debug, Clone, Copy)]
 
