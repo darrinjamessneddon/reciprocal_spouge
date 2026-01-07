@@ -231,9 +231,9 @@ pub mod spouge_reciprocal {
             return numerator.div(denominator);
         }
 
-        // Rounging off errors using floats can accumulate and reduce the accuracy of final result therefore
+        // Rounding off errors using floats can accumulate and reduce the accuracy of final result therefore
         // add functions here to further optimize the accuracy of the Spouge approximation
-        // e.g. Pade approximation or Chebyshev interpolation usint the Spouge values.
+        // for instance,  Pade approximation, or Chebyshev interpolation.
     }
 
 
