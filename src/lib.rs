@@ -230,6 +230,10 @@ pub mod spouge_reciprocal {
             let denominator = F256Complex::new(c_0, f256::from(0.0)).add(sum);
             return numerator.div(denominator);
         }
+
+        // Rounging off errors using floats can accumulate and reduce the accuracy of final result therefore
+        // add functions here to further optimize the accuracy of the Spouge approximation
+        // e.g. Pade approximation or Chebyshev interpolation usint the Spouge values.
     }
 
 
