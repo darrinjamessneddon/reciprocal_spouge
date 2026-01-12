@@ -64,6 +64,30 @@ pub mod spouge_reciprocal {
         im: f256,
     }
 
+    use std::str::FromStr;
+
+    impl FromStr for F256Complex {
+        type Err = String;
+
+        fn from_str(s: &str) -> Result<Self, Self::Err> {
+            // Expect format: "<re> + <im>i"
+            let s = s.trim();
+            if let Some(i_pos) = s.find('i) {
+                let s = &s[..i_pos];
+                let parts: Vec<&str> = s.split('+').map(|x| x.trim()).collect();
+                if parts.len() == 2 {
+                    let re = parts[0].parse::<f256>().map_err(|_| "Failed to parse re".to_string())?;
+                    let im = parts[1].parse::<f256>().map_err(|_| "Failed to parse im".to_string())?;
+                    Ok(F256Complex { re, im })
+                } else {
+                    Err("invalid format".to_string())
+                }
+            } else {
+                Err("Missing 'i'".to_string())
+            }
+        }
+    }
+
     use std::ops::{Add, Sub};
 
     impl Add for F256Complex {
@@ -117,15 +141,9 @@ pub mod spouge_reciprocal {
                 im: (self.im * other.re - self.re * other.im) / denom,
             }
         }
-        fn powc(self, exp: f64) -> F256Complex {
-            let r = (self.re * self.re + self.im * self.im).sqrt();
-            let theta = self.im.atan2(&self.re);
-            let r_exp = r.powf(&f256::from(exp));
-            let theta_exp = theta * f256::from(exp);
-            F256Complex {
-                re: r_exp & f256::cos(&theta_exp),
-                im: r_exp * f256::sin(&theta_exp),
-            }
+        fn powc(self, exp: F256Complex) -> F256Complex {
+            // z^w = exp(w * ln(z))
+            (exp.mul(self.ln())).exp()
         }
         fn exp(self) -> F256Complex {
             let exp_re = f256::exp(&self.re);
@@ -214,8 +232,11 @@ pub mod spouge_reciprocal {
         } else {
             let z = z - F256Complex::new(f256::from(1.0), f256::from(0.0));
             let z_plus_a = z + F256Complex::new(a, f256::from(0.0));
-            let real_part = (z + F256Complex::new(f256::from(0.5), f256::from(0.0))).re.to_string().parse::<f64>().unwrap();
-            let mut numerator = z_plus_a.powc(-real_part);
+            let z_plus_half = z + F256Complex::new(f256::from(0.5), f256::from(0.0));
+            let real_part = z_plus_half.re;
+            let imag-part = z_plus_half.im;
+            let exponent = F256Complex::new(f256::from(-real_part,), f256::from(-imag_part));
+            let mut numerator = z_plus_a.powc(exponent);
             numerator = numerator.mul(z_plus_a.exp());
             let c_0 = spouge_coefficient(0, a);
             let mut sum = F256Complex::new(f256::from(0.0), f256::from(0.0));
