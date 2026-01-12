@@ -167,6 +167,28 @@ pub mod spouge_reciprocal {
                 im: -self.im / denom,
             }
         }
+        fn sin(self) -> F256Complex {
+            // sin(a + bi) = sin(a)cosh(b) + i*cos(a)sinh(b)
+            let sin_re = f256::sin(&self.re);
+            
+            let cos_re = f256::cos(&self.re);
+            
+            // cosh(x) = (exp(x) + exp(-x)) / 2
+            fn cosh(x: &f256) -> f256 {
+                (f256::exp(x) + f256::exp(&(-*x)))) / f256::from(2.0)
+            }
+            // sinh(x) = (exp(x) - exp(-x) / 2
+            fn sinh(x: &f256) -> f256 {
+                (f256::exp(x) - f256::exp(&(-*x))) / f256::from(2.0)
+            }
+
+            let sinh_im = sinh(&self.im);
+            let cosh_im = cosh(&self.im);
+            F256Complex {
+                re: sin_re * cosh_im,
+                im: cos_re * sinh_im,
+            }
+        }
         fn to_string(self) -> String {
             format!("{} + {}i", self.re, self.im)
         }
