@@ -228,7 +228,7 @@ pub mod spouge_reciprocal {
             panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
         }
         // if necessary add code here to prevent overflow in the case of |z| values being too large.
-        let max_limit = 1000000; // This value may need to be altered if necessary.
+        let max_limit = 10000; // This value may need to be altered if necessary.
         if z.re > max_limit || z.im > max_limit {
             panic!("Value of a is too large and may cause overflows in calculations.")
         }
@@ -273,6 +273,18 @@ pub mod spouge_reciprocal {
             let denominator = F256Complex::new(c_0, f256::from(0.0)).add(sum);
             return numerator.div(denominator);
         }
+
+        fn ln_r_spouge(z: F256Complex, a: F256) -> F256Complex {
+            let reciprocal_spouge = r_spouge(z, a);
+            let ln_reciprocal_spouge = reciprocal_spouge.ln();
+            return ln_reciprocal_spouge
+        }
+        fn spouge(z: F256Complex, a: F256) -> F256Complex {
+            // add code here
+        }
+
+
+            
 
         
 
