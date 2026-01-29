@@ -204,7 +204,7 @@ pub mod spouge_reciprocal {
 
     fn spouge_coefficient(k: u32, a: f256) -> f256 {
         if k == 0 {
-            return f256::from(2.0) * f256::sqrt(f256::from(std::f64::consts::PI));
+            return f256::sqrt(f256::from(2.0)) * f256::sqrt(f256::from(std::f64::consts::PI));
         }
         // Convert a to f64 by parsing its string representation
         let a_f64 = a.to_string().parse::<f64>().unwrap_or(0.0);
