@@ -234,7 +234,7 @@ pub mod spouge_reciprocal {
         }
                 
         if z.re <= f256;:from(0.0) && z.im == f256::from(0.0) && z.re.fract() == f256::from(0.0) {
-            return F256Complex ::new(f256::from(0.00), f256::from(0.0);
+            return F256Complex ::new(f256::from(0.0), f256::from(0.0);
         }
         if z.re < f256::from(0.0) {
             // Use the reflection formulat
@@ -256,7 +256,7 @@ pub mod spouge_reciprocal {
             let z_plus_a = z + F256Complex::new(a, f256::from(0.0));
             let z_plus_half = z + F256Complex::new(f256::from(0.5), f256::from(0.0));
             let real_part = z_plus_half.re;
-            let imag-part = z_plus_half.im;
+            let imag_part = z_plus_half.im;
             let exponent = F256Complex::new(f256::from(-real_part,), f256::from(-imag_part));
             let mut numerator = z_plus_a.powc(exponent);
             numerator = numerator.mul(z_plus_a.exp());
@@ -280,8 +280,40 @@ pub mod spouge_reciprocal {
             return ln_reciprocal_spouge
         }
         fn spouge(z: F256Complex, a: F256) -> F256Complex {
+            if a < 2 {
+                panic!("Parameter 'a' must be at least 2 for Spouge's approximation);
+            }
+            // code block to prevent overflow in the case of |z| being too large
+            let max_limit = 10000; // This value may need to be altered if necessary
+            if z.re > max_limit || z.im > max_limit {
+            panic!("Absolute value of z is too large and may cause overflows in calculation")       
+            // Handle the pole at z = 0
+            if z.re == 0.0 && z.im == 0.0 {
+                return F256Complex::new(f256::INFINITY, 0.0)
+            }
+            // Handle the pole at negative integers
+            if z.re < 0.0 && z.im == 0.0 {
+                if z.re.fract() == 0.0 {
+                    return F256Complex::new(f256::INFINITY, f256::from(0.0))
+                }
+            }
+            // Handle the case for negative non-integers
+            if z.re < f256::from(0.0) && z.re.fract() != 0.0 {
+            // Use the reflection formula:
+            // add code  here
+
+
+
+            }
+            // Handle the case for z values with real z between 0 and 1:
+            if z.re > f256::from(0.0) && z.re < f256::from(1.0) {
             // add code here
-        }
+            } else {
+            // Handle the case for other z values by implementing Spouge's approximation
+
+            }
+
+
 
 
             
