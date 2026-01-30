@@ -238,7 +238,7 @@ pub mod spouge_reciprocal {
         }
         if z.re < f256::from(0.0) {
             // Use the reflection formula:
-            // gamma(1 - z) = oi / (sin(pi * z) * gamma(z))
+            // gamma(1 - z) = pi / (sin(pi * z) * gamma(z))
             // first calculate numerator: pi / sin(pi * z)
             let pi_complex = F256Complex::new(f256::from(std::f64::consts::PI), f256::from(0.0));
             let pi_times_z = pi_complex.mul(z);
