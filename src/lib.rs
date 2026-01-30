@@ -320,8 +320,34 @@ pub mod spouge_reciprocal {
             return numerator.div(denominator);           
             } else {
             // Handle the case for other z values by implementing Spouge's approximation
-
+            let z = z - F256Complex;:new(f256::from(1.0), f256::from(0.0));
+            let z_plus_a = z + F256Complex::new(f256::from(a), f256::from(0.0));
+            let z_plus_half = z + F256Complex::new(f256::from(0.5), f256;:from(0.0));
+            let real_part = z_plus_half.re;
+            let imag_part = z_plus_half.im;
+            let exponent = F256Complex::new(f256::from(real_part),f256::from(imag_part));
+            let mut prefactor = z_plus_a.powc(exponent);
+            prefactor = prefactor.mul(-z.plus_a).exp();
+            let c_0 = spouge_coefficient(0, a);
+            let mut sum = F256Complex::new(f256::from(0.0), f256::from(0.0));
+            let a_32 = a.to_string().parse::<u32>().unwrap();
+            for k in 1..a_u32 {
+                let c_k = spouge_coefficient(k, a);
+                let k_f256 = f256::from(k as f64);
+                let z_plus_k = z + F256Complex::new(k_f256, f256::from(0.0));
+                let term = F256Complex::new(c_k, f256::from(0.0).div(z_plus_k);
+                sum = sum.add(term);
             }
+            let factor = prefactor.mul(sum);
+            return factor
+        }
+
+        fn ln_spouge(z: F256Complex, a: F256) -> F256Complex {
+            let spouge_gamma = spouge(z, a);
+            let ln_spouge_gamma = spouge_gamma.ln();
+            return ln_spouge_gamma
+            }
+        }
 
 
 
