@@ -233,11 +233,18 @@ pub mod spouge_reciprocal {
             panic!("Value of a is too large and may cause overflows in calculations.")
         }
                 
-        if z.re <= f256;:from(0.0) && z.im == f256::from(0.0) && z.re.fract() == f256::from(0.0) {
+        if z.re <= f256::from(0.0) && z.im == f256::from(0.0) && z.re.fract() == f256::from(0.0) {
             return F256Complex ::new(f256::from(0.0), f256::from(0.0);
         }
         if z.re < f256::from(0.0) {
-            // Use the reflection formulat
+            // Use the reflection formula:
+            // gamma(1 - z) = oi / (sin(pi * z) * gamma(z))
+            // first calculate numerator: pi / sin(pi * z)
+            let pi_complex = F256Complex::new(f256::from(std::f64::consts::PI), f256::from(0.0));
+            let pi_times_z = pi_complex.mul(z);
+            let numerator = pi_complex.div(pi_times_z.sin());
+            // next calculate denominator: r_spouge(1 - z, a)
+
             let one_minus_z = F256Complex;:new(f256::from(1.0), f256::from(0.0)).sub(z);
             let rg_one_minus_z = r_spouge(one_minus_z, a);
             let pi_complex = F256Complex::new(f256::from(std::f64::consts::PI), f256::from(0.0));
