@@ -300,14 +300,24 @@ pub mod spouge_reciprocal {
             // Handle the case for negative non-integers
             if z.re < f256::from(0.0) && z.re.fract() != 0.0 {
             // Use the reflection formula:
-            // add code  here
-
-
-
+            // gamma(1 - z)* gamma(z) = pi/ sin(pi * z)
+            // first calculate gamma(1 - z):
+            let one_minus_z = F256Complex::new(f256::from(1.0), f256::from(0.0)).sub(&z);
+            let denominator = spouge(one_minus_z, a);
+            // next calculate pi/(sin(pi * z))
+            let pi_complex = F256Complex::new(f256::from(std::f64::consts::PI), f256::from(0.0));
+            let pi_times_z = pi_complex.mul(&z);
+            let numerator = pi_complex.div(pi_times_z);
+            return numerator.div(denominator)
             }
             // Handle the case for z values with real z between 0 and 1:
             if z.re > f256::from(0.0) && z.re < f256::from(1.0) {
-            // add code here
+            // Use the relationsip: gamma(z + 1) = z * gamma(z);
+            let one = F256Complex::new(f256::from(1.0), f256::from(0.0));
+            let z_plus_one = z.add(one);
+            let numerator = spouge(z_plus_one, a);
+            let denominator = z;
+            return numerator.div(denominator);           
             } else {
             // Handle the case for other z values by implementing Spouge's approximation
 
