@@ -25,8 +25,7 @@ The project currently aims to:
 
 The library currently exposes:
 
-- `spouge_reciprocal::F256Complex` for complex values backed by `f256`;
-- `r_spouge` for the reciprocal gamma approximation.
+- `spouge_reciprocal::r_spouge` for the reciprocal gamma approximation.
 
 ## Example
 
