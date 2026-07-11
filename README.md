@@ -32,7 +32,7 @@ The library currently exposes:
 
 ```rust
 use f256::f256;
-use reciprocal_spouge::r_spouge;
+use reciprocal_spouge::spouge_reciprocal::r_spouge;
 use reciprocal_spouge::spouge_reciprocal::F256Complex;
 
 let gamma_input = F256Complex::new(f256::from(2.0), f256::from(0.0));
