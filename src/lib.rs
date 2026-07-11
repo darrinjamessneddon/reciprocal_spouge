@@ -264,9 +264,9 @@ pub mod spouge_reciprocal {
     /// `z` is the complex input value for which the reciprocal gamma function
     /// is approximated.
     ///
-    /// `a` must be at least `2`. The current implementation panics when either
-    /// the real or imaginary part of `z` is greater than `10000` to avoid
-    /// overflow during intermediate calculations.
+    /// `a` must be an integer value at least `2` (it is parsed as a `u32`).
+    /// The current implementation panics when either the real or imaginary part of
+    /// `z` is greater than `10000` to avoid overflow during intermediate calculations.
     pub fn r_spouge(z: F256Complex, a: f256::f256) -> F256Complex {
         if a < f256::f256::from(2.0) {
             panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
