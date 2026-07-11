@@ -1,3 +1,5 @@
+#![doc = include_str!("../README.md")]
+
 // THIS IS A WORK IN PROGRESS AND IS FAR FROM COMPLETE.
 // THIS CODE IS NOT YET READY FOR PRODUCTION USE.
 
@@ -51,12 +53,14 @@
 use num_bigint::BigUint;
 use num_traits::{One, FromPrimitive, ToPrimitive};
 
+/// Complex-number support used by the Spouge approximation routines.
 pub mod spouge_reciprocal {
     use f256::f256;
 
     // Create structs to allow spouge_reciprocal to be computed over as large a range of z as possible
     // To do this it will be necessary to use f256
 
+    /// A simple complex number backed by `f256` real and imaginary parts.
     #[derive(Debug, Clone, Copy)]
     pub struct F256Complex {
         pub re: f256,
@@ -255,6 +259,10 @@ pub mod spouge_reciprocal {
         }
     }
 
+    /// Approximates the reciprocal gamma function using a Spouge-style formula.
+    ///
+    /// `a` must be at least `2`. Values with a modulus above the current
+    /// implementation limit may panic to avoid overflow during calculation.
     pub fn r_spouge(z: F256Complex, a: f256::f256) -> F256Complex {
         if a < f256::f256::from(2.0) {
             panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
@@ -395,5 +403,4 @@ pub mod spouge_reciprocal {
             
 
         
-
 

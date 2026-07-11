@@ -1,32 +1,56 @@
-WELCOME!!...AND THANK YOU FOR VISITING THIS PROJECT
+# reciprocal_spouge
 
-THIS IS MY FIRST PROJECT AND I NOT ONLY WELCOME COLLABORATORS (SHOULD YOU WISH TO GET INVOLVED),
-I ALSO LOOK FORWARD TO ANY FEEDBACK ON HOW TO IMPROVE THINGS.
+`reciprocal_spouge` is a Rust library for experimenting with Spouge-based
+approximations of the gamma function and the reciprocal gamma function in the
+complex plane.
 
-THIS PROJECT IS VERY MUCH A WORK IN PROGRESS AND IS NOT YET COMPLETE.
+## Project status
 
-This project is a Rust library.
+This project is still a work in progress and is not ready for production use.
+The current code is intended for learning, experimentation, and incremental
+improvement.
 
-The goals of this project (at this preliminary stage) are as follows:
-(1)  To use the f256 crate to create structs to enable the computation of special functions in the complex plane.
-(2)  To use a modified version of Spouge's approximation to directly calculate values for the reciprocal gamma function for z values
-with a modulus of <= 10000. To do this requires a simple rearrangement of Spouge's approximation formula.
-(3)  To create a function to approximation the natural logarithm of the reciprocal gamma function.
-(4)  To use Spouge's approximation to calculate values for the gamma function for z values with a modulus of <= 10000.
-(5)  To have an accuracy of better than 1e-15. (The greater the accuracy that can be achieved without combining the Spouge approximation
-with other methods at this stage, the better).
-(6)  This library is intended not only to be used as a stand alone library, but should also be able to be used as a dependency for other libaries
-seeking to optimize calculations of the functions mentioned above.
+## Current goals
 
-The inputs for the Spouge approximation are a complex number z, and the Spouge parameter 'a'.
-The Spouge parameter is an integer greater than 2.
+The project currently aims to:
 
-It was initially intended to attain a very high degree of accuracy, yet I have found it necessary to break those initial plans into smaller,
-more easily achieved goals first.
+1. explore complex-number support built on the `f256` crate;
+2. approximate the reciprocal gamma function directly with a modified Spouge
+   formulation;
+3. approximate the natural logarithm of the reciprocal gamma function; and
+4. approximate the gamma function itself for values whose modulus is at most
+   `10000`.
 
+## Public API
 
+The library currently exposes:
 
+- `spouge_reciprocal::F256Complex` for complex values backed by `f256`;
+- `r_spouge` for the reciprocal gamma approximation.
 
+## Example
 
+```no_run
+use f256::f256;
+use reciprocal_spouge::r_spouge;
+use reciprocal_spouge::spouge_reciprocal::F256Complex;
 
+let z = F256Complex::new(f256::from(2.0), f256::from(0.0));
+let value = r_spouge(z, f256::from(5.0));
 
+println!("{:?}", value);
+```
+
+## Development
+
+Run the existing test suite with:
+
+```bash
+cargo test
+```
+
+## References
+
+- J. L. Spouge, *A New Approximation for the Gamma Function*, Mathematics of
+  Computation 63(208), 159-176 (1994)
+- <https://www.ams.org/journals/mcom/1994-63-208/S0025-5718-1994-1209956-2/S0025-5718-1994-1209956-2.pdf>
