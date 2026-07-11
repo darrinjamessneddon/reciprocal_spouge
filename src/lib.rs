@@ -261,8 +261,8 @@ pub mod spouge_reciprocal {
 
     /// Approximates the reciprocal gamma function using a Spouge-style formula.
     ///
-    /// `a` must be at least `2`. Values with a modulus above the current
-    /// implementation limit may panic to avoid overflow during calculation.
+    /// `a` must be at least `2`. Values with a real or imaginary part above
+    /// `10000` may panic to avoid overflow during calculation.
     pub fn r_spouge(z: F256Complex, a: f256::f256) -> F256Complex {
         if a < f256::f256::from(2.0) {
             panic!("Parameter 'a' must be at least 2 for Spouge's approximation.");
@@ -403,4 +403,3 @@ pub mod spouge_reciprocal {
             
 
         
-

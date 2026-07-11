@@ -30,7 +30,7 @@ The library currently exposes:
 
 ## Example
 
-```no_run
+```rust
 use f256::f256;
 use reciprocal_spouge::r_spouge;
 use reciprocal_spouge::spouge_reciprocal::F256Complex;
