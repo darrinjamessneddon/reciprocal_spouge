@@ -35,10 +35,10 @@ use f256::f256;
 use reciprocal_spouge::r_spouge;
 use reciprocal_spouge::spouge_reciprocal::F256Complex;
 
-let z = F256Complex::new(f256::from(2.0), f256::from(0.0));
-let value = r_spouge(z, f256::from(5.0));
+let gamma_input = F256Complex::new(f256::from(2.0), f256::from(0.0));
+let reciprocal_gamma = r_spouge(gamma_input, f256::from(5.0));
 
-println!("{:?}", value);
+println!("{:?}", reciprocal_gamma);
 ```
 
 ## Development
