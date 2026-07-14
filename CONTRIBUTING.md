@@ -8,7 +8,10 @@ Thank you for your interest in this project. Contributions are most welcome! Whe
 3. Create a new branch for your work: `git checkout -b features/my-features`.
 
 ## Development Workflow
-TODO - describe development workflow including coding standards and formatting, linting and testing at this point.
+Before making a submission, please ensure your code aligns with our projects standards:
+* **Formatting:** Run `cargo fmt` to auto-format your code.
+* **Linting: ** Run `cargo clippy --all-targets --all-features`
+* **Testing: ** Run 'cargo test' to verify all tests pass.
 
 ## Documentation
 TODO - list what to do here
