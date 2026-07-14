@@ -11,7 +11,7 @@ Thank you for your interest in this project. Contributions are most welcome! Whe
 Before making a submission, please ensure your code aligns with our projects standards:
 * **Formatting:** Run `cargo fmt` to auto-format your code.
 * **Linting: ** Run `cargo clippy --all-targets --all-features`
-* **Testing: ** Run 'cargo test' to verify all tests pass.
+* **Testing: ** Run `cargo test` to verify all tests pass.
 
 ## Documentation
 TODO - list what to do here
