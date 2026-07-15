@@ -11,7 +11,7 @@ Thank you for your interest in this project. Contributions are most welcome! Whe
 Before making a submission, please ensure your code aligns with our projects standards:
 * **Formatting:** Run `cargo fmt` to auto-format your code.
 * **Linting: ** Run `cargo clippy --all-targets --all-features` and resolve all Clippy errors (and often warnings) that trigger your Continuous Integration (CI) pipeline to fail.
-* **Testing: ** Run `cargo test` to verify all tests pass.
+* **Testing: ** Run `cargo test` to verify all tests pass. If adding a new feature
 
 ## Documentation
 TODO - list what to do here
