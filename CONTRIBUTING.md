@@ -17,7 +17,7 @@ Before making a submission, please ensure your code aligns with our projects sta
 TODO - list what to do here
 
 ## Code of Conduct
-TODO
+We abide by the Contibutor Covenant Code of Conduct.
 
 ## Getting Help
 TODO
