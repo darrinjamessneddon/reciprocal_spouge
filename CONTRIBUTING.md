@@ -38,6 +38,4 @@ TODO
 
 ## Additional Resources
 TODO
-
-
 ODO
