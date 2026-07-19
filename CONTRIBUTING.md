@@ -29,5 +29,9 @@ Before making a submission, please ensure your code aligns with our projects sta
 ## Code of Conduct
 We abide by the Contributor Convenant Code of Conduct [Link to CODE_OF_CONDUCT.md]. By participating in this project you agree to do the same. Please be respectful and collaborative.
 
+## License
+This project is licensed with the MIT license. By contributing to this project you agree that your contributions will also be
+licensed under the project's current license terms.
+
 ## Getting Help
 TODO
