@@ -22,7 +22,9 @@ Before making a submission, please ensure your code aligns with our projects sta
 3. **Wait for Feedback** Let the maintainers discuss the design with you. This prevents time being wasted on code that might not necessarily align with the project's goals.
 
 ## Documentation
-TODO
+1. Update your branch to the latest `main` with `git pull origin main`.
+2. Push your changes to your fork and [create a Pull Request on Github]
+3. Ensure your PR description clearly states the problem solved.
 
 ## Code of Conduct
 We abide by the Contributor Convenant Code of Conduct [Link to CODE_OF_CONDUCT.md]. By participating in this project you agree to do the same. Please be respectful and collaborative.
