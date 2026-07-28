@@ -37,5 +37,17 @@ licensed under the project's current license terms.
 TODO
 
 ## Additional Resources
-TODO
+1. Google AI
+2. Medium - improvidence
+3. GitHub Docs: docs.github.com
+4. Willow: willow voice.com
+   How to write a Good Pull Request Description: Developer's Guide for May 2026.
+5. intersect-training.org:
+   Making Good PRs: Basic Pull Requests.(Last updated on 2026-06)
+6. deployed.com:
+    Pull Request Best Practices: A Complete Guide(2026)
+7. viranaj.medium.com:
+   Pull Request Best Practices: A Comprehensive Guide for Developers.
+8. Kara Luton
+   A Guide to Perfecting Pull Requests - DEV Community.
 ODO
