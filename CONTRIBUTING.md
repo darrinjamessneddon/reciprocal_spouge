@@ -50,4 +50,3 @@ TODO
    Pull Request Best Practices: A Comprehensive Guide for Developers.
 8. Kara Luton
    A Guide to Perfecting Pull Requests - DEV Community.
-ODO
