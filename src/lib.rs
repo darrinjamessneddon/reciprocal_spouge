@@ -51,8 +51,8 @@
 use num_bigint::BigUint;
 use num_traits::{One, FromPrimitive, ToPrimitive};
 
+/// Error handling module for the reciprocal_spouge crate
 pub mod error {
-    /// Add a module for error-handling in the other modules
 }
 pub mod spouge_reciprocal {
     use f256::f256;
