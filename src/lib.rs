@@ -53,7 +53,19 @@ use num_traits::{One, FromPrimitive, ToPrimitive};
 
 /// Error handling module for the reciprocal_spouge crate
 pub mod error {
+
 }
+
+/// Core module to contain spouge and spouge_reciprocal submodules
+pub mod core {
+
+}
+
+/// Module to contain supporting modules such as the factorial and spouge coefficient functions.
+pub mod utils {
+
+}
+
 pub mod spouge_reciprocal {
     use f256::f256;
 
