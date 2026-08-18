@@ -1,0 +1,14 @@
+[package]
+name = "reciprocal_spouge"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+num = "0.4.3"
+num-traits = "0.2.19"
+f256 = "0.11.2"
+rayon = "1.12.0"
+derive_more = { version = "2.1.1", features = ["display", "error", "from"]}
+num-bigint = "0.5.1"
+num-complex = "0.4.6"
+
