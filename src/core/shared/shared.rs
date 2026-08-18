@@ -1,7 +1,6 @@
 pub mod shared {
     use rayon::prelude::*;
     use num_bigint::BigUint;
-    use num_traits::ToPrimitive;
     use f256::f256 as Float256;
     use ::f256::consts::TAU;
 
@@ -17,8 +16,8 @@ pub mod shared {
         if a == 0 {
             return Err("Spouge coefficients require a > 0".to_string());
         }
-        if a < 2 || a > 21 {
-            return Err(format!("Parameter 'a' is out of range. Must be between 2 and 21, got {}", a));
+        if a < 2 {
+            return Err("parameter 'a' must be greater than or equal to 2".to_string());
         }
 
         let sqrt_two_pi = TAU.sqrt();
@@ -30,7 +29,7 @@ pub mod shared {
             } else {
                 let sign = if k % 2 == 0 { Float256::from(-1.0) } else { Float256::from(1.0) };
                 let fact = factorial(k - 1);
-                let fact_f256 = Float256::from(fact.to_u64().unwrap_or(0));
+                let fact_f256 = Float256::from(fact.to_string().parse::<f64>().unwrap());
                 let a_minus_k = a_f256 - k_f256;
                 let k_minus_half = k_f256 - Float256::from(0.5);
                 let pow_term = a_minus_k.powf(&k_minus_half);
