@@ -11,4 +11,4 @@ The Spouge approximation takes two inputs: the value for z, and the value of a p
 
 The goals of the project are to allow the computation of the special functions mentioned above, giving a greater degree of precision than could be achieved by simply using complex numbers based on f64.
 
-To achieve this, a Complex256 struct was created to work with complex numbers using f256.
+To achieve this, a Complex256 struct was created to work with complex numbers using f256 values.
