@@ -4,7 +4,7 @@ The original (unpublished) repository for this project was deleted, and the proj
 I humbly apologise if this has caused you any inconvenience.
 
 This is a library created using Rust programming language. Rust is a language renowned for memory safety and concurrency.
-It uses the Spouge approximation because it is numerically stable.
+The library uses the Spouge approximation because it is numerically stable.
 The library is built on top of the f256 crate, and deals with special functions including the reciprocal gamma, gamma and log-gamma functions in the complex plane.
 
 The Spouge approximation takes two inputs: the value for z, and the value of a parameter 'a'.
