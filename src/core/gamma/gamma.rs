@@ -4,7 +4,23 @@ pub mod gamma {
     use f256::f256 as Float256;
     use ::f256::consts::PI;
 
-    pub fn spouge(z: Complex256, a: usize) -> Complex256 {
+
+    // Create a function to return the value of the gamma function as a string, using Spouge's
+    // approximation for complex numbers.
+    pub fn spouge(z: Complex256, a: usize) -> String {
+        let result = spouge_c256(z, a);
+        let result_re_str = result.re.to_string();
+        let result_im_str = result.im.to_string();
+        return format!("{} + {}", result_re_str, result_im_str);
+    }
+
+
+    // Create a function to perform implementation of Spouge's approximation for the gamma function
+    // for complex numbers, resulting in a Complex256 value.
+
+
+
+    pub fn spouge_c256(z: Complex256, a: usize) -> Complex256 {
         if a < 2 {
             panic!("Parameter 'a' must be greater than or equal to 2");
         }
@@ -38,7 +54,7 @@ pub mod gamma {
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
-            let gamma_one_minus_z = spouge(one_minus_z, a);
+            let gamma_one_minus_z = spouge_c256(one_minus_z, a);
             return pi_complex.div(sin_pi_z.mul(gamma_one_minus_z));
             
         }
@@ -50,7 +66,7 @@ pub mod gamma {
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
-            let gamma_one_minus_z = spouge(one_minus_z, a);
+            let gamma_one_minus_z = spouge_c256(one_minus_z, a);
             return pi_complex.div(sin_pi_z.mul(gamma_one_minus_z));
         }
         // Handle the case for z values with real z between 0 and 1 (0 , Re(z) < 1)
@@ -61,7 +77,7 @@ pub mod gamma {
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
-            let gamma_one_minus_z = spouge(one_minus_z, a);
+            let gamma_one_minus_z = spouge_c256(one_minus_z, a);
             return pi_complex.div(sin_pi_z.mul(gamma_one_minus_z));
         } else {
             // Handle the case for other z values by using Spouge's approximation directly

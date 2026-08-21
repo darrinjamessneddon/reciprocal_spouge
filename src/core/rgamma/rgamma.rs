@@ -4,9 +4,19 @@ pub mod rgamma {
     use f256::f256 as Float256;
     use f256::consts::PI;
 
+    // Create a function to approximate the reciprocal of the gamma function using a re-arranged
+    // version of the Spouge approximation for complex numbers, resulting a Complex256 value
+    // that is then converted to a string and returned.
+    pub fn rspouge(z: Complex256, a: usize) -> String {
+        let result = rspouge_c256(z, a as i32);
+        let result_re_str = result.re.to_string();
+        let result_im_str = result.im.to_string();
+        return format!("{} + {}", result_re_str, result_im_str);
+    }
+
 
     // Create a function to approximate the gamma function using a re-arranged version of the Spouge approximation
-    pub fn rspouge(z: Complex256, a: i32) -> Complex256 {
+    pub fn rspouge_c256(z: Complex256, a: i32) -> Complex256 {
         if a < 2 {
             panic!("Parameter 'a' must be greater than or equal to 2");
         }
@@ -34,7 +44,7 @@ pub mod rgamma {
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
-            let rgamma_one_minus_z = rspouge(Complex256::new(Float256::from(1.0) - z.re, -z.im), a);
+            let rgamma_one_minus_z = rspouge_c256(Complex256::new(Float256::from(1.0) - z.re, -z.im), a);
             let numerator = sin_pi_z;
             let denominator = pi_complex.mul(rgamma_one_minus_z);
             return numerator.div(denominator);
