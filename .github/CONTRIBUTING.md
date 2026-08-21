@@ -16,10 +16,12 @@ By participating in this project, you agree to abide by the terms of the Contrib
 3. Wait for Feedback: Let the project maintainers discuss the design with you. This should prevent you wasting time on code that
    may not align with the project's goals.
 
-**Development Workflow**
-
  ## Getting Started
  1. **Fork the repository** and clone it to your computer.
  2. **Install the Rust toolchain** using [rustup](https::rustup.rs).
  Ensure you have the latest version: `rustup update stable`
  3. Create a new branch for your work: `git checkout -b feature/my-feature-name`
+
+## Development Workflow
+// TODO
+## Documentation
