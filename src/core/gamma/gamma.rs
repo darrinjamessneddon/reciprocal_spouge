@@ -14,11 +14,8 @@ pub mod gamma {
         return format!("{} + {}", result_re_str, result_im_str);
     }
 
-
     // Create a function to perform implementation of Spouge's approximation for the gamma function
     // for complex numbers, resulting in a Complex256 value.
-
-
 
     pub fn spouge_c256(z: Complex256, a: usize) -> Complex256 {
         if a < 2 {
