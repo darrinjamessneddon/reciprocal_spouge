@@ -16,4 +16,4 @@ By participating in this project, you agree to abide by the terms of the Contrib
  1. **Fork the repository** and clone it to your computer.
  2. **Install the Rust toolchain** using [rustup](https::rustup.rs).
  Ensure you have the latest version: `rustup update stable`
- 3. Create a new branch for your work: `git checkout -b feature/my-feature`
+ 3. Create a new branch for your work: `git checkout -b feature/my-feature-name`
