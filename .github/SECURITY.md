@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-Please report security vulnerabilities to [security@example.com](mailto:security@example.com) instead of using the issue tracker.
+Please report security vulnerabilities to repository_security@icloud.com instead of using the issue tracker.
 
 Include the following details:
 - Description of the vulnerability
