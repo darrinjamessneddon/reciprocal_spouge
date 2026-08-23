@@ -29,3 +29,18 @@ Before submitting, please take the following steps:
 * **Testing:** Run `cargo test`
 
 ## Documentation
+1. If you add a new public API, structure or function:
+   * Document it using triple-slash(///) comments.
+   * Include runnable code examples in the documentation where applicable.
+   * Commit your changes with clear, descriptive commit messages.
+2. Update your branch to the latest `main` with `git pull origin main` to open a Pull Request (PR) against our main branch.
+3. Link your PR to the approved feature request issue.
+4. Push your changes to your fork and `[create a Pull Request on Github]`
+5. Ensure your Pr description clearly states the problem solved
+
+
+
+
+
+
+
