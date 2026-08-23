@@ -39,6 +39,19 @@ Before submitting, please take the following steps:
 5. Ensure your Pr description clearly states the problem solved
 
 
+## Code Review Process
+// TODO
+
+## Recommended Best Practices
+* API Guidelines: As a contributor you are encouraged to align with the Rust API Guidelines for idiomatic naming and design.
+
+## Getting Help
+// TODO
+
+## Additional Resources
+// TODO - add references etc here
+
+
 
 
 
