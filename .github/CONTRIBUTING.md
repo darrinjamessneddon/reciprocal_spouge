@@ -23,5 +23,9 @@ By participating in this project, you agree to abide by the terms of the Contrib
  3. Create a new branch for your work: `git checkout -b feature/my-feature-name`
 
 ## Development Workflow
-// TODO
+Before submitting, please take the following steps:
+* **Formatting:** Run `cargo fmt` to auto-format your code.
+* **Linting:** Run `cargo clip --all-targets --all-features`
+* **Testing:** Run `cargo test`
+
 ## Documentation
