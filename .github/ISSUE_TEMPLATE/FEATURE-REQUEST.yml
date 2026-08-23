@@ -1,0 +1,60 @@
+name: 🚀 Feature Request
+description: Suggest an idea or enhancement for this project
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new feature! Please provide as much detail as possible.
+
+  - type: dropdown
+    id: core-component
+    attributes:
+      label: Component Affected
+      description: Select the main part of the project this feature impacts.
+      options:
+        - Frontend UI
+        - Backend API
+        - Documentation
+        - CLI Tool
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear and concise description of what the problem is (e.g., "I'm always frustrated when...").
+      placeholder: Describe the problem you are encountering...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear and concise description of what you want to happen.
+      placeholder: Outline your proposed feature or modification...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Describe alternatives you've considered
+      description: A clear and concise description of any alternative solutions or features you've considered.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: visibility
+    attributes:
+      label: Code of Conduct & Contributions
+      description: Please check the following items before submitting.
+      options:
+        - label: I have verified that this feature request does not already exist in the open issues.
+          required: true
+        - label: I am willing to submit a Pull Request for this feature myself, if guided.
+          required: false
