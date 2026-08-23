@@ -1,4 +1,4 @@
-##CONTRIBUTING GUIDELINES
+**CONTRIBUTING GUIDELINES**
 
 Thank you for contributing to reciprocal_spouge! We welcome contributions from developers of all experience levels- whether it's a bug fix, testing, a new feature, or improvements to documentation.
 
