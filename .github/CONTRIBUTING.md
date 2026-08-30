@@ -26,7 +26,7 @@ By participating in this project, you agree to abide by the terms of the `[CODE_
 ## Development Workflow
 Before submitting, please take the following steps:
 * **Formatting:** Run `cargo fmt` to auto-format your code.
-* **Linting:** Run `cargo clip --all-targets --all-features`
+* **Linting:** Run `cargo clippy --all-targets --all-features`
 * **Testing:** Run `cargo test`
 
 ## Documentation
@@ -34,6 +34,7 @@ Before submitting, please take the following steps:
    * Document it using triple-slash(///) comments.
    * Include runnable code examples in the documentation where applicable.
    * Commit your changes with clear, descriptive commit messages.
+   * Write executable examples (doc tests): wrap code examples in standard markdown triple backticks. Ensure these code blocks are fully functional.
 2. Update your branch to the latest `main` with `git pull origin main` to open a Pull Request (PR) against our main branch.
 3. Link your PR to the approved feature request issue.
 4. Push your changes to your fork and `[create a Pull Request on Github]`
