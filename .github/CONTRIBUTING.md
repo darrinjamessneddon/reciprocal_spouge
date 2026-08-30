@@ -19,7 +19,7 @@ By participating in this project, you agree to abide by the terms of the `[CODE_
 
  ## Getting Started
  1. **Fork the repository** and clone it to your computer.
- 2. **Install the Rust toolchain** using [rustup](https::rustup.rs).
+ 2. **Install the Rust toolchain** using [rustup](https://rustup.rs).
  Ensure you have the latest version: `rustup update stable`
  3. Create a new branch for your work: `git checkout -b feature/my-feature-name`
 
@@ -31,7 +31,11 @@ Before submitting, please take the following steps:
 
 ## Documentation
 1. If you add a new public API, structure or function:
-   * Document it using triple-slash(///) comments.
+   * Document Outer Doc Comments: Document items using /// for structures, functions, and modules.
+   * Document Inner Doc Comments: Use //! at the very top of files to document crates or module-level overviews.
+   * Leverage Common Headings: Organise long text using # Examples, #Errors, or # Panics sections.
+   * Utilize Markdown Features: Write clear descriptions using standard markdown lists, paragraphs, and backticks (triple backticks) for code.
+   * Apply Intradoc Links: Link to other types using [Type] format to leverage [Rusdoc's automated link generation].
    * Include runnable code examples in the documentation where applicable.
    * Commit your changes with clear, descriptive commit messages.
    * Write executable examples (doc tests): wrap code examples in standard markdown triple backticks. Ensure these code blocks are fully functional.
@@ -51,7 +55,14 @@ Before submitting, please take the following steps:
 // TODO
 
 ## Additional Resources
-// TODO - add references etc here
+1. Google AI
+2. Medium - iamprovidence
+3. GitHub Docs: docs.github.com
+4. Willow: willow voice.com: How to write a Good Pull Request Description: Developer's Guide for May 2026.
+5. intersect-training.org: making Good PRs: Basic Pull Requests-(Last updated on 2026-06-22).
+6. deployed.com: Pull Request Best Practices: A Complete Guide (2026).
+7. viranaj.medium.com: Pull Request best Practices: A Comprehensive Guide for Developers.
+8. Kara Luton: A Guide to Perfecting Pull Requests- DEV Community.
 
 
 
