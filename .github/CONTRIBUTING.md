@@ -46,7 +46,7 @@ Before submitting, please take the following steps:
 
 
 ## Code Review Process
-// TODO
+Code submissions require review from a maintainer. We may ask for changes, refactoring or further commenting or documentation if necessary.
 
 ## Recommended Best Practices
 * API Guidelines: As a contributor you are encouraged to align with the Rust API Guidelines for idiomatic naming and design.
@@ -63,10 +63,4 @@ Before submitting, please take the following steps:
 6. deployed.com: Pull Request Best Practices: A Complete Guide (2026).
 7. viranaj.medium.com: Pull Request best Practices: A Comprehensive Guide for Developers.
 8. Kara Luton: A Guide to Perfecting Pull Requests- DEV Community.
-
-
-
-
-
-
 
