@@ -26,12 +26,12 @@ Complex256 struct in containing a number of public functions:
 
 spouge_reciprocal(z, a) : takes a complex number, z, and a parameter 'a'with an integer value greater than 2 and returns the reciprocal gamma value as a string.
 
-spouge_reciprocal_f256(z, a): does the same thing but returns the reciprocal gamma value in f256 value form, so that it can be plugged directly into any other mathematical function you wish to create.
+spouge_reciprocal_c256(z, a): does the same thing but returns the reciprocal gamma value in f256 value form, so that it can be plugged directly into any other mathematical function you wish to create.
 
 spouge(z, a): takes a complex number, z, and a parameter 'a' with an integer value greater than 2 and returns the gamma
 value as a string.
 
-spouge_f256(z, a): does the same thing but returns the gamma value function in f256 form, so that it can be plugged directly into any other mathematical function you wish to create.
+spouge_c256(z, a): does the same thing but returns the gamma value function in f256 form, so that it can be plugged directly into any other mathematical function you wish to create.
 
 // A log-gamma function is yet to be created.
 
