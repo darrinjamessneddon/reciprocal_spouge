@@ -1,16 +1,58 @@
-Welcome and thank you for taking an interest in this project.
+**reciprocal_spouge**
+
+Welcome and thank you for taking an interest in this project. The original (unpublished) repository for this project was deleted, and the project re-built from scratch. I humbly apologise for any inconvenience this may have caused you.
+
+This project aims create a library for f256 numbers and also a library of special functions including the reciprocal gamma, gamma, and log-gamma functions in the complex plane. These two sub-libraries have been bundled together as a single library crate.
+
+This project was started because there are limits to the precision that can be achieved using Complex64 numbers based on f64 real and imaginary values. It is hoped that the construction of Complex256 numbers will achieve greater precision.
+
+A major early goal was to use  re-arranged form of the Spouge approximation to compute the reciprocal gamma function, because it is a function that has no poles or singularities, and is analytic everywhere. Yet it was necessary to have a gamma function to compare its output with for testing purposes. So for this reason, the goals of the project were expanded to facilitate the calculation of other special functions.
 
 This project is still very much a work in progress. At this point in time (the lngamma (log_gamma) submodule is yet to be created), and the error-handling module has a lot of work to be done on it.
 
-The original (unpublished) repository for this project was deleted, and the project re-built from scratch.
-I humbly apologise if this has caused you any inconvenience.
+This is a library created using Rust programming language because it is a language renowned for memory safety and concurrency.
 
-This is a library created using Rust programming language. Rust is a language renowned for memory safety and concurrency.
 The library uses the Spouge approximation because it is numerically stable.
+
 The library is built on top of the f256 crate, and deals with special functions including the reciprocal gamma, gamma and log-gamma functions in the complex plane.
 
-The Spouge approximation takes two inputs: the value for z, and the value of a positive integer parameter 'a'. The value of this parameter should be a > 2.
+The Spouge approximation takes two inputs: the value for some complex number z, and the value of a positive integer parameter 'a'. The value of this parameter should be a > 2.
 
-The goals of the project are to allow the computation of the special functions mentioned above, giving a greater degree of precision than could be achieved by simply using complex numbers based on f64.
+#Features#
+Complex256 struct in containing a number of public functions:
+{Add, Mul, Sub, Div, Neg, Exp. Powc, etc}
+
+*Functions for computing special functions:
+
+spouge_reciprocal(z, a) : takes a complex number, z, and a parameter 'a'with an integer value greater than 2 and returns the reciprocal gamma value as a string.
+
+spouge_reciprocal_f256(z, a): does the same thing but returns the reciprocal gamma value in f256 value form, so that it can be plugged directly into any other mathematical function you wish to create.
+
+spouge(z, a): takes a complex number, z, and a parameter 'a' with an integer value greater than 2 and returns the gamma
+value as a string.
+
+spouge_f256(z, a): does the same thing but returns the gamma value function in f256 form, so that it can be plugged directly into any other mathematical function you wish to create.
+
+// A log-gamma function is yet to be created.
+
+// Seamless error-handling has yet to be added to these functions to prevent panics under certain conditions.
+
+#Usage examples
+
+
+
+
+
+
+
+
+
+#Installation Steps#
+git clone https://github.com/darrinjamessneddon/reciprocal_spouge
+Cargo build
+Create a binary application or test suite.
+for contributor setup and workflow see [CONTRIBUTING.md](.github/CONTRIBUTING.md)
+
+#Usage examples
 
 To achieve this, a Complex256 struct was created to work with complex numbers using f256 values.
