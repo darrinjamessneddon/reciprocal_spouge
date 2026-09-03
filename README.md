@@ -36,9 +36,9 @@ Complex256 struct in containing a number of public functions:
 
 **Functions for computing special functions:
 
-spouge_reciprocal(z, a) : takes a complex number, z, and a parameter 'a'with an integer value greater than 2 and returns the reciprocal gamma value as a string.
+rspouge(z, a) : takes a complex number, z, and a parameter 'a'with an integer value greater than 2 and returns the reciprocal gamma value as a string.
 
-spouge_reciprocal_c256(z, a): does the same thing but returns the reciprocal gamma value in f256 value form, so that it can be plugged directly into any other mathematical function you wish to create.
+rspouge_c256(z, a): does the same thing but returns the reciprocal gamma value in f256 value form, so that it can be plugged directly into any other mathematical function you wish to create.
 
 spouge(z, a): takes a complex number, z, and a parameter 'a' with an integer value greater than 2 and returns the gamma
 value as a string.
@@ -60,14 +60,12 @@ println!("z3 as string: {}", z3_str);
 let z = Complex256::new(5.0, 0.0);
 let a = 10;
 let gamma = spouge(z, a);
+let reciprocal_gamma = rspouge(z, a);
+println!("gamma value for z: {}", gamma);
+println!("reciprocal gamma value for z: {}", reciprocal_gamma);
 
-#Installation Steps#
+#Installation Steps
 git clone https://github.com/darrinjamessneddon/reciprocal_spouge
 Cargo build
 Create a binary application or test suite.
 for contributor setup and workflow see [CONTRIBUTING.md](.github/CONTRIBUTING.md)
-
-#Usage examples
-
-To achieve this, a Complex256 struct was created to work with complex numbers using f256 values.
-
