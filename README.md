@@ -18,9 +18,21 @@ The library is built on top of the f256 crate, and deals with special functions 
 
 The Spouge approximation takes two inputs: the value for some complex number z, and the value of a positive integer parameter 'a'. The value of this parameter should be a > 2.
 
-#Features#
+*Features
+
 Complex256 struct in containing a number of public functions:
-{Add, Mul, Sub, Div, Neg, Exp. Powc, etc}
+
+{add, sub, mul, div} // standard arithmetical operations.
+{abs, arg, conj, magnitude}
+powc // z raised to complex power.
+powi // z raised to integer power.
+powf // z raised to non-whole number power.
+exp // e raised to the power of z.
+ln // natural logarithm of z
+log10 // log10 logarithm of z.
+recip // reciprocal of z.
+sqrt // square root of z.
+{sin, cos, tan} // sine, cosine and tangent of z.
 
 *Functions for computing special functions:
 
@@ -37,15 +49,11 @@ spouge_c256(z, a): does the same thing but returns the gamma value function in f
 
 // Seamless error-handling has yet to be added to these functions to prevent panics under certain conditions.
 
-#Usage examples
+# Usage examples
 
-
-
-
-
-
-
-
+let z1 = Complex256::new(5.0, 1.0);
+let z2 = Complex256:new(3.0, 4.0);
+let z3 = z1.add(&z2);
 
 #Installation Steps#
 git clone https://github.com/darrinjamessneddon/reciprocal_spouge
@@ -56,3 +64,4 @@ for contributor setup and workflow see [CONTRIBUTING.md](.github/CONTRIBUTING.md
 #Usage examples
 
 To achieve this, a Complex256 struct was created to work with complex numbers using f256 values.
+
