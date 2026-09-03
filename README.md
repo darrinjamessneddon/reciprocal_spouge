@@ -49,23 +49,38 @@ spouge_c256(z, a): does the same thing but returns the gamma value function in f
 
 // Seamless error-handling has yet to be added to these functions to prevent panics under certain conditions.
 
-# Usage examples
+** Usage examples
 
 let z1 = Complex256::new(5.0, 1.0);
+
 let z2 = Complex256:new(3.0, 4.0);
+
 let z3 = z1.add(&z2);
+
 let z3_str = z3.to_string();
+
 println!("z3 as string: {}", z3_str);
 
 let z = Complex256::new(5.0, 0.0);
+
 let a = 10;
+
 let gamma = spouge(z, a);
+
 let reciprocal_gamma = rspouge(z, a);
+
 println!("gamma value for z: {}", gamma);
+
 println!("reciprocal gamma value for z: {}", reciprocal_gamma);
 
-#Installation Steps
+**Installation Steps
+
 git clone https://github.com/darrinjamessneddon/reciprocal_spouge
+
 Cargo build
+
 Create a binary application or test suite.
-for contributor setup and workflow see [CONTRIBUTING.md](.github/CONTRIBUTING.md)
+
+For contributor setup and workflow see [CONTRIBUTING.md](.github/CONTRIBUTING.md)
+
+This project is licensed with the MIT license.
