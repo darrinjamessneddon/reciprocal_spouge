@@ -52,25 +52,16 @@ spouge_c256(z, a): does the same thing but returns the gamma value function in f
 ** Usage examples
 
 let z1 = Complex256::new(5.0, 1.0);
-
 let z2 = Complex256:new(3.0, 4.0);
-
 let z3 = z1.add(&z2);
-
 let z3_str = z3.to_string();
-
 println!("z3 as string: {}", z3_str);
 
 let z = Complex256::new(5.0, 0.0);
-
 let a = 10;
-
 let gamma = spouge(z, a);
-
 let reciprocal_gamma = rspouge(z, a);
-
 println!("gamma value for z: {}", gamma);
-
 println!("reciprocal gamma value for z: {}", reciprocal_gamma);
 
 **Installation Steps
