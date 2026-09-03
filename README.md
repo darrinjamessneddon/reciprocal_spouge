@@ -18,23 +18,23 @@ The library is built on top of the f256 crate, and deals with special functions 
 
 The Spouge approximation takes two inputs: the value for some complex number z, and the value of a positive integer parameter 'a'. The value of this parameter should be a > 2.
 
-*Features
+**Features
 
 Complex256 struct in containing a number of public functions:
 
-{add, sub, mul, div} // standard arithmetical operations.
-{abs, arg, conj, magnitude}
-powc // z raised to complex power.
-powi // z raised to integer power.
-powf // z raised to non-whole number power.
-exp // e raised to the power of z.
-ln // natural logarithm of z
-log10 // log10 logarithm of z.
-recip // reciprocal of z.
-sqrt // square root of z.
-{sin, cos, tan} // sine, cosine and tangent of z.
+* {add, sub, mul, div} // standard arithmetical operations.
+* {abs, arg, conj, magnitude}
+* powc // z raised to complex power.
+* powi // z raised to integer power.
+* powf // z raised to non-whole number power.
+* exp // e raised to the power of z.
+* ln // natural logarithm of z
+* log10 // log10 logarithm of z.
+* recip // reciprocal of z.
+* sqrt // square root of z.
+* {sin, cos, tan} // sine, cosine and tangent of z.
 
-*Functions for computing special functions:
+**Functions for computing special functions:
 
 spouge_reciprocal(z, a) : takes a complex number, z, and a parameter 'a'with an integer value greater than 2 and returns the reciprocal gamma value as a string.
 
@@ -54,6 +54,12 @@ spouge_c256(z, a): does the same thing but returns the gamma value function in f
 let z1 = Complex256::new(5.0, 1.0);
 let z2 = Complex256:new(3.0, 4.0);
 let z3 = z1.add(&z2);
+let z3_str = z3.to_string();
+println!("z3 as string: {}", z3_str);
+
+let z = Complex256::new(5.0, 0.0);
+let a = 10;
+let gamma = spouge(z, a);
 
 #Installation Steps#
 git clone https://github.com/darrinjamessneddon/reciprocal_spouge
