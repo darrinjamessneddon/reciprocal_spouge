@@ -64,6 +64,7 @@ pub mod complex {
         fn sub(self, other: Self) -> Self;
         fn mul(self, other: Self) -> Self;
         fn div(self, other: Self) -> Self;
+        fn neg(self) -> Self;
         fn abs(self) -> Float256;
         fn arg(self) -> Float256;
         fn conj(self) -> Self;
@@ -110,6 +111,13 @@ pub mod complex {
                 re: (self.re * other.re + self.im * other.im) / denom,
                 im: (self.im * other.re - self.re * other.im) / denom,
             }
+        }
+
+        fn neg(self) -> Self {
+            let re = -self.re;
+            let im = -self.im;
+            Complex256 { re, im }
+
         }
     
         fn abs(self) -> Float256 {
