@@ -105,7 +105,7 @@ in fn main() add:
 
 reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
 
- in the main.rs add the following:
+ in the main.rs file add the following:
  
  use reciprocal_spouge::core::complex::complex;:complex::{Complex256, ComplexOps};
  
