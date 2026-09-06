@@ -1,1 +1,55 @@
+name: Receipt
+description: Report or request a receipt for a transaction
+title: "[Receipt] "
+labels: [receipt, documentation]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for requesting a receipt! Please provide the following details to help us locate and send your receipt.
 
+  - type: input
+    id: order_number
+    attributes:
+      label: Order Number
+      description: The unique identifier for your order (e.g., ORD-12345)
+      placeholder: ORD-12345
+    validations:
+      required: true
+
+  - type: input
+    id: email
+    attributes:
+      label: Email Address
+      description: The email address associated with your order
+      placeholder: your.email@example.com
+    validations:
+      required: true
+
+  - type: input
+    id: transaction_date
+    attributes:
+      label: Transaction Date
+      description: The date of the transaction
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional Information
+      description: Any other details that might help us locate your receipt
+      placeholder: |
+        - Amount paid
+        - Product/service name
+        - Any other relevant details
+
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      options:
+        - label: I have verified this is the correct order information
+          required: true
