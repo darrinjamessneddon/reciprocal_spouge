@@ -51,18 +51,47 @@ spouge_c256(z, a): does the same thing but returns the gamma value function in f
 
 ** Usage examples
 
-let z1 = Complex256::new(5.0, 1.0);
-let z2 = Complex256:new(3.0, 4.0);
-let z3 = z1.add(&z2);
-let z3_str = z3.to_string();
-println!("z3 as string: {}", z3_str);
+if linking to an executable file:
+* cargo new special_functions --bin
+* cargo build
+* in the Cargo.toml file add reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
+* in the main.rs file add the following:
+    use reciprocal_spouge::core::complex::complex::complex::{Complex256, ComplexOps};
+    use reciprocal_spouge::core::gamma::gamma::gamma::{spouge, spouge_c256};
+    use reciprocal_spouge::core::gamma::gamma::gamma::{rspouge, rspouge_c256};
+    use f256::f256 as Float256;
 
-let z = Complex256::new(5.0, 0.0);
-let a = 10;
-let gamma = spouge(z, a);
-let reciprocal_gamma = rspouge(z, a);
-println!("gamma value for z: {}", gamma);
-println!("reciprocal gamma value for z: {}", reciprocal_gamma);
+* in the fn main() add:
+  let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
+  let a = 10;
+  let gamma = spouge(z, a);
+  let reciprocal_gamma = rspouge(z, a);
+  println!("gamma value for z: {}", gamma); // Returns gamma value as a string.
+  println!("reciprocal gamma value for z: {}", reciprocal_gamma);// Returns rgamma value as a string.
+  let gamma_256 = spouge_c256(z, a);
+  let rgamma_256 = gamma_c256(z, a);
+  let gamma_64 = gamma_256.to_complex64();
+  let gamma_64 = gamma_256.to_complex64();
+  println!("gamma value as Complex64: {}", gamma_64);
+  println!("gamma value as Complex64: {}", gamma_640;
+
+if linking to an executable file to use functions pertaining directly to complex numbers:
+* cargo new my_app --bin
+* cargo build
+* in the Cargo.toml file add the following:
+* reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
+* in the main.rs add the following:
+  use reciprocal_spouge::core::complex::complex;:complex::{Complex256, ComplexOps};
+  use f256::f256 as Float256;
+
+* in the fn main() add:
+  let z1 = Complex256::new(Float::from(1.0), Float::from(2.0));
+  println!("z1: {}", z1);
+  let z2 = Complex256::new(Float::from(2.0), Float::from(3.0));
+  println!("z2: {}", z2);
+  let z3 = z1.add(z2);
+  println!("z1 minus z2);
+  
 
 **Installation Steps
 
