@@ -1,1 +1,13 @@
 /target
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+.env
+.env.local
+*.pem
+*.key
+
+.DS_Store
+.vscode/
+.idea/
