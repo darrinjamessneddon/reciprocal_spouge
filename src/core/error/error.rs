@@ -1,6 +1,5 @@
 pub mod error {
 
-
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub enum MathError {
         ParameterOutOfRange,
@@ -47,7 +46,6 @@ pub mod error {
             }
         }
     }
-
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub enum ParseError {

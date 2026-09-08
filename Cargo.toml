@@ -2,6 +2,10 @@
 name = "reciprocal_spouge"
 version = "0.1.0"
 edition = "2024"
+description = "High-precision gamma and reciprocal gamma functions using the Spouge approximation"
+license = "MIT"
+repository = "https://github.com/darrinjamessneddon/reciprocal_spouge"
+readme = "README.md"
 
 [dependencies]
 num = "0.4.3"

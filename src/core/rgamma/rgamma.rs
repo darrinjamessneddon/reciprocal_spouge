@@ -1,8 +1,8 @@
 pub mod rgamma {
     use crate::core::complex::complex::complex::{Complex256, ComplexOps};
     use crate::core::shared::shared::shared::spouge_coefficients;
-    use f256::f256 as Float256;
     use f256::consts::PI;
+    use f256::f256 as Float256;
 
     // Create a function to approximate the reciprocal of the gamma function using a re-arranged
     // version of the Spouge approximation for complex numbers, resulting a Complex256 value
@@ -13,7 +13,6 @@ pub mod rgamma {
         let result_im_str = result.im.to_string();
         return format!("{} + {}", result_re_str, result_im_str);
     }
-
 
     // Create a function to approximate the gamma function using a re-arranged version of the Spouge approximation
     pub fn rspouge_c256(z: Complex256, a: i32) -> Complex256 {
@@ -44,11 +43,11 @@ pub mod rgamma {
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
-            let rgamma_one_minus_z = rspouge_c256(Complex256::new(Float256::from(1.0) - z.re, -z.im), a);
+            let rgamma_one_minus_z =
+                rspouge_c256(Complex256::new(Float256::from(1.0) - z.re, -z.im), a);
             let numerator = sin_pi_z;
             let denominator = pi_complex.mul(rgamma_one_minus_z);
             return numerator.div(denominator);
-
         } else {
             // For positive values of z, we can use the re-arranged Spouge approximation directly
             let mut sum = Complex256::new(Float256::from(0.0), Float256::from(0.0));
@@ -70,7 +69,7 @@ pub mod rgamma {
             let denominator = sum;
             let mut rgamma = numerator.div(denominator);
             rgamma = rgamma.mul(z);
-            return rgamma
+            return rgamma;
         }
     }
 }
