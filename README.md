@@ -67,8 +67,6 @@ in the main.rs file add the following:
 
     use reciprocal_spouge::core::gamma::gamma::gamma::{rspouge, rspouge_c256};
 
-    use f256::f256 as Float256;
-
 in fn main() add:
 
   let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
