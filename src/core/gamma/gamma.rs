@@ -1,9 +1,8 @@
 pub mod gamma {
     use crate::core::complex::complex::complex::{Complex256, ComplexOps};
     use crate::core::shared::shared::shared::spouge_coefficients;
-    use f256::f256 as Float256;
     use ::f256::consts::PI;
-
+    use f256::f256 as Float256;
 
     // Create a function to return the value of the gamma function as a string, using Spouge's
     // approximation for complex numbers.
@@ -47,13 +46,13 @@ pub mod gamma {
             // gamma(z) = pi / (sin(pi * z) * gamma(1 - z))
             let one = Complex256::new(Float256::from(1.0), Float256::from(0.0));
             let z_minus_one = z.sub(one);
-            let one_minus_z = Complex256::new(Float256::from(1.0) - z_minus_one.re, -z_minus_one.im);
+            let one_minus_z =
+                Complex256::new(Float256::from(1.0) - z_minus_one.re, -z_minus_one.im);
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
             let gamma_one_minus_z = spouge_c256(one_minus_z, a);
             return pi_complex.div(sin_pi_z.mul(gamma_one_minus_z));
-            
         }
         // Handle the case for z values with negative non-integer real part and zero imaginary part
         if z.re < Float256::from(0.0) && z.im == Float256::from(0.0) {
@@ -79,11 +78,17 @@ pub mod gamma {
         } else {
             // Handle the case for other z values by using Spouge's approximation directly
             let mut sum = Complex256::new(Float256::from(0.0), Float256::from(0.0));
-            let z_plus_a = z.add(Complex256::new(Float256::from(a as f64), Float256::from(0.0)));
+            let z_plus_a = z.add(Complex256::new(
+                Float256::from(a as f64),
+                Float256::from(0.0),
+            ));
             let z_plus_half = z.add(Complex256::new(Float256::from(0.5), Float256::from(0.0)));
             let pow_term = z_plus_a.powc(z_plus_half);
-            let exp_term = z_plus_a.mul(Complex256::new(Float256::from(-1.0), Float256::from(0.0))).exp();
-            let coefficients = spouge_coefficients(a as u64).expect("Failed to compute Spouge coefficients");
+            let exp_term = z_plus_a
+                .mul(Complex256::new(Float256::from(-1.0), Float256::from(0.0)))
+                .exp();
+            let coefficients =
+                spouge_coefficients(a as u64).expect("Failed to compute Spouge coefficients");
             let c_0 = coefficients[0];
             // Compute the sum of c_l / (z + k) for k = 1 to a-1
             for (k, &c_l) in coefficients.iter().enumerate().skip(1) {

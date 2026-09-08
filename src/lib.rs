@@ -4,7 +4,7 @@
 // This project was inspired by the idea of implementing the reciprocal gamma function using a re-arranged formula of the
 // Spouge approximation of the gamma function.
 
-// It was found that it was also necessary to implement the gamma function itself, using the Spouge approximation in order to 
+// It was found that it was also necessary to implement the gamma function itself, using the Spouge approximation in order to
 // compare the results of the reciprocal gamma function to the gamma function for testing purposes.
 
 // The library is built entirely in the Rust programming language.
@@ -33,7 +33,7 @@
 //! ! -https://dl.acm.org/doi/10.1145/19582.19585
 //! ! -https://math.stackexchange.com/questions/2218764/spouge-approximation-for-the-gamma-function
 //! ! -https:://functions.wolfram.com/GammaBetaErf/Gamma/06/01/03/01/
-//! 
+//!
 
 // For a positive integer grater than 0, the gamma function is defined as:
 // Γ(n) = (n - 1)!
@@ -42,7 +42,7 @@
 // for a complex number z with a positive real part.
 
 // The gamma function is defined for all complex numbers except for the non-positive integers, where it has simple poles.
-// The gamma function is a meromorphic function, meaning it is holomorphic everywhere in the complex plane except for the 
+// The gamma function is a meromorphic function, meaning it is holomorphic everywhere in the complex plane except for the
 // non-positive integers, where it has simple poles. The gamma function has no zeros in the complex plane.
 
 // The gamma function is useful in many areas of mathematics, including number theory, combinatorics, and physics, and has
@@ -65,7 +65,6 @@
 // There are also other ways to define the natural logarithm of the gamma function, including using the Spouge approximation,
 // and using the Stirling approximation, which is a special case of the Spouge approximation.
 
-
 pub mod core;
 
 // The core module contains the following submodules:
@@ -75,6 +74,3 @@ pub mod core;
 // rgamma: a submodule holding a spouge-based implementation of the reciprocal gamma function.
 // error: a submodule providing error handling for the library (this is far from complete, and may need to be completely reworked).
 // lngamma: a submodule holding an implementation of the natural logarithm of the gamma function. (This has not yet been started).
-
-
-

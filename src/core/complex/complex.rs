@@ -54,7 +54,11 @@ pub mod complex {
                 return None;
             }
             let re = parts[0].trim().parse::<Float256>().ok()?;
-            let im = parts[1].trim().trim_end_matches('i').parse::<Float256>().ok()?;
+            let im = parts[1]
+                .trim()
+                .trim_end_matches('i')
+                .parse::<Float256>()
+                .ok()?;
             Some(Complex256 { re, im })
         }
     }
@@ -81,30 +85,29 @@ pub mod complex {
         fn sin(self) -> Self;
         fn cos(self) -> Self;
         fn tan(self) -> Self;
-
     }
-    impl  ComplexOps for Complex256{
+    impl ComplexOps for Complex256 {
         fn add(self, other: Self) -> Self {
             Complex256 {
                 re: self.re + other.re,
                 im: self.im + other.im,
             }
         }
-    
+
         fn sub(self, other: Self) -> Self {
             Complex256 {
                 re: self.re - other.re,
                 im: self.im - other.im,
             }
         }
-    
+
         fn mul(self, other: Self) -> Self {
             Complex256 {
                 re: self.re * other.re - self.im * other.im,
                 im: self.re * other.im + self.im * other.re,
             }
         }
-    
+
         fn div(self, other: Self) -> Self {
             let denom = other.re * other.re + other.im * other.im;
             Complex256 {
@@ -117,45 +120,53 @@ pub mod complex {
             let re = -self.re;
             let im = -self.im;
             Complex256 { re, im }
-
         }
-    
+
         fn abs(self) -> Float256 {
             (self.re * self.re + self.im * self.im).sqrt()
         }
-    
+
         fn arg(self) -> Float256 {
             self.im.atan2(&self.re)
         }
-    
+
         fn conj(self) -> Self {
             Complex256 {
                 re: self.re,
                 im: -self.im,
             }
         }
-    
+
         fn magnitude(self) -> Float256 {
             (self.re * self.re + self.im * self.im).sqrt()
         }
-    
+
         fn powc(self, exp: Self) -> Self {
             let ln_self = self.ln();
             let prod = ln_self.mul(exp);
             prod.exp()
         }
-    
+
         fn powf(self, exp: Float256) -> Self {
-            let exp_complex = Complex256 { re: exp, im: Float256::from(0.0) };
+            let exp_complex = Complex256 {
+                re: exp,
+                im: Float256::from(0.0),
+            };
             self.powc(exp_complex)
         }
-    
+
         fn powi(self, exp: i32) -> Self {
-            let mut result = Complex256 { re: Float256::from(1.0), im: Float256::from(0.0) };
+            let mut result = Complex256 {
+                re: Float256::from(1.0),
+                im: Float256::from(0.0),
+            };
             let mut base = self;
             let mut n = exp;
             if n < 0 {
-                base = self.div(Complex256 { re: Float256::from(1.0), im: Float256::from(0.0) });
+                base = self.div(Complex256 {
+                    re: Float256::from(1.0),
+                    im: Float256::from(0.0),
+                });
                 n = -n;
             }
             while n > 0 {
@@ -167,7 +178,7 @@ pub mod complex {
             }
             result
         }
-    
+
         fn exp(self) -> Self {
             let exp_re = self.re.exp();
             Complex256 {
@@ -175,20 +186,26 @@ pub mod complex {
                 im: exp_re * self.im.sin(),
             }
         }
-    
+
         fn ln(self) -> Self {
             Complex256 {
                 re: self.magnitude().ln(),
                 im: self.arg(),
             }
         }
-    
+
         fn log(self) -> Self {
-            self.ln().div(Complex256 { re: Float256::from(10.0_f64.ln()), im: Float256::from(0.0) })
+            self.ln().div(Complex256 {
+                re: Float256::from(10.0_f64.ln()),
+                im: Float256::from(0.0),
+            })
         }
-    
+
         fn log10(self) -> Self {
-            self.ln().div(Complex256 { re: Float256::from(10.0_f64.ln()), im: Float256::from(0.0) })
+            self.ln().div(Complex256 {
+                re: Float256::from(10.0_f64.ln()),
+                im: Float256::from(0.0),
+            })
         }
 
         fn recip(self) -> Self {
@@ -198,29 +215,59 @@ pub mod complex {
                 im: -self.im / denom,
             }
         }
-    
+
         fn sqrt(self) -> Self {
             let mag = self.magnitude();
             let re_sqrt = ((self.re + mag) / Float256::from(2.0)).sqrt();
             let im_sqrt = ((mag - self.re) / Float256::from(2.0)).sqrt();
             Complex256 {
                 re: re_sqrt,
-                im: if self.im >= Float256::from(0.0) { im_sqrt } else { -im_sqrt },
+                im: if self.im >= Float256::from(0.0) {
+                    im_sqrt
+                } else {
+                    -im_sqrt
+                },
             }
         }
-    
+
         fn sin(self) -> Self {
-            let e_i = self.mul(Complex256 { re: Float256::from(0.0), im: Float256::from(1.0) }).exp();
-            let e_neg_i = self.mul(Complex256 { re: Float256::from(0.0), im: Float256::from(-1.0) }).exp();
-            e_i.sub(e_neg_i).div(Complex256 { re: Float256::from(0.0), im: Float256::from(2.0) })
+            let e_i = self
+                .mul(Complex256 {
+                    re: Float256::from(0.0),
+                    im: Float256::from(1.0),
+                })
+                .exp();
+            let e_neg_i = self
+                .mul(Complex256 {
+                    re: Float256::from(0.0),
+                    im: Float256::from(-1.0),
+                })
+                .exp();
+            e_i.sub(e_neg_i).div(Complex256 {
+                re: Float256::from(0.0),
+                im: Float256::from(2.0),
+            })
         }
-    
+
         fn cos(self) -> Self {
-            let e_i = self.mul(Complex256 { re: Float256::from(0.0), im: Float256::from(1.0) }).exp();
-            let e_neg_i = self.mul(Complex256 { re: Float256::from(0.0), im: Float256::from(-1.0) }).exp();
-            e_i.add(e_neg_i).div(Complex256 { re: Float256::from(2.0), im: Float256::from(0.0) })
+            let e_i = self
+                .mul(Complex256 {
+                    re: Float256::from(0.0),
+                    im: Float256::from(1.0),
+                })
+                .exp();
+            let e_neg_i = self
+                .mul(Complex256 {
+                    re: Float256::from(0.0),
+                    im: Float256::from(-1.0),
+                })
+                .exp();
+            e_i.add(e_neg_i).div(Complex256 {
+                re: Float256::from(2.0),
+                im: Float256::from(0.0),
+            })
         }
-    
+
         fn tan(self) -> Self {
             self.sin().div(self.cos())
         }
@@ -244,8 +291,14 @@ pub mod complex {
             if parts.len() != 2 {
                 return Err("Invalid complex number format".to_string());
             }
-            let re = parts[0].trim().parse::<Float256>().map_err(|_| "Invalid real part".to_string())?;
-            let im = parts[1].trim().parse::<Float256>().map_err(|_| "Invalid imaginary part".to_string())?;
+            let re = parts[0]
+                .trim()
+                .parse::<Float256>()
+                .map_err(|_| "Invalid real part".to_string())?;
+            let im = parts[1]
+                .trim()
+                .parse::<Float256>()
+                .map_err(|_| "Invalid imaginary part".to_string())?;
             Ok(Complex256 { re, im })
         }
     }
