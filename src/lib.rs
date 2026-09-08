@@ -1,3 +1,4 @@
+#![allow(clippy::module_inception)]
 // THIS IS A WORK IN PROGRESS AND IS FAR FROM COMPLETE.
 // THIS CODE IS NOT YET READY FOR PRODUCTION USE..
 

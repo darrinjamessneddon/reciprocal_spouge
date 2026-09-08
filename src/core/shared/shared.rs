@@ -20,11 +20,11 @@ pub mod shared {
         }
 
         let sqrt_two_pi = TAU.sqrt();
-        let a_f256 = Float256::from(a as u64);
+        let a_f256 = Float256::from(a);
         let coefficients: Vec<Float256> = (0..a)
             .into_par_iter()
             .map(|k| {
-                let k_f256 = Float256::from(k as u64);
+                let k_f256 = Float256::from(k);
                 if k == 0 {
                     sqrt_two_pi
                 } else {

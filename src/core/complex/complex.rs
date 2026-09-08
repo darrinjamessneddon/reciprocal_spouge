@@ -38,6 +38,7 @@ pub mod complex {
                 im: Float256::from(c.im),
             }
         }
+        #[allow(clippy::inherent_to_string_shadow_display)]
         pub fn to_string(self) -> String {
             let re_str = self.re.to_string();
             let im_str = self.im.to_string();
