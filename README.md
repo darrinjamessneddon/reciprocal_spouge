@@ -47,7 +47,7 @@ spouge_c256(z, a): does the same thing but returns the gamma value function in f
 
 // A log-gamma function is yet to be created.
 
-/? Seamless error-handling has yet to be added to these functions to prevent panics under certain conditions.
+// Seamless error-handling has yet to be added to these functions to prevent panics under certain conditions.
 
 ** Usage examples
 
@@ -57,7 +57,11 @@ cargo new special_functions --bin
 
 cargo build
 
-in the Cargo.toml file add reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
+in the Cargo.toml file add
+
+reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
+
+f256 = "0.11.2"
 
 in the main.rs file add the following:
   
@@ -66,6 +70,8 @@ in the main.rs file add the following:
     use reciprocal_spouge::core::gamma::gamma::gamma::{spouge, spouge_c256};
 
     use reciprocal_spouge::core::gamma::gamma::gamma::{rspouge, rspouge_c256};
+
+    use f256;:f256 as Float256;
 
 in fn main() add:
 
@@ -99,13 +105,15 @@ in fn main() add:
 
  cargo build
  
- in the Cargo.toml file add the following:
+in the Cargo.toml file add the following:
 
 reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
 
- in the main.rs file add the following:
+f256 = "0.11.2"
+
+in the main.rs file add the following:
  
- use reciprocal_spouge::core::complex::complex;:complex::{Complex256, ComplexOps};
+ use reciprocal_spouge::core::complex::complex::complex::{Complex256, ComplexOps};
  
  use f256::f256 as Float256;
 
