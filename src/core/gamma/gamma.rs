@@ -10,7 +10,7 @@ pub mod gamma {
         let result = spouge_c256(z, a);
         let result_re_str = result.re.to_string();
         let result_im_str = result.im.to_string();
-        return format!("{} + {}", result_re_str, result_im_str);
+        format!("{} + {}", result_re_str, result_im_str)
     }
 
     // Create a function to perform implementation of Spouge's approximation for the gamma function
@@ -35,10 +35,11 @@ pub mod gamma {
         }
         // Handle the case for negative integers (negative real part and zero imaginary part)
         // Negative integers are poles of the gamma function, so we return infinity for those cases
-        if z.re < Float256::from(0.0) && z.im == Float256::from(0.0) {
-            if z.re.fract() == Float256::from(0.0) {
-                return Complex256::new(Float256::INFINITY, Float256::from(0.0));
-            }
+        if z.re < Float256::from(0.0)
+            && z.im == Float256::from(0.0)
+            && z.re.fract() == Float256::from(0.0)
+        {
+            return Complex256::new(Float256::INFINITY, Float256::from(0.0));
         }
         // Handle the case for negative non-integer values (negative real part and non-zero imaginary part)
         if z.re < Float256::from(0.0) && z.im != Float256::from(0.0) {
@@ -74,7 +75,7 @@ pub mod gamma {
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
             let gamma_one_minus_z = spouge_c256(one_minus_z, a);
-            return pi_complex.div(sin_pi_z.mul(gamma_one_minus_z));
+            pi_complex.div(sin_pi_z.mul(gamma_one_minus_z))
         } else {
             // Handle the case for other z values by using Spouge's approximation directly
             let mut sum = Complex256::new(Float256::from(0.0), Float256::from(0.0));
@@ -94,13 +95,13 @@ pub mod gamma {
             for (k, &c_l) in coefficients.iter().enumerate().skip(1) {
                 let k_complex = Complex256::new(Float256::from(k as f64), Float256::from(0.0));
                 let z_plus_k = z.add(k_complex);
-                let c_k = Complex256::new(Float256::from(c_l), Float256::from(0.0));
+                let c_k = Complex256::new(c_l, Float256::from(0.0));
                 let term = c_k.div(z_plus_k);
                 sum = sum.add(term);
             }
-            let c_0_complex = Complex256::new(Float256::from(c_0), Float256::from(0.0));
+            let c_0_complex = Complex256::new(c_0, Float256::from(0.0));
             let result = pow_term.mul(exp_term).mul(c_0_complex.add(sum));
-            return result.div(z);
+            result.div(z)
         }
     }
 }
