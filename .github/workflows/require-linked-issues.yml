@@ -17,6 +17,12 @@ jobs:
         with:
           script: |
             const body = context.payload.pull_request.body || "";
+            const author = context.payload.pull_request.user?.login || "";
+
+            if (author === "Copilot" || author.endsWith("[bot]")) {
+              core.info(`Skipping linked-issue validation for bot-authored PR by '${author}'.`);
+              return;
+            }
 
             // Matches the issue-linking phrases documented in the PR template:
             // e.g., "Fixes #123", "Closes owner/repo#456", "Related #789", "Related to #101"
