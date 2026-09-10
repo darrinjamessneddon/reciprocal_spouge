@@ -45,9 +45,7 @@ pub mod gamma {
         if z.re < Float256::from(0.0) && z.im != Float256::from(0.0) {
             // Use the reflection formula for the gamma function
             // gamma(z) = pi / (sin(pi * z) * gamma(1 - z))
-            let one = Complex256::new(Float256::from(1.0), Float256::from(0.0));
-            let one_minus_z =
-                Complex256::new(Float256::from(1.0) - z.re, -z.im);
+            let one_minus_z = Complex256::new(Float256::from(1.0) - z.re, -z.im);
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();
