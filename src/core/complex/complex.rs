@@ -39,11 +39,6 @@ pub mod complex {
             }
         }
         #[allow(clippy::inherent_to_string_shadow_display)]
-        pub fn to_string(self) -> String {
-            let re_str = self.re.to_string();
-            let im_str = self.im.to_string();
-            format!("({} + {}i)", re_str, im_str)
-        }
         pub fn from_string(s: &str) -> Option<Self> {
             let s = s.trim();
             if !s.ends_with(')') {
@@ -276,7 +271,10 @@ pub mod complex {
 
     impl std::fmt::Display for Complex256 {
         fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-            write!(f, "{} + {}i", self.re, self.im)
+            if self.im >= Float256::from(0.0) {
+                write!(f, "{} + {}i", self.re, self.im)
+            } else {
+                write!(f, "{} - {}i", self.re, -self.im)
         }
     }
 
