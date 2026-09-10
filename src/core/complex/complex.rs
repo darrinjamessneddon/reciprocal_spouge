@@ -275,6 +275,7 @@ pub mod complex {
                 write!(f, "{} + {}i", self.re, self.im)
             } else {
                 write!(f, "{} - {}i", self.re, -self.im)
+            }
         }
     }
 
