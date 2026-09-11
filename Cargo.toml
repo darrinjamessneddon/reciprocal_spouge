@@ -16,3 +16,6 @@ derive_more = { version = "2.1.1", features = ["display", "error", "from"]}
 num-bigint = "0.5.1"
 num-complex = "0.4.6"
 
+[dev-dependencies]
+proptest = "1.11.0"
+
