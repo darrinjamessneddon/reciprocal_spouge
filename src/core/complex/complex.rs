@@ -68,6 +68,28 @@ pub mod complex {
 
             Some(Complex256 { re, im })
         }
+
+        pub fn checked_add(self, other: Self) -> Option<Self> {
+            let re = self.re + other.re;
+            let im = self.im + other.im;
+
+            if !re.is_finite() || !im.is_finite() {
+                return None;
+            }
+
+            Some(Complex256 { re, im })
+        }
+
+        pub fn checked_sub(self, other: Self) -> Option<Self> {
+            let re = self.re - other.re;
+            let im = self.im - other.im;
+
+            if !re.is_finite() || !im.is_finite() {
+                return None;
+            }
+
+            Some(Complex256 { re, im })
+        }
     }
 
     pub trait ComplexOps {
