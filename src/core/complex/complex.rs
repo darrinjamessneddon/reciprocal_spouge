@@ -116,6 +116,7 @@ pub mod complex {
         fn tan(self) -> Self;
     }
 
+    #[allow(clippy::wrong_self_convention)]
     pub trait ComplexComparisons {
         fn approx_eq(self, other: Self, tol: Float256) -> bool;
         fn is_zero(self, tol: Float256) -> bool;
