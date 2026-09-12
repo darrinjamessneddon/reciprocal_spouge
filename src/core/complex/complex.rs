@@ -115,6 +115,21 @@ pub mod complex {
         fn cos(self) -> Self;
         fn tan(self) -> Self;
     }
+
+    #[allow(clippy::wrong_self_convention)]
+    pub trait ComplexComparisons {
+        fn approx_eq(self, other: Self, tol: Float256) -> bool;
+        fn is_zero(self, tol: Float256) -> bool;
+        fn is_one(self, tol: Float256) -> bool;
+        fn is_i(self, tol: Float256) -> bool;
+        fn is_real(self, tol: Float256) -> bool;
+        fn is_imaginary(self, tol: Float256) -> bool;
+    }
+
+    fn has_valid_tolerance(tol: Float256) -> bool {
+        tol.is_finite() && tol >= Float256::from(0.0)
+    }
+
     impl ComplexOps for Complex256 {
         fn add(self, other: Self) -> Self {
             Complex256 {
@@ -311,6 +326,57 @@ pub mod complex {
         }
     }
 
+    impl ComplexComparisons for Complex256 {
+        fn approx_eq(self, other: Self, tol: Float256) -> bool {
+            if !has_valid_tolerance(tol) {
+                return false;
+            }
+
+            let re_diff = (self.re - other.re).abs();
+            let im_diff = (self.im - other.im).abs();
+
+            re_diff <= tol && im_diff <= tol
+        }
+
+        fn is_zero(self, tol: Float256) -> bool {
+            self.approx_eq(
+                Complex256 {
+                    re: Float256::from(0.0),
+                    im: Float256::from(0.0),
+                },
+                tol,
+            )
+        }
+
+        fn is_one(self, tol: Float256) -> bool {
+            self.approx_eq(
+                Complex256 {
+                    re: Float256::from(1.0),
+                    im: Float256::from(0.0),
+                },
+                tol,
+            )
+        }
+
+        fn is_i(self, tol: Float256) -> bool {
+            self.approx_eq(
+                Complex256 {
+                    re: Float256::from(0.0),
+                    im: Float256::from(1.0),
+                },
+                tol,
+            )
+        }
+
+        fn is_real(self, tol: Float256) -> bool {
+            has_valid_tolerance(tol) && self.im.abs() <= tol
+        }
+
+        fn is_imaginary(self, tol: Float256) -> bool {
+            has_valid_tolerance(tol) && self.re.abs() <= tol && self.im.abs() > tol
+        }
+    }
+
     impl std::fmt::Display for Complex256 {
         fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
             if self.im >= Float256::from(0.0) {
@@ -342,6 +408,64 @@ pub mod complex {
                 .parse::<Float256>()
                 .map_err(|_| "Invalid imaginary part".to_string())?;
             Ok(Complex256 { re, im })
+        }
+    }
+
+    #[cfg(test)]
+    mod tests {
+        use super::{Complex256, ComplexComparisons};
+        use f256::f256 as Float256;
+
+        fn c256(re: f64, im: f64) -> Complex256 {
+            Complex256::from_f64(re, im)
+        }
+
+        #[test]
+        fn approx_eq_accepts_componentwise_differences_within_tolerance() {
+            let left = c256(1.0, -2.0);
+            let right = c256(1.000_5, -2.000_5);
+
+            assert!(left.approx_eq(right, Float256::from(0.001)));
+        }
+
+        #[test]
+        fn approx_eq_rejects_componentwise_differences_outside_tolerance() {
+            let left = c256(1.0, -2.0);
+            let right = c256(1.002, -1.999);
+
+            assert!(!left.approx_eq(right, Float256::from(0.001)));
+        }
+
+        #[test]
+        fn approx_eq_rejects_invalid_tolerance() {
+            let left = c256(1.0, 2.0);
+            let right = c256(1.0, 2.0);
+
+            assert!(!left.approx_eq(right, Float256::from(-0.001)));
+            assert!(!left.approx_eq(right, Float256::INFINITY));
+            assert!(!left.approx_eq(right, Float256::NAN));
+        }
+
+        #[test]
+        fn comparison_helpers_match_expected_special_values() {
+            let tol = Float256::from(0.001);
+
+            assert!(c256(0.000_5, -0.000_5).is_zero(tol));
+            assert!(c256(1.000_5, -0.000_5).is_one(tol));
+            assert!(c256(0.000_5, 1.000_5).is_i(tol));
+            assert!(c256(2.0, 0.000_5).is_real(tol));
+            assert!(c256(0.000_5, 2.0).is_imaginary(tol));
+        }
+
+        #[test]
+        fn comparison_helpers_reject_non_matching_values() {
+            let tol = Float256::from(0.001);
+
+            assert!(!c256(0.0, 0.002).is_zero(tol));
+            assert!(!c256(1.0, 0.002).is_one(tol));
+            assert!(!c256(0.002, 1.0).is_i(tol));
+            assert!(!c256(2.0, 0.002).is_real(tol));
+            assert!(!c256(0.000_5, 0.000_5).is_imaginary(tol));
         }
     }
 }
