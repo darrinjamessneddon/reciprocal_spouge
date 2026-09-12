@@ -45,6 +45,46 @@ fn complex_helper_example_uses_tolerances_for_high_precision_values() {
 }
 
 #[test]
+fn complex_checked_add_returns_some_for_finite_inputs() {
+    let left = c256(1.5, -2.0);
+    let right = c256(2.25, 3.0);
+
+    let sum = left
+        .checked_add(right)
+        .expect("checked_add should succeed for finite components");
+
+    assert_complex_close(sum, c256(3.75, 1.0), Float256::from(1e-30));
+}
+
+#[test]
+fn complex_checked_sub_returns_some_for_finite_inputs() {
+    let left = c256(5.25, -1.5);
+    let right = c256(2.0, 4.0);
+
+    let difference = left
+        .checked_sub(right)
+        .expect("checked_sub should succeed for finite components");
+
+    assert_complex_close(difference, c256(3.25, -5.5), Float256::from(1e-30));
+}
+
+#[test]
+fn complex_checked_add_returns_none_for_non_finite_result() {
+    let left = Complex256::new(Float256::INFINITY, Float256::from(1.0));
+    let right = c256(1.0, 2.0);
+
+    assert!(left.checked_add(right).is_none());
+}
+
+#[test]
+fn complex_checked_sub_returns_none_for_non_finite_result() {
+    let left = c256(1.0, 2.0);
+    let right = Complex256::new(Float256::from(0.5), Float256::INFINITY);
+
+    assert!(left.checked_sub(right).is_none());
+}
+
+#[test]
 #[ignore = "Template placeholder: replace with concrete gamma assertions when ready"]
 fn gamma_placeholder_matches_known_reference_values() {
     // TODO: Verify well-known identities such as gamma(1) = 1 and gamma(n) = (n - 1)!.
