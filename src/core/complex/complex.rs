@@ -57,6 +57,17 @@ pub mod complex {
                 .ok()?;
             Some(Complex256 { re, im })
         }
+
+        fn checked_mul(self, other: Self) -> Option<Self> {
+            let re = (self.re * other.re) - (self.im * other.im);
+            let im = (self.re * other.im) + (self.im * other.re);
+
+            if !re.is_finite() || !im.is_finite() {
+                return None;
+            }
+
+            Some(Complex256 { re, im })
+        }
     }
 
     pub trait ComplexOps {
@@ -152,26 +163,35 @@ pub mod complex {
         }
 
         fn powi(self, exp: i32) -> Self {
-            let mut result = Complex256 {
+            let one = Complex256 {
                 re: Float256::from(1.0),
                 im: Float256::from(0.0),
             };
-            let mut base = self;
-            let mut n = exp;
-            if n < 0 {
-                base = self.div(Complex256 {
-                    re: Float256::from(1.0),
-                    im: Float256::from(0.0),
-                });
-                n = -n;
+
+            if exp == 0 {
+                return one;
             }
+
+            let mut base = if exp < 0 { self.recip() } else { self };
+            let mut n: u32 = exp.unsigned_abs();
+            let mut result = one;
+
             while n > 0 {
-                if n % 2 == 1 {
-                    result = result.mul(base);
+                if (n & 1) == 1 {
+                    result = result.checked_mul(base).unwrap_or_else(|| {
+                        panic!("Complex256::powi overflow/invalid value while multiplying result by base")
+                    });
                 }
-                base = base.mul(base);
-                n /= 2;
+
+                n >>= 1;
+
+                if n > 0 {
+                    base = base.checked_mul(base).unwrap_or_else(|| {
+                        panic!("Complex256::powi overflow/invalid value while squaring base")
+                    });
+                }
             }
+
             result
         }
 
