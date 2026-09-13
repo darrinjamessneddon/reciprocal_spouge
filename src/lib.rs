@@ -75,7 +75,3 @@ pub mod core;
 // rgamma: a submodule holding a spouge-based implementation of the reciprocal gamma function.
 // error: a submodule providing error handling for the library (this is far from complete, and may need to be completely reworked).
 // lngamma: a submodule holding an implementation of the natural logarithm of the gamma function. (This has not yet been started).
-pub use core::shared::shared::shared::*;
-pub use core::complex::complex::complex::*;
-pub use core::gamma::gamma::gamma::*;
-pub use core::rgamma::rgamma::rgamma::*;
