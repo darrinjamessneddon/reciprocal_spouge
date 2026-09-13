@@ -4,6 +4,14 @@ use reciprocal_spouge::core::complex::complex::complex::{Complex256, ComplexOps}
 use reciprocal_spouge::core::gamma::gamma::gamma::spouge_c256;
 use reciprocal_spouge::core::lngamma::lngamma::lngamma::ln_gamma;
 use reciprocal_spouge::core::rgamma::rgamma::rgamma::rspouge_c256;
+use reciprocal_spouge::core::{
+    Complex256 as CoreComplex256, ComplexOps as CoreComplexOps, rspouge as core_rspouge,
+    rspouge_c256 as core_rspouge_c256, spouge_c256 as core_spouge_c256,
+};
+use reciprocal_spouge::{
+    Complex256 as RootComplex256, ComplexOps as RootComplexOps, rspouge as root_rspouge,
+    rspouge_c256 as root_rspouge_c256, spouge_c256 as root_spouge_c256,
+};
 
 /// Integration-test starter template for the current public API.
 ///
@@ -82,6 +90,45 @@ fn complex_checked_sub_returns_none_for_non_finite_result() {
     let right = Complex256::new(Float256::from(0.5), Float256::INFINITY);
 
     assert!(left.checked_sub(right).is_none());
+}
+
+#[test]
+fn flattened_reexports_preserve_access_to_existing_core_api() {
+    let root_value = RootComplex256::from_f64(3.0, 4.0);
+    let core_value = CoreComplex256::from_f64(3.0, 4.0);
+
+    assert_f256_close(
+        RootComplexOps::magnitude(root_value),
+        Float256::from(5.0),
+        Float256::from(1e-12),
+    );
+    assert_complex_close(
+        RootComplexOps::conj(RootComplexOps::conj(root_value)),
+        Complex256::from_f64(3.0, 4.0),
+        Float256::from(0.0),
+    );
+    assert_complex_close(
+        CoreComplexOps::conj(CoreComplexOps::conj(core_value)),
+        Complex256::from_f64(3.0, 4.0),
+        Float256::from(0.0),
+    );
+
+    let input = c256(2.5, 0.25);
+
+    assert_complex_close(
+        root_spouge_c256(input, DEFAULT_SPOUGE_A),
+        core_spouge_c256(input, DEFAULT_SPOUGE_A),
+        Float256::from(0.0),
+    );
+    assert_complex_close(
+        root_rspouge_c256(input, DEFAULT_SPOUGE_A as i32),
+        core_rspouge_c256(input, DEFAULT_SPOUGE_A as i32),
+        Float256::from(0.0),
+    );
+    assert_eq!(
+        root_rspouge(input, DEFAULT_SPOUGE_A),
+        core_rspouge(input, DEFAULT_SPOUGE_A),
+    );
 }
 
 #[test]
