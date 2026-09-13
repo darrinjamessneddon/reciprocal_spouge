@@ -53,15 +53,15 @@ spouge_c256(z, a): does the same thing but returns the gamma value function in f
 
 * if linking to an executable file:
 
-cargo new special_functions --bin
+    cargo new special_functions --bin
 
-cargo build
+    cargo build
 
 in the Cargo.toml file add
 
-reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
+    reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
 
-f256 = "0.11.2"
+    f256 = "0.11.2"
 
 in the main.rs file add the following:
   
@@ -71,61 +71,61 @@ in the main.rs file add the following:
 
 in fn main() add:
 
-  let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
+    let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
 
-  let a = 10;
+    let a = 10;
 
-  let gamma = spouge(z, a);
+    let gamma = spouge(z, a);
 
-  let reciprocal_gamma = rspouge(z, a);
+    let reciprocal_gamma = rspouge(z, a);
 
-  println!("gamma value for z: {}", gamma); // Returns gamma value as a string.
+    println!("gamma value for z: {}", gamma); // Returns gamma value as a string.
 
-  println!("reciprocal gamma value for z: {}", reciprocal_gamma);// Returns rgamma value as a string.
+    println!("reciprocal gamma value for z: {}", reciprocal_gamma);// Returns rgamma value as a string.
 
-  let gamma_256 = spouge_c256(z, a);
+    let gamma_256 = spouge_c256(z, a);
 
-  let rgamma_256 = rspouge_c256(z, a);
+    let rgamma_256 = rspouge_c256(z, a);
 
-  let gamma_64 = gamma_256.to_complex64();
+    let gamma_64 = gamma_256.to_complex64();
 
-  let gamma_64 = gamma_256.to_complex64();
+    let rgamma_64 = rgamma_256.to_complex64();
 
-  println!("gamma value as Complex64: {}", gamma_64);
+    println!("gamma value as Complex64: {}", gamma_64);
 
-  println!("gamma value as Complex64: {}", gamma_64);
+    println!("reciprocal gamma value as Complex64: {}", rgamma_64);
 
 * if linking to an executable file to use functions pertaining directly to complex numbers:
 
- cargo new my_app --bin
+    cargo new my_app --bin
 
- cargo build
+    cargo build
  
 in the Cargo.toml file add the following:
 
-reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
+    reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
 
-f256 = "0.11.2"
+    f256 = "0.11.2"
 
 in the main.rs file add the following:
  
- use reciprocal_spouge::{Complex256, ComplexOps};
+    use reciprocal_spouge::{Complex256, ComplexOps};
  
- use f256::f256 as Float256;
+    use f256::f256 as Float256;
 
 in fn main() add:
   
-  let z1 = Complex256::new(Float::from(1.0), Float::from(2.0));
+    let z1 = Complex256::new(Float256::from(1.0), Float256::from(2.0));
 
-  println!("z1: {}", z1);
+    println!("z1: {}", z1);
 
-  let z2 = Complex256::new(Float::from(2.0), Float::from(3.0));
+    let z2 = Complex256::new(Float256::from(2.0), Float256::from(3.0));
 
-  println!("z2: {}", z2);
+    println!("z2: {}", z2);
 
-  let z3 = z1.add(z2);
+    let z3 = z1.add(z2);
 
-  println!("z1 minus z2);
+    println!("z1 plus z2: {}", z3);
   
 
 **Installation Steps
