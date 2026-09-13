@@ -69,9 +69,9 @@
 pub mod core;
 
 pub use core::{
-    Complex256, ComplexComparisons, ComplexError, ComplexOps, MathError,
-    ParameterOutOfRangeError, ParseError, ParseResult, Result, factorial, ln_gamma, rspouge,
-    rspouge_c256, spouge, spouge_c256, spouge_coefficients,
+    Complex256, ComplexComparisons, ComplexError, ComplexOps, MathError, ParameterOutOfRangeError,
+    ParseError, ParseResult, Result, factorial, ln_gamma, rspouge, rspouge_c256, spouge,
+    spouge_c256, spouge_coefficients,
 };
 
 // The core module contains the following submodules:
