@@ -65,11 +65,7 @@ f256 = "0.11.2"
 
 in the main.rs file add the following:
   
-    use reciprocal_spouge::core::complex::complex::complex::{Complex256, ComplexOps};
-
-    use reciprocal_spouge::core::gamma::gamma::gamma::{spouge, spouge_c256};
-
-    use reciprocal_spouge::core::gamma::gamma::gamma::{rspouge, rspouge_c256};
+    use reciprocal_spouge::{Complex256, ComplexOps, rspouge, rspouge_c256, spouge, spouge_c256};
 
     use f256;:f256 as Float256;
 
@@ -89,7 +85,7 @@ in fn main() add:
 
   let gamma_256 = spouge_c256(z, a);
 
-  let rgamma_256 = gamma_c256(z, a);
+  let rgamma_256 = rspouge_c256(z, a);
 
   let gamma_64 = gamma_256.to_complex64();
 
@@ -113,7 +109,7 @@ f256 = "0.11.2"
 
 in the main.rs file add the following:
  
- use reciprocal_spouge::core::complex::complex::complex::{Complex256, ComplexOps};
+ use reciprocal_spouge::{Complex256, ComplexOps};
  
  use f256::f256 as Float256;
 

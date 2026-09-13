@@ -68,6 +68,12 @@
 
 pub mod core;
 
+pub use core::{
+    Complex256, ComplexComparisons, ComplexError, ComplexOps, MathError,
+    ParameterOutOfRangeError, ParseError, ParseResult, Result, factorial, ln_gamma, rspouge,
+    rspouge_c256, spouge, spouge_c256, spouge_coefficients,
+};
+
 // The core module contains the following submodules:
 // shared: a submodule providing functions that are shared between the other modules, including spouge_coefficients.
 // complex: a submodule providing structs and functions for complex numbers, including complex numbers using f256 and f64 floats.
