@@ -5,12 +5,12 @@ use reciprocal_spouge::core::gamma::gamma::gamma::spouge_c256;
 use reciprocal_spouge::core::lngamma::lngamma::lngamma::ln_gamma;
 use reciprocal_spouge::core::rgamma::rgamma::rgamma::rspouge_c256;
 use reciprocal_spouge::core::{
-    Complex256 as CoreComplex256, ComplexOps as CoreComplexOps, rspouge_c256 as core_rspouge_c256,
-    spouge_c256 as core_spouge_c256,
+    Complex256 as CoreComplex256, ComplexOps as CoreComplexOps, rspouge as core_rspouge,
+    rspouge_c256 as core_rspouge_c256, spouge_c256 as core_spouge_c256,
 };
 use reciprocal_spouge::{
-    Complex256 as RootComplex256, ComplexOps as RootComplexOps, rspouge_c256 as root_rspouge_c256,
-    spouge_c256 as root_spouge_c256,
+    Complex256 as RootComplex256, ComplexOps as RootComplexOps, rspouge as root_rspouge,
+    rspouge_c256 as root_rspouge_c256, spouge_c256 as root_spouge_c256,
 };
 
 /// Integration-test starter template for the current public API.
@@ -124,6 +124,10 @@ fn flattened_reexports_preserve_access_to_existing_core_api() {
         root_rspouge_c256(input, DEFAULT_SPOUGE_A as i32),
         core_rspouge_c256(input, DEFAULT_SPOUGE_A as i32),
         Float256::from(0.0),
+    );
+    assert_eq!(
+        root_rspouge(input, DEFAULT_SPOUGE_A),
+        core_rspouge(input, DEFAULT_SPOUGE_A),
     );
 }
 

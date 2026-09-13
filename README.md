@@ -67,7 +67,7 @@ in the main.rs file add the following:
   
     use reciprocal_spouge::{Complex256, ComplexOps, rspouge, rspouge_c256, spouge, spouge_c256};
 
-    use f256;:f256 as Float256;
+    use f256::f256 as Float256;
 
 in fn main() add:
 
