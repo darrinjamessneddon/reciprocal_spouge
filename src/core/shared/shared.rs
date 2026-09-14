@@ -1,4 +1,6 @@
 pub mod shared {
+    use core::str::FromStr;
+
     use ::f256::consts::TAU;
     use f256::f256 as Float256;
     use num_bigint::BigUint;
@@ -14,21 +16,18 @@ pub mod shared {
     /// allow for error handling by returning a Result type, which can either be Ok with the coefficients
     /// or Err with a MathError describing the error.
     pub fn spouge_coefficients(a: u64) -> Result<Vec<Float256>, MathError> {
-        if a == 0 {
-            return Err(MathError::ParameterOutOfRange);
-        }
         if a < 2 {
             return Err(MathError::ParameterOutOfRange);
         }
 
         let sqrt_two_pi = TAU.sqrt();
         let a_f256 = Float256::from(a);
-        let coefficients: Vec<Float256> = (0..a)
+        let coefficients: Result<Vec<Float256>, MathError> = (0..a)
             .into_par_iter()
             .map(|k| {
                 let k_f256 = Float256::from(k);
                 if k == 0 {
-                    sqrt_two_pi
+                    Ok(sqrt_two_pi)
                 } else {
                     let sign = if k % 2 == 0 {
                         Float256::from(-1.0)
@@ -36,15 +35,19 @@ pub mod shared {
                         Float256::from(1.0)
                     };
                     let fact = factorial(k - 1);
-                    let fact_f256 = Float256::from(fact.to_string().parse::<f64>().unwrap());
+                    let fact_f256 =
+                        Float256::from_str(&fact.to_string()).map_err(|_| MathError::Overflow)?;
+                    if !fact_f256.is_finite() {
+                        return Err(MathError::Overflow);
+                    }
                     let a_minus_k = a_f256 - k_f256;
                     let k_minus_half = k_f256 - Float256::from(0.5);
                     let pow_term = a_minus_k.powf(&k_minus_half);
                     let exp_term = (a_minus_k).exp();
-                    sign * pow_term * exp_term / fact_f256
+                    Ok(sign * pow_term * exp_term / fact_f256)
                 }
             })
             .collect();
-        Ok(coefficients)
+        coefficients
     }
 }

@@ -5,12 +5,13 @@ use reciprocal_spouge::core::gamma::gamma::gamma::spouge_c256;
 use reciprocal_spouge::core::lngamma::lngamma::lngamma::ln_gamma;
 use reciprocal_spouge::core::rgamma::rgamma::rgamma::rspouge_c256;
 use reciprocal_spouge::core::{
-    Complex256 as CoreComplex256, ComplexOps as CoreComplexOps, rspouge as core_rspouge,
-    rspouge_c256 as core_rspouge_c256, spouge_c256 as core_spouge_c256,
+    Complex256 as CoreComplex256, ComplexOps as CoreComplexOps, MathError, rspouge as core_rspouge,
+    rspouge_c256 as core_rspouge_c256, spouge as core_spouge, spouge_c256 as core_spouge_c256,
+    spouge_coefficients,
 };
 use reciprocal_spouge::{
     Complex256 as RootComplex256, ComplexOps as RootComplexOps, rspouge as root_rspouge,
-    rspouge_c256 as root_rspouge_c256, spouge_c256 as root_spouge_c256,
+    rspouge_c256 as root_rspouge_c256, spouge as root_spouge, spouge_c256 as root_spouge_c256,
 };
 
 /// Integration-test starter template for the current public API.
@@ -116,19 +117,65 @@ fn flattened_reexports_preserve_access_to_existing_core_api() {
     let input = c256(2.5, 0.25);
 
     assert_complex_close(
-        root_spouge_c256(input, DEFAULT_SPOUGE_A),
-        core_spouge_c256(input, DEFAULT_SPOUGE_A),
+        root_spouge_c256(input, DEFAULT_SPOUGE_A).unwrap(),
+        core_spouge_c256(input, DEFAULT_SPOUGE_A).unwrap(),
         Float256::from(0.0),
     );
     assert_complex_close(
-        root_rspouge_c256(input, DEFAULT_SPOUGE_A as i32),
-        core_rspouge_c256(input, DEFAULT_SPOUGE_A as i32),
+        root_rspouge_c256(input, DEFAULT_SPOUGE_A).unwrap(),
+        core_rspouge_c256(input, DEFAULT_SPOUGE_A).unwrap(),
         Float256::from(0.0),
     );
     assert_eq!(
-        root_rspouge(input, DEFAULT_SPOUGE_A),
-        core_rspouge(input, DEFAULT_SPOUGE_A),
+        root_spouge(input, DEFAULT_SPOUGE_A).unwrap(),
+        core_spouge(input, DEFAULT_SPOUGE_A).unwrap(),
     );
+    assert_eq!(
+        root_rspouge(input, DEFAULT_SPOUGE_A).unwrap(),
+        core_rspouge(input, DEFAULT_SPOUGE_A).unwrap(),
+    );
+}
+
+#[test]
+fn spouge_api_returns_parameter_out_of_range_for_small_a() {
+    let input = c256(2.5, 0.25);
+
+    assert_eq!(spouge_coefficients(1), Err(MathError::ParameterOutOfRange));
+    assert_eq!(
+        root_spouge_c256(input, 1),
+        Err(MathError::ParameterOutOfRange)
+    );
+    assert_eq!(
+        root_rspouge_c256(input, 1),
+        Err(MathError::ParameterOutOfRange)
+    );
+    assert_eq!(root_spouge(input, 1), Err(MathError::ParameterOutOfRange));
+    assert_eq!(root_rspouge(input, 1), Err(MathError::ParameterOutOfRange));
+}
+
+#[test]
+fn spouge_api_still_supports_successful_coefficient_paths() {
+    let gamma_of_one = spouge_c256(c256(1.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
+    let reciprocal_gamma_of_one = rspouge_c256(c256(1.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
+
+    assert_complex_close(gamma_of_one, c256(1.0, 0.0), Float256::from(1e-15));
+    assert_complex_close(
+        reciprocal_gamma_of_one,
+        c256(1.0, 0.0),
+        Float256::from(1e-15),
+    );
+}
+
+#[test]
+fn coefficient_path_source_is_free_of_unwrap_and_expect() {
+    for source in [
+        include_str!("../src/core/shared/shared.rs"),
+        include_str!("../src/core/gamma/gamma.rs"),
+        include_str!("../src/core/rgamma/rgamma.rs"),
+    ] {
+        assert!(!source.contains("unwrap("));
+        assert!(!source.contains("expect("));
+    }
 }
 
 #[test]
@@ -137,7 +184,7 @@ fn gamma_placeholder_matches_known_reference_values() {
     // TODO: Verify well-known identities such as gamma(1) = 1 and gamma(n) = (n - 1)!.
     // TODO: Add tolerance-based checks for non-integer real inputs once reference values are chosen.
     // TODO: Extend coverage to complex inputs that should stay away from poles.
-    let gamma_of_one = spouge_c256(c256(1.0, 0.0), DEFAULT_SPOUGE_A);
+    let gamma_of_one = spouge_c256(c256(1.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
     assert_complex_close(gamma_of_one, c256(1.0, 0.0), Float256::from(1e-20));
 }
 
@@ -147,8 +194,8 @@ fn reciprocal_gamma_placeholder_matches_inverse_relationship() {
     // TODO: Verify reciprocal_gamma(z) ≈ 1 / gamma(z) for representative real and complex inputs.
     // TODO: Add explicit tests for zeros at 0, -1, -2, ... once the desired API contract is finalised.
     let input = c256(2.5, 0.25);
-    let gamma = spouge_c256(input, DEFAULT_SPOUGE_A);
-    let reciprocal_gamma = rspouge_c256(input, DEFAULT_SPOUGE_A as i32);
+    let gamma = spouge_c256(input, DEFAULT_SPOUGE_A).unwrap();
+    let reciprocal_gamma = rspouge_c256(input, DEFAULT_SPOUGE_A).unwrap();
     let product = gamma.mul(reciprocal_gamma);
 
     assert_complex_close(product, c256(1.0, 0.0), Float256::from(1e-18));
@@ -190,8 +237,8 @@ proptest! {
         prop_assume!(im.abs() > 1e-6 || re.fract().abs() > 1e-6 || re >= 0.0);
 
         let z = c256(re, im);
-        let gamma = spouge_c256(z, DEFAULT_SPOUGE_A);
-        let reciprocal_gamma = rspouge_c256(z, DEFAULT_SPOUGE_A as i32);
+        let gamma = spouge_c256(z, DEFAULT_SPOUGE_A).unwrap();
+        let reciprocal_gamma = rspouge_c256(z, DEFAULT_SPOUGE_A).unwrap();
         let product = gamma.mul(reciprocal_gamma);
 
         assert_f256_close(product.re, Float256::from(1.0), Float256::from(1e-12));

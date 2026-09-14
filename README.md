@@ -16,7 +16,7 @@ The library uses the Spouge approximation because it is numerically stable.
 
 The library is built on top of the f256 crate, and deals with special functions including the reciprocal gamma, gamma and log-gamma functions in the complex plane.
 
-The Spouge approximation takes two inputs: the value for some complex number z, and the value of a positive integer parameter 'a'. The value of this parameter should be a > 2.
+The Spouge approximation takes two inputs: the value for some complex number z, and the value of a positive integer parameter 'a'. The value of this parameter should be a >= 2.
 
 **Features
 
@@ -36,18 +36,17 @@ Complex256 struct in containing a number of public functions:
 
 **Functions for computing special functions:
 
-rspouge(z, a) : takes a complex number, z, and a parameter 'a'with an integer value greater than 2 and returns the reciprocal gamma value as a string.
+rspouge(z, a) : takes a complex number, z, and a parameter 'a' with an integer value greater than or equal to 2 and returns `Result<String, MathError>`.
 
-rspouge_c256(z, a): does the same thing but returns the reciprocal gamma value in f256 value form, so that it can be plugged directly into any other mathematical function you wish to create.
+rspouge_c256(z, a): does the same thing but returns `Result<Complex256, MathError>` so that coefficient and range errors can be handled explicitly.
 
-spouge(z, a): takes a complex number, z, and a parameter 'a' with an integer value greater than 2 and returns the gamma
-value as a string.
+spouge(z, a): takes a complex number, z, and a parameter 'a' with an integer value greater than or equal to 2 and returns `Result<String, MathError>`.
 
-spouge_c256(z, a): does the same thing but returns the gamma value function in f256 form, so that it can be plugged directly into any other mathematical function you wish to create.
+spouge_c256(z, a): does the same thing but returns `Result<Complex256, MathError>` so that coefficient and range errors can be handled explicitly.
 
 // A log-gamma function is yet to be created.
 
-// Seamless error-handling has yet to be added to these functions to prevent panics under certain conditions.
+// Coefficient-dependent Spouge APIs now return Result values and report invalid parameters with MathError.
 
 ** Usage examples
 
@@ -65,7 +64,7 @@ in the Cargo.toml file add
 
 in the main.rs file add the following:
   
-    use reciprocal_spouge::{Complex256, ComplexOps, rspouge, rspouge_c256, spouge, spouge_c256};
+    use reciprocal_spouge::{Complex256, ComplexOps, MathError, rspouge, rspouge_c256, spouge, spouge_c256};
 
     use f256::f256 as Float256;
 
@@ -75,17 +74,17 @@ in fn main() add:
 
     let a = 10;
 
-    let gamma = spouge(z, a);
+    let gamma = spouge(z, a).expect("valid Spouge parameter");
 
-    let reciprocal_gamma = rspouge(z, a);
+    let reciprocal_gamma = rspouge(z, a).expect("valid Spouge parameter");
 
     println!("gamma value for z: {}", gamma); // Returns gamma value as a string.
 
     println!("reciprocal gamma value for z: {}", reciprocal_gamma);// Returns rgamma value as a string.
 
-    let gamma_256 = spouge_c256(z, a);
+    let gamma_256 = spouge_c256(z, a).expect("valid Spouge parameter");
 
-    let rgamma_256 = rspouge_c256(z, a);
+    let rgamma_256 = rspouge_c256(z, a).expect("valid Spouge parameter");
 
     let gamma_64 = gamma_256.to_complex64();
 
