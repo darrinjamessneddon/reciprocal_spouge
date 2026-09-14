@@ -1,7 +1,7 @@
 pub mod rgamma {
+    use crate::MathError;
     use crate::core::complex::complex::complex::{Complex256, ComplexOps};
     use crate::core::shared::shared::shared::spouge_coefficients;
-    use crate::MathError;
     use f256::consts::PI;
     use f256::f256 as Float256;
 

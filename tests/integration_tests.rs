@@ -5,8 +5,7 @@ use reciprocal_spouge::core::gamma::gamma::gamma::spouge_c256;
 use reciprocal_spouge::core::lngamma::lngamma::lngamma::ln_gamma;
 use reciprocal_spouge::core::rgamma::rgamma::rgamma::rspouge_c256;
 use reciprocal_spouge::core::{
-    Complex256 as CoreComplex256, ComplexOps as CoreComplexOps, MathError,
-    rspouge as core_rspouge,
+    Complex256 as CoreComplex256, ComplexOps as CoreComplexOps, MathError, rspouge as core_rspouge,
     rspouge_c256 as core_rspouge_c256, spouge as core_spouge, spouge_c256 as core_spouge_c256,
     spouge_coefficients,
 };
@@ -141,10 +140,7 @@ fn flattened_reexports_preserve_access_to_existing_core_api() {
 fn spouge_api_returns_parameter_out_of_range_for_small_a() {
     let input = c256(2.5, 0.25);
 
-    assert_eq!(
-        spouge_coefficients(1),
-        Err(MathError::ParameterOutOfRange)
-    );
+    assert_eq!(spouge_coefficients(1), Err(MathError::ParameterOutOfRange));
     assert_eq!(
         root_spouge_c256(input, 1),
         Err(MathError::ParameterOutOfRange)

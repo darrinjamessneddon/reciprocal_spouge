@@ -35,8 +35,8 @@ pub mod shared {
                         Float256::from(1.0)
                     };
                     let fact = factorial(k - 1);
-                    let fact_f256 = Float256::from_str(&fact.to_string())
-                        .map_err(|_| MathError::Overflow)?;
+                    let fact_f256 =
+                        Float256::from_str(&fact.to_string()).map_err(|_| MathError::Overflow)?;
                     if !fact_f256.is_finite() {
                         return Err(MathError::Overflow);
                     }
