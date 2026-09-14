@@ -4,19 +4,21 @@ pub mod shared {
     use num_bigint::BigUint;
     use rayon::prelude::*;
 
+    use crate::core::MathError;
+
     pub fn factorial(n: u64) -> BigUint {
         (1..=n).into_par_iter().map(BigUint::from).product()
     }
 
     /// Compute the Spouge coefficients for a given parameter 'a'. The coefficients are used in Spouge's approximation of the gamma function.
     /// allow for error handling by returning a Result type, which can either be Ok with the coefficients
-    /// or Err with a String describing the error.
-    pub fn spouge_coefficients(a: u64) -> Result<Vec<Float256>, String> {
+    /// or Err with a MathError describing the error.
+    pub fn spouge_coefficients(a: u64) -> Result<Vec<Float256>, MathError> {
         if a == 0 {
-            return Err("Spouge coefficients require a > 0".to_string());
+            return Err(MathError::ParameterOutOfRange);
         }
         if a < 2 {
-            return Err("parameter 'a' must be greater than or equal to 2".to_string());
+            return Err(MathError::ParameterOutOfRange);
         }
 
         let sqrt_two_pi = TAU.sqrt();
