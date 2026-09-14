@@ -1,12 +1,10 @@
 pub mod shared {
-
-    pub mod shared {
     use ::f256::consts::TAU;
     use f256::f256 as Float256;
     use num_bigint::BigUint;
     use rayon::prelude::*;
 
-    use crate::core::error::error::MathError;
+    use crate::core::error::MathError;
 
     pub fn factorial(n: u64) -> BigUint {
         (1..=n).into_par_iter().map(BigUint::from).product()
