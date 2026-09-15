@@ -51,3 +51,19 @@ pub mod shared {
         coefficients
     }
 }
+
+/// Add structs and functions to facillitate the use of Kahan summation by feeding f256 terms into a Kahan accumulator using Neumaier's algorithm
+#[derive(Debug, Clone, Copy, Default)]
+pub struct KahanF256 {
+    // add implementation code here
+}
+impl KahanF256 {
+    /// Creates a new compensated accumulator initialized to zero.
+pub fn new() -> Self {
+    // add implementation code here
+    }
+}
+/// Code to feed a new f256 term into the accumulator using Neumaier's algorithm.
+pub fn add(&mut self, term: Float256) [
+    }
+}
