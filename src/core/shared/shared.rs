@@ -55,6 +55,8 @@ pub mod shared {
 /// Add structs and functions to facillitate the use of Kahan summation by feeding f256 terms into a Kahan accumulator using Neumaier's algorithm
 #[derive(Debug, Clone, Copy, Default)]
 pub struct KahanF256 {
+    pub sum: Float256,
+    pub compensation: Float256,
     // add implementation code here
 }
 impl KahanF256 {
