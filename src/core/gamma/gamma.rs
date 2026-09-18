@@ -9,9 +9,7 @@ pub mod gamma {
     // approximation for complex numbers.
     pub fn spouge(z: Complex256, a: usize) -> Result<String, MathError> {
         let result = spouge_c256(z, a)?;
-        let result_re_str = result.re.to_string();
-        let result_im_str = result.im.to_string();
-        Ok(format!("{} + {}", result_re_str, result_im_str))
+        Ok(format!("{} + {}", result.re, result.im))
     }
 
     // Create a function to perform implementation of Spouge's approximation for the gamma function
