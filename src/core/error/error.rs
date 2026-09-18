@@ -37,7 +37,7 @@ pub mod error {
         pub fn error(a: u64) -> Option<Self> {
             let parameter = "a";
             let min = 2;
-            let max = 100; // an arbitrarily chosen value which can later be changed if necessary
+            let max = 200; // an arbitrarily chosen value which can later be changed if necessary
 
             if a < min || a > max {
                 Some(Self::new(parameter, min, max))
