@@ -157,12 +157,17 @@ fn spouge_api_returns_parameter_out_of_range_for_small_a() {
 fn spouge_api_still_supports_successful_coefficient_paths() {
     let gamma_of_one = spouge_c256(c256(1.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
     let reciprocal_gamma_of_one = rspouge_c256(c256(1.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
+    let gamma_string = root_spouge(c256(1.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
 
     assert_complex_close(gamma_of_one, c256(1.0, 0.0), Float256::from(1e-15));
     assert_complex_close(
         reciprocal_gamma_of_one,
         c256(1.0, 0.0),
         Float256::from(1e-15),
+    );
+    assert_eq!(
+        gamma_string,
+        format!("{} + {}", gamma_of_one.re, gamma_of_one.im)
     );
 }
 
