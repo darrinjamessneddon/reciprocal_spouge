@@ -50,34 +50,32 @@ pub mod shared {
             .collect();
         coefficients
     }
-}
+    /// Add structs and functions to facillitate the use of Kahan summation by feeding f256 terms into a Kahan accumulator using Neumaier's algorithm
+    #[derive(Debug, Clone, Copy, Default)]
+    pub struct KahanF256 {
+        pub kahan_sum: Float256,
+        pub compensation: Float256,
+    }
 
-/// Add structs and functions to facillitate the use of Kahan summation by feeding f256 terms into a Kahan accumulator using Neumaier's algorithm
-#[derive(Debug, Clone, Copy, Default)]
-pub struct KahanF256 {
-    pub kahan_sum: Float256,
-    pub compensation: Float256,
-    // add implementation code here
-}
-impl KahanF256 {
-    /// Creates a new compensated accumulator initialized to zero.
-pub fn new(kahan_sum: Float256, compensation: Float256) -> Self {
-    KahanF256{kahan_sum, compensation}
-    }
-}
-/// Code to feed a new f256 term into the accumulator using Neumaier's algorithm.
-pub fn add(&mut self, term: Float256) -> Self {
-    let mut kahan_sum = Float256::from(0.0);
-    let mut compensation = Float256::from(0.0);
-    let mut terms = vec::new();
-    for i in 0..terms.len() {
-        let  mut t = kahan_sum + terms[i];
-        if kahan_sum.abs() >= terms[i] {
-            compensation += (kahan_sum - t) + terms[i]
-        } else {
-            compensation += (terms[i] - t) + kahan_sum
+    impl KahanF256 {
+        /// Creates a new compensated accumulator initialized to zero.
+        pub fn new(kahan_sum: Float256, compensation: Float256) -> Self {
+            Self {
+                kahan_sum,
+                compensation,
+            }
         }
-        kahan_sum = t
+
+        /// Code to feed a new f256 term into the accumulator using Neumaier's algorithm.
+        pub fn add(&mut self, term: Float256) -> Self {
+            let sum = self.kahan_sum + term;
+            if self.kahan_sum.abs() >= term.abs() {
+                self.compensation += (self.kahan_sum - sum) + term;
+            } else {
+                self.compensation += (term - sum) + self.kahan_sum;
+            }
+            self.kahan_sum = sum;
+            *self
+        }
     }
-    return kahan_sum + compensation
 }
