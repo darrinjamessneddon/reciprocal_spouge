@@ -10,9 +10,7 @@ pub mod rgamma {
     // that is then converted to a string and returned.
     pub fn rspouge(z: Complex256, a: usize) -> Result<String, MathError> {
         let result = rspouge_c256(z, a)?;
-        let result_re_str = result.re.to_string();
-        let result_im_str = result.im.to_string();
-        Ok(format!("{} + {}", result_re_str, result_im_str))
+        Ok(result.to_string())
     }
 
     // Create a function to approximate the gamma function using a re-arranged version of the Spouge approximation
