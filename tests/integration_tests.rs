@@ -167,7 +167,7 @@ fn spouge_api_still_supports_successful_coefficient_paths() {
     );
     assert_eq!(
         gamma_string,
-        format!("{} + {}", gamma_of_one.re, gamma_of_one.im)
+        format!("{} + {}i", gamma_of_one.re, gamma_of_one.im)
     );
 }
 
