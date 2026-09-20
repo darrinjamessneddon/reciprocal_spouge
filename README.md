@@ -1,6 +1,6 @@
 **reciprocal_spouge**
 
-Welcome and thank you for taking an interest in this project. The original (unpublished) repository for this project was deleted, and the project re-built from scratch. I humbly apologise for any inconvenience this may have caused you.
+Welcome and thank you for taking an interest in this project. 
 
 This project aims create a library for f256 numbers and also a library of special functions including the reciprocal gamma, gamma, and log-gamma functions in the complex plane. These two sub-libraries have been bundled together as a single library crate.
 
@@ -10,9 +10,7 @@ A major early goal was to use  re-arranged form of the Spouge approximation to c
 
 This project is still very much a work in progress. At this point in time (the lngamma (log_gamma) submodule is yet to be created), and the error-handling module has a lot of work to be done on it.
 
-This is a library created using Rust programming language because it is a language renowned for memory safety and concurrency.
-
-The library uses the Spouge approximation because it is numerically stable.
+It might be the case that the scope of the project may need to be broadened if the spouge, or reciprocal spouge functions do not give enough precision. If this is the case other ways to compute the gamma and reciprocal gamma function may need to be included to give users of this library more options.
 
 The library is built on top of the f256 crate, and deals with special functions including the reciprocal gamma, gamma and log-gamma functions in the complex plane.
 
@@ -22,17 +20,7 @@ The Spouge approximation takes two inputs: the value for some complex number z, 
 
 Complex256 struct in containing a number of public functions:
 
-* {add, sub, mul, div} // standard arithmetical operations.
-* {abs, arg, conj, magnitude}
-* powc // z raised to complex power.
-* powi // z raised to integer power.
-* powf // z raised to non-whole number power.
-* exp // e raised to the power of z.
-* ln // natural logarithm of z
-* log10 // log10 logarithm of z.
-* recip // reciprocal of z.
-* sqrt // square root of z.
-* {sin, cos, tan} // sine, cosine and tangent of z.
+add, sub, mul, div, abs, arg, conj, magnitude, powc, powi, powf, exp, ln , log10, recip, sqrt, sin, cos, tan.
 
 **Functions for computing special functions:
 
@@ -72,7 +60,7 @@ in fn main() add:
 
     let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
 
-    let a = 10;
+    let a = 80_usize; // Can use a lower value if desired.
 
     let gamma = spouge(z, a).expect("valid Spouge parameter");
 
@@ -100,17 +88,7 @@ in fn main() add:
 
     cargo build
  
-in the Cargo.toml file add the following:
-
-    reciprocal_spouge = { git = https://github.com/darrinjamessneddon/reciprocal_spouge }
-
-    f256 = "0.11.2"
-
-in the main.rs file add the following:
- 
-    use reciprocal_spouge::{Complex256, ComplexOps};
- 
-    use f256::f256 as Float256;
+* add the dependencies to the Cargo.toml file in the same way as shown above.
 
 in fn main() add:
   
