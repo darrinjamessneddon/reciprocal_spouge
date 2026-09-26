@@ -1,7 +1,5 @@
 pub mod rgamma {
-    use crate::MathError;
-    use crate::core::complex::complex::complex::{Complex256, ComplexOps};
-    use crate::core::shared::shared::shared::spouge_coefficients;
+    use crate::core::{Complex256, ComplexOps, MathError, spouge_coefficients};
     use f256::consts::PI;
     use f256::f256 as Float256;
 
@@ -37,9 +35,8 @@ pub mod rgamma {
         {
             return Ok(Complex256::new(Float256::from(0.0), Float256::from(0.0)));
         }
-        // Handle the case for negative non-integer values where the imaginary part is non-zero
-        // use the reflection formula: gamma(z) = pi / (sin(pi * z) * gamma(1 - z))
-        if z.re < Float256::from(0.0) && z.im != Float256::from(0.0) {
+        // Handle negative non-integer inputs via the reflection formula.
+        if z.re < Float256::from(0.0) {
             let pi = PI;
             let pi_complex = Complex256::new(pi, Float256::from(0.0));
             let sin_pi_z = (pi_complex.mul(z)).sin();

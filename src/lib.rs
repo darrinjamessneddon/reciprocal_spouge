@@ -80,4 +80,4 @@ pub use core::{
 // gamma: a submodule holding the spouge approximation of the gamma function.
 // rgamma: a submodule holding a spouge-based implementation of the reciprocal gamma function.
 // error: a submodule providing error handling for the library (this is far from complete, and may need to be completely reworked).
-// lngamma: a submodule holding an implementation of the natural logarithm of the gamma function. (This has not yet been started).
+// lngamma: a submodule holding an implementation of the natural logarithm of the gamma function.
