@@ -89,7 +89,10 @@ pub mod error {
 
         #[test]
         fn parameter_out_of_range_error_only_rejects_values_below_minimum() {
-            assert_eq!(ParameterOutOfRangeError::error(1), Some(ParameterOutOfRangeError::new("a", 2)));
+            assert_eq!(
+                ParameterOutOfRangeError::error(1),
+                Some(ParameterOutOfRangeError::new("a", 2))
+            );
             assert_eq!(ParameterOutOfRangeError::error(2), None);
             assert_eq!(ParameterOutOfRangeError::error(200), None);
             assert_eq!(ParameterOutOfRangeError::error(u64::MAX), None);
