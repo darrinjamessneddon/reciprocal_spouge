@@ -8,7 +8,7 @@ This project was started because there are limits to the precision that can be a
 
 A major early goal was to use  re-arranged form of the Spouge approximation to compute the reciprocal gamma function, because it is a function that has no poles or singularities, and is analytic everywhere. Yet it was necessary to have a gamma function to compare its output with for testing purposes. So for this reason, the goals of the project were expanded to facilitate the calculation of other special functions.
 
-This project is still very much a work in progress. At this point in time (the lngamma (log_gamma) submodule is yet to be created), and the error-handling module has a lot of work to be done on it.
+This project is still very much a work in progress, and the error-handling module has a lot of work to be done on it.
 
 It might be the case that the scope of the project may need to be broadened if the spouge, or reciprocal spouge functions do not give enough precision. If this is the case other ways to compute the gamma and reciprocal gamma function may need to be included to give users of this library more options.
 
@@ -32,7 +32,7 @@ spouge(z, a): takes a complex number, z, and a parameter 'a' with an integer val
 
 spouge_c256(z, a): does the same thing but returns `Result<Complex256, MathError>` so that coefficient and range errors can be handled explicitly.
 
-// A log-gamma function is yet to be created.
+ln_gamma(z, a): returns `Result<Complex256, MathError>` for the principal-branch natural logarithm of the gamma function away from poles.
 
 // Coefficient-dependent Spouge APIs now return Result values and report invalid parameters with MathError.
 

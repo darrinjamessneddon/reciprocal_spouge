@@ -3,6 +3,8 @@ pub mod complex {
     use f256::f256 as Float256;
     use num_complex::Complex64;
 
+    use crate::ParseError;
+
     #[derive(Debug, Clone, Copy, PartialEq)]
     pub struct Complex256 {
         pub re: Float256,
@@ -40,22 +42,7 @@ pub mod complex {
         }
         #[allow(clippy::inherent_to_string_shadow_display)]
         pub fn from_string(s: &str) -> Option<Self> {
-            let s = s.trim();
-            if !s.ends_with(')') {
-                return None;
-            }
-            let s = &s[..s.len() - 1];
-            let parts: Vec<&str> = s.split('+').collect();
-            if parts.len() != 2 {
-                return None;
-            }
-            let re = parts[0].trim().parse::<Float256>().ok()?;
-            let im = parts[1]
-                .trim()
-                .trim_end_matches('i')
-                .parse::<Float256>()
-                .ok()?;
-            Some(Complex256 { re, im })
+            s.parse().ok()
         }
 
         fn checked_mul(self, other: Self) -> Option<Self> {
@@ -388,25 +375,35 @@ pub mod complex {
     }
 
     impl std::str::FromStr for Complex256 {
-        type Err = String;
+        type Err = ParseError;
         fn from_str(s: &str) -> Result<Self, Self::Err> {
             let s = s.trim();
-            if !s.ends_with('i') {
-                return Err("Invalid complex number format".to_string());
-            }
-            let s = &s[..s.len() - 1];
-            let parts: Vec<&str> = s.split('+').collect();
-            if parts.len() != 2 {
-                return Err("Invalid complex number format".to_string());
-            }
-            let re = parts[0]
+            let s = s
+                .strip_prefix('(')
+                .and_then(|value| value.strip_suffix(')'))
+                .unwrap_or(s);
+            let body = s
+                .strip_suffix('i')
+                .ok_or(ParseError::InvalidFormat)?
+                .trim();
+
+            let (re_str, im_str, imag_sign) = if let Some((re, im)) = body.rsplit_once(" + ") {
+                (re, im, Float256::from(1.0))
+            } else if let Some((re, im)) = body.rsplit_once(" - ") {
+                (re, im, Float256::from(-1.0))
+            } else {
+                return Err(ParseError::InvalidFormat);
+            };
+
+            let re = re_str
                 .trim()
                 .parse::<Float256>()
-                .map_err(|_| "Invalid real part".to_string())?;
-            let im = parts[1]
+                .map_err(|_| ParseError::InvalidFormat)?;
+            let im = im_str
                 .trim()
                 .parse::<Float256>()
-                .map_err(|_| "Invalid imaginary part".to_string())?;
+                .map_err(|_| ParseError::InvalidFormat)?
+                * imag_sign;
             Ok(Complex256 { re, im })
         }
     }
@@ -415,6 +412,7 @@ pub mod complex {
     mod tests {
         use super::{Complex256, ComplexComparisons};
         use f256::f256 as Float256;
+        use std::str::FromStr;
 
         fn c256(re: f64, im: f64) -> Complex256 {
             Complex256::from_f64(re, im)
@@ -466,6 +464,25 @@ pub mod complex {
             assert!(!c256(0.002, 1.0).is_i(tol));
             assert!(!c256(2.0, 0.002).is_real(tol));
             assert!(!c256(0.000_5, 0.000_5).is_imaginary(tol));
+        }
+
+        #[test]
+        fn parsing_round_trips_display_output_for_positive_and_negative_imaginary_parts() {
+            let positive = c256(3.5, 4.25);
+            let negative = c256(-3.5, -4.25);
+
+            assert_eq!(
+                Complex256::from_str(&positive.to_string()).ok(),
+                Some(positive)
+            );
+            assert_eq!(
+                Complex256::from_str(&negative.to_string()).ok(),
+                Some(negative)
+            );
+            assert_eq!(
+                Complex256::from_string(&format!("({})", negative)),
+                Some(negative)
+            );
         }
     }
 }

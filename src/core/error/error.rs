@@ -3,6 +3,7 @@ pub mod error {
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub enum MathError {
         ParameterOutOfRange,
+        Pole,
         DivisionByZero,
         Overflow,
         Underflow,
@@ -12,6 +13,7 @@ pub mod error {
         pub fn message(&self) -> &'static str {
             match self {
                 Self::ParameterOutOfRange => "Parameter 'a' is out of range",
+                Self::Pole => "Function is undefined at this pole",
                 Self::DivisionByZero => "Attempted division by zero",
                 Self::Overflow => "Arithmetic overflow",
                 Self::Underflow => "Arithmetic underflow",
