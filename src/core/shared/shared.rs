@@ -11,22 +11,6 @@ pub mod shared {
         (1..=n).fold(BigUint::from(1_u8), |acc, value| acc * BigUint::from(value))
     }
 
-    // Create a context for high-precision arithmetic
-    use astro_float::{BigFloat, Consts, RoundingMode, ctx::Context};
-    pub fn create_context() -> Context {
-        let target_precision = 476; // To match a true 512-bit precision
-        // Add guard digits to ensure precision
-        let working_precision = target_precision + 128; // Total 604 bits
-        let ctx = Context::new(
-            working_precision,
-            RoundingMode::ToEven,
-            Consts::new().expect("Failed to create mathematicall constants"),
-            -(GUARD_DIGITS as i32),
-            GUARD_DIGITS as i32,
-        );
-        ctx
-    }
-
     /// Compute the Spouge coefficients for a given parameter 'a'. The coefficients are used in Spouge's approximation of the gamma function.
     /// allow for error handling by returning a Result type, which can either be Ok with the coefficients
     /// or Err with a MathError describing the error.
