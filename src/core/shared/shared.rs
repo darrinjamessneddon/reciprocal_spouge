@@ -79,6 +79,151 @@ pub mod shared {
         }
     }
 
+    use astro_float::{BigFloat, Consts, RoundingMode, ctx::Context};
+    pub fn create_context() -> Context {
+        let target_precision = 476; // To match a true 512-bit precision
+        let ctx = Context::new(
+            working_precision,
+            RoundingMode::ToEven,
+            Consts::new(),
+            -(GUARD_DIGITS as i32),
+            GUARD DIGITS as i32,
+        );
+        ctx
+    }
+
+    pub fn create_consts(ctx: &Context) -> Consts {
+        let _ = ctx;
+        Consts::new()
+    }
+
+    pub const TARGET_PRECISION: usize = 476; // TO match a true 512-bit precision
+    pub const WORKING_PRECISION: usize: usize = TARGET_PRECISION + 128; // Total 604 bits
+    pub const GUARD_DIGITS: usize = 128; // Number of guard digits added to the target precision
+
+    pub fn create_context_and_consts() -> (Context, COnsts) {
+        let ctx = create_context();
+        let consts = create_consts(&ctx);
+        (ctx, consts)
+    }
+
+    pub fn precomputed_bigfloat_spouge_coefficients(a: usize) -> Vec<BigFloat> {
+        let ctx = create_context();
+        let mut consts = create_consts(&ctx);
+        // Compute tau as 2pi using the mathematical constants object
+        let two = BigFloat::from(2u32);
+        let pi = consts.pi(WORKING_PRECISION, RoundingMode::ToEven);
+        let tau_lib = two.mul(&pi, WORKING_PRECISION, RoundingMode::ToEven);
+        // Compute the square root as exp(log(x) / 2), since this version of astro-float
+        // does not provide a general `pow` method on `Context`.
+        let tau_log = tau_lib.ln(
+            WORKING_PRECISION,
+            RoundingMode::ToEven,
+            &mut consts,
+        );
+        let tau_log_half = tau_log.mul(
+            &BigFloat::from(0.5),
+            WORKING_PRECISION,
+            RoundingMode::ToEven,
+        );
+        let tau_sqrt = tau_log_half.exp(
+            WORKING_PRECISION,
+            RoundingMode::ToEven,
+            &mut consts,
+        );
+        let coefficients: Vec<BigFloat> = (0..a).into_par_iter().map(|k| {
+            let mut local_consts = Consts::new();
+            if k == 0 {
+                tau_sqrt.clone()
+            } else {
+                let sign = if k % 2 == 0 {
+                    -BigFloat::from(1u32)
+                } else {
+                    BigFloat::from(1u32)
+                };
+                let k_big = BigFloat::from(k as u32);
+                let a_big = BigFloat::from(a as u32);
+                let a_minus_k = a_big.sub(
+                    &k_big,
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                );
+                let k_big_minus_half = k_big.sub(
+                    &BigFloat::from(0.5),
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                );
+                let a_minus_k_ln = a_minus_k_ln(
+                    WORKING_PRECISION,
+                    ROUNDING_MODE::ToEven,
+                    &mut consts,
+                );
+                let pow_exponent = a_minus_k_ln.mul(
+                    &k_big_minus_half,
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                );
+                let pow_term = pow_exponent.exp(
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                    &mut local_consts,
+                );
+                let exp_term = a_minus_k.exp(
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                    &mut local_consts,
+                );
+                let mut fact_big = BigFloat::from(1u32);
+                for i in 2..=(k - 1) {
+                    fact_big = fact_big.mul(
+                        &BigFloat::from(i as u32),
+                        WORKING_PRECISION,
+                        RoundingMode::ToEven,
+                    );
+                }
+                let product = pow_term.mul(
+                    &exp_term,
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                );
+                let numerator = sign.mul(
+                    &product,
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                );
+                let coefficient = numerator.div(
+                    &fact_big,
+                    WORKING_PRECISION,
+                    RoundingMode::ToEven,
+                );
+                coefficient
+            }
+        }).collect();
+        coefficients
+    }
+
+    pub fn precomputed_coefficients(a: usize) -> Vec<Float256> {
+        let coefficients = precomputed_bigfloat_spouge_coefficients(a);
+        coefficients
+            .iter()
+        .map(|c| {
+            c.to_string()
+                .parse::<Float256>()
+        })
+        .collect()
+    }
+    // For testing processes we should be able to compute these precomputed coefficients as a string
+    pub fn precomputed_coefficients_str(a: usize) -> Vec<String> {
+        let result = precomputed_coefficients(a);
+        result.iter().map(|c| c.to_string()).collect()
+    }
+
+    
+
+        
+            
+                
+
     #[cfg(test)]
     mod tests {
         use super::*;
