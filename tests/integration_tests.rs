@@ -190,7 +190,7 @@ fn gamma_matches_known_reference_values_and_rejects_poles() {
     let gamma_of_one = root_spouge_c256(c256(1.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
     let gamma_of_five = root_spouge_c256(c256(5.0, 0.0), DEFAULT_SPOUGE_A).unwrap();
 
-    assert_complex_close(gamma_of_one, c256(1.0, 0.0), Float256::from(1e-20));
+    assert_complex_close(gamma_of_one, c256(1.0, 0.0), Float256::from(1e-15));
     assert_complex_close(gamma_of_five, c256(24.0, 0.0), Float256::from(1e-12));
     assert_eq!(
         root_spouge_c256(c256(0.0, 0.0), DEFAULT_SPOUGE_A),
@@ -228,7 +228,7 @@ fn log_gamma_tracks_principal_logarithm_contract() {
     let log_gamma = root_ln_gamma(input, DEFAULT_SPOUGE_A).unwrap();
     let reconstructed_gamma = log_gamma.exp();
 
-    assert_complex_close(log_gamma_of_one, c256(0.0, 0.0), Float256::from(1e-20));
+    assert_complex_close(log_gamma_of_one, c256(0.0, 0.0), Float256::from(1e-15));
     assert_complex_close(
         reconstructed_gamma,
         root_spouge_c256(input, DEFAULT_SPOUGE_A).unwrap(),

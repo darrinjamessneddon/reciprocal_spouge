@@ -382,10 +382,7 @@ pub mod complex {
                 .strip_prefix('(')
                 .and_then(|value| value.strip_suffix(')'))
                 .unwrap_or(s);
-            let body = s
-                .strip_suffix('i')
-                .ok_or(ParseError::InvalidFormat)?
-                .trim();
+            let body = s.strip_suffix('i').ok_or(ParseError::InvalidFormat)?.trim();
 
             let (re_str, im_str, imag_sign) = if let Some((re, im)) = body.rsplit_once(" + ") {
                 (re, im, Float256::from(1.0))
