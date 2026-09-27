@@ -268,5 +268,41 @@ pub mod shared {
                 Float256::from(0.0),
             );
         }
+
+        #[test]
+        fn precomputed_bigfloat_coefficients_cover_shape_and_sign_invariants() {
+            let sqrt_two_pi_lower_bound = BigFloat::from(2.506_f64);
+            let sqrt_two_pi_upper_bound = BigFloat::from(2.507_f64);
+            for a in [2_usize, 5, 12, 25] {
+                let coefficients = precomputed_bigfloat_spouge_coefficients(a);
+                assert_eq!(coefficients.len(), a);
+                let coefficient_zero = &coefficients[0];
+                let lower_bound_cmp = coefficient_zero.cmp(&sqrt_two_pi_lower_bound);
+                let upper_bound_cmp = coefficient_zero.cmp(&sqrt_two_pi_upper_bound);
+                assert!(matches!(lower_bound_cmp, Some(value) if value > 0));
+                assert!(matches!(upper_bound_cmp, Some(value) if value < 0));
+
+                for (index, coefficient) in coefficients.iter().enumerate().skip(1) {
+                    if index % 2 == 1 {
+                        assert!(coefficient.is_positive());
+                    } else {
+                        assert!(coefficient.is_negative());
+                    }
+                }
+            }
+        }
+
+        #[test]
+        fn precomputed_coefficients_for_twenty_five_are_finite() {
+            let coefficients_result = precomputed_coefficients(25);
+            let coefficients = match coefficients_result {
+                Ok(value) => value,
+                Err(error) => panic!("unexpected conversion error: {error:?}"),
+            };
+            assert_eq!(coefficients.len(), 25);
+            for coefficient in coefficients {
+                assert!(coefficient.is_finite());
+            }
+        }
     }
 }
