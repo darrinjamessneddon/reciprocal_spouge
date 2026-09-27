@@ -52,7 +52,8 @@ Code submissions require review from a maintainer. We may ask for changes, refac
 * API Guidelines: As a contributor you are encouraged to align with the Rust API Guidelines for idiomatic naming and design.
 
 ## Getting Help
-// TODO
+[![Zulip Chat](https://shields.io)](https://zulipchat.com)
+
 
 ## Additional Resources
 1. Google AI
