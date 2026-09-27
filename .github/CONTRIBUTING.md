@@ -52,6 +52,7 @@ Code submissions require review from a maintainer. We may ask for changes, refac
 * API Guidelines: As a contributor you are encouraged to align with the Rust API Guidelines for idiomatic naming and design.
 
 ## Getting Help
+Help is available through Zulip Chat, simply click the link below:
 [![Zulip Chat](https://shields.io)](https://reciprocal-spouge.zulipchat.com)
 
 
