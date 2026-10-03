@@ -79,7 +79,7 @@ pub mod shared {
         }
     }
 
-    use astro_float::{BigFloat, Consts, RoundingMode, ctx::Context};
+    use astro_float::{ctx::Context, BigFloat, Consts, RoundingMode};
     use rayon::prelude::*;
 
     pub const TARGET_PRECISION: usize = 476; // TO match a true 512-bit precision
