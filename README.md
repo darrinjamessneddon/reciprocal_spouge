@@ -9,7 +9,13 @@ This rust library is to allow the accurate computation of the gamma function, th
 
 ## Prerequisites & requirements
 
-
+- Rust and Cargo installed
+- A supported stable Rust toolchain
+- Internet access to download crate dependencies
+- This library depends on `f256`, `astro_float`, and `rayon`
+- For testing, `proptest` is used
+- The project is still under active development and is not yet production-ready
+  
 ## Installation:
 
 ## Usage Examples
