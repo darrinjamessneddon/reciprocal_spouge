@@ -1,13 +1,13 @@
-**CONTRIBUTING GUIDELINES**
+# CONTRIBUTING GUIDELINES
 
 Thank you for contributing to reciprocal_spouge! We welcome contributions from developers of all experience levels- whether it's a bug fix, testing, a new feature, or improvements to documentation.
 
-**Code of Conduct**
+## Code of Conduct
 
 This project abides by the Contributor Covenant Code of Conduct.
 By participating in this project, you agree to abide by the terms of the `[CODE_OF_CONDUCT.md]`. Please be respectful and collaborative.
 
-**How to Suggest New Features**
+## How to Suggest New Features
 
 1. Search Existing Issues: Check if the feature has already been suggested by someone else.
 2. Open a Feature Request: Use our "Feature Request" issue template to describe:
@@ -33,7 +33,6 @@ Before submitting, please take the following steps:
 
 [Join our Zulip Chat]
 https://reciprocal-spouge.zulipchat.com/join/542cjcee57n7a46r6tkbgud7/
-
 
 ## Additional Resources
 1. Google AI
