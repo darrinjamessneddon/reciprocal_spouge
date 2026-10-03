@@ -1,26 +1,26 @@
-##RECIPROCAL SPOUGE
+# RECIPROCAL SPOUGE
 
-#About:
+## About:
 This rust library is to allow the accurate computation of the gamma function, the reciprocal gamma function, and the natural logarithm of the gamma function with high precision and accuracy.
 
-#Badges and Visuals
+## Badges and Visuals
 
-#Table of Contents (if necessary)
+## Table of Contents (if necessary)
 
-#Prerequisites & requirements
+## Prerequisites & requirements
 
 
-#Installation:
+## Installation:
 
-#Usage Examples
+## Usage Examples
 
-#Contributing Guidelines
+## Contributing Guidelines
 
-#Getting in touch:
+## Getting in touch:
 
 [Join our Zulip Chat] https://reciprocal-spouge.zulipchat.com/join/542cjcee57n7a46r6tkbgud7/
 
-#License
+## License
 This project is licensed with the MIT License
 
 
