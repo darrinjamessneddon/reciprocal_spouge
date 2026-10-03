@@ -3,9 +3,6 @@
 ## About:
 This rust library is to allow the accurate computation of the gamma function, the reciprocal gamma function, and the natural logarithm of the gamma function with high precision and accuracy.
 
-## Badges and Visuals
-
-## Table of Contents (if necessary)
 
 ## Prerequisites & requirements
 
@@ -19,12 +16,14 @@ This rust library is to allow the accurate computation of the gamma function, th
 ## Installation:
 
 git clone https://github.com/darrinjamessneddon/reciprocal_spouge
-
-
+```cd reciprocal_spouge;```
+```cargo build```
 
 ## Usage Examples
 
 ## Contributing Guidelines
+
+Contributing guidelines are set out in the CONTRIBUTING.md
 
 ## Getting in touch:
 
