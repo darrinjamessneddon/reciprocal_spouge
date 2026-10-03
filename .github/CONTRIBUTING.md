@@ -53,7 +53,8 @@ Code submissions require review from a maintainer. We may ask for changes, refac
 
 ## Getting Help
 
-[Join our Zulip Chat](https://your-org.zulipchat.com)
+[Join our Zulip Chat]
+https://reciprocal-spouge.zulipchat.com/join/542cjcee57n7a46r6tkbgud7/
 
 
 ## Additional Resources
