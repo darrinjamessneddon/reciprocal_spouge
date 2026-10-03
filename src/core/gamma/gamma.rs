@@ -2,6 +2,19 @@ pub mod gamma {
     use crate::core::{spouge_coefficients, Complex256, ComplexOps, MathError};
     use ::f256::consts::PI;
     use f256::f256 as Float256;
+    use num_complex::Complex;
+
+    #[cfg(feature = "f256")]
+    pub type C256 = Complex<f256::f256>;
+
+    pub fn generic_gamma<T>(z: Complex<T>) -> Complex<T>
+        where
+            T: num_traits::Float + num_traits::NumCast,
+        {
+            /// Implementation fo Spouge's algorithm
+            /// Real and imaginary parts are accessed via z.re and z.im
+
+        }
 
     // Create a function to return the value of the gamma function as a string, using Spouge's
     // approximation for complex numbers.
