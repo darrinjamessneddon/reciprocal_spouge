@@ -26,30 +26,8 @@ By participating in this project, you agree to abide by the terms of the `[CODE_
 ## Development Workflow
 Before submitting, please take the following steps:
 * **Formatting:** Run `cargo fmt` to auto-format your code.
-* **Linting:** Run `cargo clippy --all-targets --all-features`
-* **Testing:** Run `cargo test`
-
-## Documentation
-1. If you add a new public API, structure or function:
-   * Document Outer Doc Comments: Document items using /// for structures, functions, and modules.
-   * Document Inner Doc Comments: Use //! at the very top of files to document crates or module-level overviews.
-   * Leverage Common Headings: Organise long text using # Examples, #Errors, or # Panics sections.
-   * Utilize Markdown Features: Write clear descriptions using standard markdown lists, paragraphs, and backticks (triple backticks) for code.
-   * Apply Intradoc Links: Link to other types using [Type] format to leverage [Rusdoc's automated link generation].
-   * Include runnable code examples in the documentation where applicable.
-   * Commit your changes with clear, descriptive commit messages.
-   * Write executable examples (doc tests): wrap code examples in standard markdown triple backticks. Ensure these code blocks are fully functional.
-2. Update your branch to the latest `main` with `git pull origin main` to open a Pull Request (PR) against our main branch.
-3. Link your PR to the approved feature request issue.
-4. Push your changes to your fork and `[create a Pull Request on Github]`
-5. Ensure your Pr description clearly states the problem solved
-
-
-## Code Review Process
-Code submissions require review from a maintainer. We may ask for changes, refactoring or further commenting or documentation if necessary.
-
-## Recommended Best Practices
-* API Guidelines: As a contributor you are encouraged to align with the Rust API Guidelines for idiomatic naming and design.
+* **Linting:** Run `cargo clippy --all-targets --all-features -- -Dwarnings`
+* **Testing:** Run `cargo test --all-features`
 
 ## Getting Help
 
