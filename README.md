@@ -18,6 +18,10 @@ This rust library is to allow the accurate computation of the gamma function, th
   
 ## Installation:
 
+git clone https://github.com/darrinjamessneddon/reciprocal_spouge
+
+
+
 ## Usage Examples
 
 ## Contributing Guidelines
