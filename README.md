@@ -18,6 +18,7 @@ This rust library is to allow the accurate computation of the gamma function, th
 
 #Getting in touch:
 
+[Join our Zulip Chat] https://reciprocal-spouge.zulipchat.com/join/542cjcee57n7a46r6tkbgud7/
 
 #License
 This project is licensed with the MIT License
