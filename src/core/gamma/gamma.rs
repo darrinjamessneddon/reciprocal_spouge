@@ -1,5 +1,5 @@
 pub mod gamma {
-    use crate::core::{Complex256, ComplexOps, MathError, spouge_coefficients};
+    use crate::core::{spouge_coefficients, Complex256, ComplexOps, MathError};
     use ::f256::consts::PI;
     use f256::f256 as Float256;
 

@@ -1,14 +1,14 @@
 use f256::f256 as Float256;
 use proptest::prelude::*;
 use reciprocal_spouge::core::{
-    Complex256, Complex256 as CoreComplex256, ComplexOps, ComplexOps as CoreComplexOps, MathError,
     ln_gamma as core_ln_gamma, rspouge as core_rspouge, rspouge_c256 as core_rspouge_c256,
-    spouge as core_spouge, spouge_c256 as core_spouge_c256, spouge_coefficients,
+    spouge as core_spouge, spouge_c256 as core_spouge_c256, spouge_coefficients, Complex256,
+    Complex256 as CoreComplex256, ComplexOps, ComplexOps as CoreComplexOps, MathError,
 };
 use reciprocal_spouge::{
-    Complex256 as RootComplex256, ComplexOps as RootComplexOps, ln_gamma as root_ln_gamma,
-    rspouge as root_rspouge, rspouge_c256 as root_rspouge_c256, spouge as root_spouge,
-    spouge_c256 as root_spouge_c256,
+    ln_gamma as root_ln_gamma, rspouge as root_rspouge, rspouge_c256 as root_rspouge_c256,
+    spouge as root_spouge, spouge_c256 as root_spouge_c256, Complex256 as RootComplex256,
+    ComplexOps as RootComplexOps,
 };
 use std::str::FromStr;
 
