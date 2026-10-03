@@ -53,6 +53,7 @@ Code submissions require review from a maintainer. We may ask for changes, refac
 
 ## Getting Help
 
+[Join our Zulip Chat](https://your-org.zulipchat.com)
 
 
 ## Additional Resources
