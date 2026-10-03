@@ -4,7 +4,7 @@
 This rust library is to allow the accurate computation of the gamma function, the reciprocal gamma function, and the natural logarithm of the gamma function with high precision and accuracy.
 
 
-## Prerequisites & requirements
+## Prerequisites & requirements:
 
 - Rust and Cargo installed
 - A supported stable Rust toolchain
@@ -12,14 +12,10 @@ This rust library is to allow the accurate computation of the gamma function, th
 - This library depends on `f256`, `astro_float`, and `rayon`
 - For testing, `proptest` is used
 - The project is still under active development and is not yet production-ready
-  
-## Installation:
 
-git clone https://github.com/darrinjamessneddon/reciprocal_spouge
+## Usage:
 
-```cd reciprocal_spouge;```
 
-```cargo build```
 
 ## Usage Examples
 
