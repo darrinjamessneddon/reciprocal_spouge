@@ -1,7 +1,6 @@
 pub mod shared {
     use core::str::FromStr;
 
-    use ::f256::consts::TAU;
     use f256::f256 as Float256;
     use num_bigint::BigUint;
 
@@ -15,36 +14,10 @@ pub mod shared {
     /// allow for error handling by returning a Result type, which can either be Ok with the coefficients
     /// or Err with a MathError describing the error.
     pub fn spouge_coefficients(a: u64) -> Result<Vec<Float256>, MathError> {
-        if a < 2 {
+        if !(2..=150).contains(&a) {
             return Err(MathError::ParameterOutOfRange);
         }
-
-        let sqrt_two_pi = TAU.sqrt();
-        let a_f256 = Float256::from(a);
-        let mut coefficients = Vec::with_capacity(a as usize);
-        coefficients.push(sqrt_two_pi);
-
-        let mut factorial_k_minus_1 = BigUint::from(1_u8);
-        for k in 1..a {
-            let k_f256 = Float256::from(k);
-            let sign = if k % 2 == 0 {
-                Float256::from(-1.0)
-            } else {
-                Float256::from(1.0)
-            };
-            let fact_f256 = Float256::from_str(&factorial_k_minus_1.to_string())
-                .map_err(|_| MathError::Overflow)?;
-            if !fact_f256.is_finite() {
-                return Err(MathError::Overflow);
-            }
-            let a_minus_k = a_f256 - k_f256;
-            let k_minus_half = k_f256 - Float256::from(0.5);
-            let pow_term = a_minus_k.powf(&k_minus_half);
-            let exp_term = a_minus_k.exp();
-            coefficients.push(sign * pow_term * exp_term / fact_f256);
-            factorial_k_minus_1 *= BigUint::from(k);
-        }
-        Ok(coefficients)
+        precomputed_coefficients(a as usize)
     }
     /// Add structs and functions to facilitate the use of Kahan summation by feeding f256 terms into a Kahan accumulator using Neumaier's algorithm
     #[derive(Debug, Clone, Copy, Default)]
@@ -202,6 +175,7 @@ pub mod shared {
     #[cfg(test)]
     mod tests {
         use super::*;
+        use ::f256::consts::TAU;
 
         fn assert_f256_close(actual: Float256, expected: Float256, tolerance: Float256) {
             let difference = (actual - expected).abs();
