@@ -1,7 +1,6 @@
 pub mod shared {
     use core::str::FromStr;
 
-    use ::f256::consts::TAU;
     use f256::f256 as Float256;
     use num_bigint::BigUint;
 
@@ -15,12 +14,10 @@ pub mod shared {
     /// allow for error handling by returning a Result type, which can either be Ok with the coefficients
     /// or Err with a MathError describing the error.
     pub fn spouge_coefficients(a: u64) -> Result<Vec<Float256>, MathError> {
-        if a < 2 || a > 150 {
+        if !(2..=150).contains(&a) {
             return Err(MathError::ParameterOutOfRange);
         }
-        let coefficients = precomputed_spouge_coefficients
-        }
-    coefficients   
+        precomputed_coefficients(a as usize)
     }
     /// Add structs and functions to facilitate the use of Kahan summation by feeding f256 terms into a Kahan accumulator using Neumaier's algorithm
     #[derive(Debug, Clone, Copy, Default)]
@@ -178,6 +175,7 @@ pub mod shared {
     #[cfg(test)]
     mod tests {
         use super::*;
+        use ::f256::consts::TAU;
 
         fn assert_f256_close(actual: Float256, expected: Float256, tolerance: Float256) {
             let difference = (actual - expected).abs();
