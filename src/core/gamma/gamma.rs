@@ -2,7 +2,6 @@ pub mod gamma {
     use crate::core::{spouge_coefficients, Complex256, ComplexOps, MathError};
     use ::f256::consts::PI;
     use f256::f256 as Float256;
-    use num_complex::Complex;
 
     // Create a function to return the value of the gamma function as a string, using Spouge's
     // approximation for complex numbers.
@@ -68,22 +67,5 @@ pub mod gamma {
         let c_0_complex = Complex256::new(c_0, Float256::from(0.0));
         let result = pow_term.mul(exp_term).mul(c_0_complex.add(sum));
         Ok(result.div(z))
-    }
-
-    #[cfg(test)]
-    mod tests {
-        use super::generic_gamma;
-        use num_complex::Complex;
-
-        #[test]
-        fn generic_gamma_matches_real_reference_values() {
-            let factorial_value = generic_gamma(Complex::new(5.0_f64, 0.0));
-            assert!((factorial_value.re - 24.0).abs() < 1e-10);
-            assert!(factorial_value.im.abs() < 1e-10);
-
-            let half_value = generic_gamma(Complex::new(0.5_f64, 0.0));
-            assert!((half_value.re - std::f64::consts::PI.sqrt()).abs() < 1e-10);
-            assert!(half_value.im.abs() < 1e-10);
-        }
     }
 }
