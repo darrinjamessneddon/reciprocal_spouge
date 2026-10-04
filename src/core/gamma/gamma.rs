@@ -2,46 +2,6 @@ pub mod gamma {
     use crate::core::{spouge_coefficients, Complex256, ComplexOps, MathError};
     use ::f256::consts::PI;
     use f256::f256 as Float256;
-    use num_complex::Complex;
-
-    pub type C256 = Complex<f256::f256>;
-
-    pub fn generic_gamma<T>(z: Complex<T>) -> Complex<T>
-    where
-        T: num_traits::Float + num_traits::NumCast,
-    {
-        let cast = |value| T::from(value).unwrap_or_else(T::nan);
-        if z.re < cast(0.5) {
-            let pi = cast(std::f64::consts::PI);
-            let one = Complex::new(T::one(), T::zero());
-            let pi_complex = Complex::new(pi, T::zero());
-            return pi_complex / ((pi_complex * z).sin() * generic_gamma(one - z));
-        }
-
-        let coefficients = [
-            676.5203681218851,
-            -1259.1392167224028,
-            771.3234287776531,
-            -176.6150291621406,
-            12.507343278686905,
-            -0.13857109526572012,
-            9.984369578019572e-6,
-            1.5056327351493116e-7,
-        ];
-        let z_minus_one = z - Complex::new(T::one(), T::zero());
-        let mut sum = Complex::new(cast(0.999_999_999_999_809_9), T::zero());
-        for (index, coefficient) in coefficients.iter().enumerate() {
-            let denominator = z_minus_one + Complex::new(cast((index + 1) as f64), T::zero());
-            sum = sum + Complex::new(cast(*coefficient), T::zero()) / denominator;
-        }
-
-        let t = z_minus_one + Complex::new(cast(7.5), T::zero());
-        let sqrt_two_pi = cast((2.0 * std::f64::consts::PI).sqrt());
-        Complex::new(sqrt_two_pi, T::zero())
-            * t.powc(z_minus_one + Complex::new(cast(0.5), T::zero()))
-            * (-t).exp()
-            * sum
-    }
 
     // Create a function to return the value of the gamma function as a string, using Spouge's
     // approximation for complex numbers.
@@ -107,22 +67,5 @@ pub mod gamma {
         let c_0_complex = Complex256::new(c_0, Float256::from(0.0));
         let result = pow_term.mul(exp_term).mul(c_0_complex.add(sum));
         Ok(result.div(z))
-    }
-
-    #[cfg(test)]
-    mod tests {
-        use super::generic_gamma;
-        use num_complex::Complex;
-
-        #[test]
-        fn generic_gamma_matches_real_reference_values() {
-            let factorial_value = generic_gamma(Complex::new(5.0_f64, 0.0));
-            assert!((factorial_value.re - 24.0).abs() < 1e-10);
-            assert!(factorial_value.im.abs() < 1e-10);
-
-            let half_value = generic_gamma(Complex::new(0.5_f64, 0.0));
-            assert!((half_value.re - std::f64::consts::PI.sqrt()).abs() < 1e-10);
-            assert!(half_value.im.abs() < 1e-10);
-        }
     }
 }
