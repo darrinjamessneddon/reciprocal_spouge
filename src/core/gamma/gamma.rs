@@ -4,45 +4,6 @@ pub mod gamma {
     use f256::f256 as Float256;
     use num_complex::Complex;
 
-    pub type C256 = Complex<f256::f256>;
-
-    pub fn generic_gamma<T>(z: Complex<T>) -> Complex<T>
-    where
-        T: num_traits::Float + num_traits::NumCast,
-    {
-        let cast = |value| T::from(value).unwrap_or_else(T::nan);
-        if z.re < cast(0.5) {
-            let pi = cast(std::f64::consts::PI);
-            let one = Complex::new(T::one(), T::zero());
-            let pi_complex = Complex::new(pi, T::zero());
-            return pi_complex / ((pi_complex * z).sin() * generic_gamma(one - z));
-        }
-
-        let coefficients = [
-            676.5203681218851,
-            -1259.1392167224028,
-            771.3234287776531,
-            -176.6150291621406,
-            12.507343278686905,
-            -0.13857109526572012,
-            9.984369578019572e-6,
-            1.5056327351493116e-7,
-        ];
-        let z_minus_one = z - Complex::new(T::one(), T::zero());
-        let mut sum = Complex::new(cast(0.999_999_999_999_809_9), T::zero());
-        for (index, coefficient) in coefficients.iter().enumerate() {
-            let denominator = z_minus_one + Complex::new(cast((index + 1) as f64), T::zero());
-            sum = sum + Complex::new(cast(*coefficient), T::zero()) / denominator;
-        }
-
-        let t = z_minus_one + Complex::new(cast(7.5), T::zero());
-        let sqrt_two_pi = cast((2.0 * std::f64::consts::PI).sqrt());
-        Complex::new(sqrt_two_pi, T::zero())
-            * t.powc(z_minus_one + Complex::new(cast(0.5), T::zero()))
-            * (-t).exp()
-            * sum
-    }
-
     // Create a function to return the value of the gamma function as a string, using Spouge's
     // approximation for complex numbers.
     pub fn spouge(z: Complex256, a: usize) -> Result<String, MathError> {
