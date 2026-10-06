@@ -1,0 +1,150 @@
+name: "🧪 Unit Test Report"
+description: "Report failing, flaky, or missing unit tests for reciprocal_spouge."
+title: "[Tests]: "
+labels: ["tests", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve test quality in `reciprocal_spouge`!
+        This project focuses on reciprocal gamma / gamma / log-gamma behavior with high precision (`f256`), so edge cases are especially useful.
+
+  - type: dropdown
+    id: report-type
+    attributes:
+      label: "Report Type"
+      description: "What kind of test issue are you reporting?"
+      options:
+        - Failing test
+        - Flaky/intermittent test
+        - Missing test coverage
+        - Incorrect expected value
+        - Regression after code change
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Summary"
+      description: "Briefly describe the test issue."
+      placeholder: "A concise description of what is failing or missing."
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-target
+    attributes:
+      label: "Function / Module Under Test"
+      description: "Which API or module is affected?"
+      placeholder: |
+        Function(s): reciprocal_gamma / gamma / log_gamma / complex helper
+        Module/file: src/<module>.rs
+        Test file: tests/<file>.rs
+    validations:
+      required: true
+
+  - type: textarea
+    id: input-values
+    attributes:
+      label: "Input Values"
+      description: "Provide exact input values used in the test."
+      placeholder: |
+        x = ...
+        z = ... (if complex)
+        feature flags = ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-vs-actual
+    attributes:
+      label: "Expected vs. Actual Result"
+      description: "Include numeric values and tolerated error bounds."
+      placeholder: |
+        Expected: ...
+        Actual: ...
+        Absolute error: ...
+        Relative error: ...
+        Tolerance used: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: "Steps to Reproduce"
+      description: "How can maintainers reproduce this locally?"
+      placeholder: |
+        1. Checkout commit/branch: ...
+        2. Run: cargo test <test_name> -- --nocapture
+        3. Observe failure...
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-output
+    attributes:
+      label: "Failure Output / Panic / Diff"
+      description: "Paste relevant output from `cargo test`."
+      render: shell
+      placeholder: |
+        thread '...' panicked at ...
+        left: ...
+        right: ...
+    validations:
+      required: false
+
+  - type: input
+    id: rust-version
+    attributes:
+      label: "Rust Version"
+      description: "Output of `rustc --version`"
+      placeholder: "rustc 1.xx.x (...)"
+    validations:
+      required: true
+
+  - type: input
+    id: cargo-version
+    attributes:
+      label: "Cargo Version"
+      description: "Output of `cargo --version`"
+      placeholder: "cargo 1.xx.x (...)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: profile
+    attributes:
+      label: "Build/Test Profile"
+      options:
+        - debug (cargo test)
+        - release (cargo test --release)
+        - both
+    validations:
+      required: false
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: "Operating System"
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: validation
+    attributes:
+      label: "Validation Checks"
+      options:
+        - label: "I have searched existing issues for similar test failures."
+          required: true
+        - label: "I can reproduce this on the latest main branch."
+          required: false
+        - label: "I included exact inputs and expected/actual numeric results."
+          required: true
