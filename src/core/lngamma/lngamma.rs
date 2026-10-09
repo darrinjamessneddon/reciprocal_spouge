@@ -494,7 +494,7 @@ pub mod lngamma {
         #[test]
         fn small_positive_reals_follow_minus_ln_x() {
             // lnGamma(x) = -ln x - gamma_E x + O(x^2)
-            let gamma_e = 0.577_215_664_901_532_9;
+            let gamma_e = std::f64::consts::EULER_GAMMA;
             for x in [1e-30_f64, 1e-20, 1e-10, 1e-6] {
                 let r = to64(loggamma(c(x, 0.0), A_REF).unwrap().re);
                 let expected = -x.ln() - gamma_e * x;
