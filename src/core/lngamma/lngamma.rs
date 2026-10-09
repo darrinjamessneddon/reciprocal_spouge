@@ -57,4 +57,11 @@ pub mod lngamma {
             .add(sum.ln())
             .sub(z.ln()))
     }
+
+    /// The function lngamma(z) computes the principal Log-Gamma function. Therefore it is necessary to add the loggamma function:
+    /// The relationship between the two functions is given by:
+    /// loggamma(z) = ln(gamma(z)) + 2 * pi * i * k(z), where k(z) is an integer that corrects for the winding number
+    pub fn loggamma(z: Complex256, a: usize) -> Result<Complex256, MathError> {
+        // add implementation code here
+    }
 }
