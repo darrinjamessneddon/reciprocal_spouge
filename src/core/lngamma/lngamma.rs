@@ -155,4 +155,79 @@ pub mod lngamma {
         }
         Ok(result)
     }
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+
+        const A: usize = 12;
+
+        // Reference values of ln(Gamma(x)) (high precision, from known closed forms).
+        const REFERENCES: [(f64, f64); 9] = [
+            (0.5, 0.572_364_942_924_700_1),
+            (1.0, 0.0),
+            (1.5, -0.120_782_237_635_245_22),
+            (2.0, 0.0),
+            (3.0, std::f64::consts::LN_2),
+            (4.0, 1.791_759_469_228_055),
+            (5.0, 3.178_053_830_347_945_8),
+            (10.0, 12.801_827_480_081_469),
+            (20.0, 39.339_884_187_199_495),
+        ];
+
+        fn assert_close(input: f64, expected: f64, actual: f64) {
+            let error = (actual - expected).abs();
+            let tolerance = 1e-9 + 1e-9 * expected.abs();
+            assert!(
+                error <= tolerance,
+                "loggamma({input}): expected {expected}, actual {actual}, error {error}"
+            );
+        }
+
+        fn real_loggamma(x: f64) -> Complex256 {
+            loggamma(Complex256::from_f64(x, 0.0), A).unwrap()
+        }
+
+        #[test]
+        fn loggamma_matches_reference_values() {
+            for (x, expected) in REFERENCES {
+                let (re, im) = real_loggamma(x).to_f64();
+                assert_close(x, expected, re);
+                assert!(im.abs() <= 1e-9, "loggamma({x}): imaginary part {im}");
+            }
+        }
+
+        #[test]
+        fn loggamma_small_positive_input() {
+            // ln(Gamma(x)) ~ -ln(x) - gamma_E * x for small x
+            let x = 1e-3;
+            let expected = 6.907_178_885_383_853; // ln(Gamma(0.001))
+            assert_close(x, expected, real_loggamma(x).to_f64().0);
+        }
+
+        #[test]
+        fn loggamma_satisfies_recurrence() {
+            for x in [0.25, 0.75, 2.5, 7.3] {
+                let lhs = real_loggamma(x + 1.0).to_f64().0;
+                let rhs = real_loggamma(x).to_f64().0 + x.ln();
+                assert_close(x, rhs, lhs);
+            }
+        }
+
+        #[test]
+        fn loggamma_rejects_poles_and_invalid_parameter() {
+            assert_eq!(
+                loggamma(Complex256::from_f64(0.0, 0.0), A),
+                Err(MathError::Pole)
+            );
+            assert_eq!(
+                loggamma(Complex256::from_f64(-2.0, 0.0), A),
+                Err(MathError::Pole)
+            );
+            assert_eq!(
+                loggamma(Complex256::from_f64(1.0, 0.0), 1),
+                Err(MathError::ParameterOutOfRange)
+            );
+        }
+    }
 }
