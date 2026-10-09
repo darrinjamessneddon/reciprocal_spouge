@@ -289,10 +289,8 @@ fn loggamma_includes_winding_number_term() {
 
     // Stirling: Im lnGamma(z) ~ Im[(z - 1/2) ln z - z] is continuous in z.
     let z = c256(1.5, 12.0);
-    let stirling_im = (1.0_f64) * (z.to_f64().1 / z.to_f64().0).atan() * 0.0
-        + (z.to_f64().0 - 0.5) * z.to_f64().1.atan2(z.to_f64().0)
-        + z.to_f64().1 * (z.to_f64().0.hypot(z.to_f64().1)).ln()
-        - z.to_f64().1;
+    let (x, y) = z.to_f64();
+    let stirling_im = (x - 0.5) * y.atan2(x) + y * x.hypot(y).ln() - y;
     let value = root_loggamma(z, DEFAULT_SPOUGE_A).unwrap().to_f64().1;
     assert!(
         (value - stirling_im).abs() < 0.1,
