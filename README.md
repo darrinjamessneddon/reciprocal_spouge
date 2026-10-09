@@ -1,7 +1,7 @@
 # RECIPROCAL SPOUGE
 
 ## About:
-This rust library is to allow the accurate computation of the gamma function, the reciprocal gamma function, and the natural logarithm of the gamma function with high precision and accuracy.
+This rust library is to allow the accurate computation of the gamma function, the reciprocal gamma function, and the log-gamma function with high precision and accuracy.
 
 
 ## Prerequisites & requirements:
