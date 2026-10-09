@@ -57,4 +57,102 @@ pub mod lngamma {
             .add(sum.ln())
             .sub(z.ln()))
     }
+
+    /// Spouge series sum `c_0 + sum_k c_k / (z + k)`.
+    fn spouge_sum(z: Complex256, coefficients: &[Float256]) -> Complex256 {
+        let mut sum = Complex256::new(coefficients[0], Float256::from(0.0));
+        for (k, &coefficient) in coefficients.iter().enumerate().skip(1) {
+            let k_complex = Complex256::new(Float256::from(k as f64), Float256::from(0.0));
+            let c_k = Complex256::new(coefficient, Float256::from(0.0));
+            sum = sum.add(c_k.div(z.add(k_complex)));
+        }
+        sum
+    }
+
+    /// Continuous log-gamma for `Re z >= 0`. The only term of the Spouge form
+    /// whose principal branch can jump is `ln(sum)`, so its argument is unwrapped
+    /// along the vertical path from `Re z` to `z`.
+    fn loggamma_right(z: Complex256, a: usize) -> Result<Complex256, MathError> {
+        let coefficients = spouge_coefficients(a as u64)?;
+        let zero = Float256::from(0.0);
+        let pi = PI;
+        let two_pi = PI + PI;
+
+        let steps = (z.to_f64().1.abs().ceil() as usize)
+            .saturating_mul(2)
+            .max(1);
+        let mut prev_arg = spouge_sum(Complex256::new(z.re, zero), &coefficients)
+            .ln()
+            .im;
+        let mut unwrapped = prev_arg;
+        let mut ln_sum = Complex256::new(zero, zero);
+        for step in 1..=steps {
+            let t = Float256::from(step as f64) / Float256::from(steps as f64);
+            let point = if step == steps {
+                z
+            } else {
+                Complex256::new(z.re, z.im * t)
+            };
+            ln_sum = spouge_sum(point, &coefficients).ln();
+            let mut delta = ln_sum.im - prev_arg;
+            if delta > pi {
+                delta -= two_pi;
+            } else if delta < -pi {
+                delta += two_pi;
+            }
+            unwrapped += delta;
+            prev_arg = ln_sum.im;
+        }
+        ln_sum.im = unwrapped;
+
+        let z_plus_a = z.add(Complex256::new(Float256::from(a as f64), zero));
+        let z_plus_half = z.add(Complex256::new(Float256::from(0.5), zero));
+        Ok(z_plus_half
+            .mul(z_plus_a.ln())
+            .sub(z_plus_a)
+            .add(ln_sum)
+            .sub(z.ln()))
+    }
+
+    /// The function lngamma(z) computes the principal Log-Gamma function. Therefore it is necessary to add the loggamma function:
+    /// The relationship between the two functions is given by:
+    /// loggamma(z) = ln(gamma(z)) + 2 * pi * i * k(z), where k(z) is an integer that corrects for the winding number
+    ///
+    /// The result is the analytic (continuous) branch of log-gamma on the plane
+    /// cut along the negative real axis, so `exp(loggamma(z)) == gamma(z)` and
+    /// the imaginary part includes the winding-number term. Poles at zero and
+    /// the negative integers return `MathError::Pole`.
+    pub fn loggamma(z: Complex256, a: usize) -> Result<Complex256, MathError> {
+        if a < 2 {
+            return Err(MathError::ParameterOutOfRange);
+        }
+
+        let max_limit = Float256::from(10000.0);
+        if z.re > max_limit || z.im > max_limit {
+            return Err(MathError::Overflow);
+        }
+        if z.re < -max_limit || z.im < -max_limit {
+            return Err(MathError::Underflow);
+        }
+
+        let zero = Float256::from(0.0);
+        if z.im == zero && z.re <= zero && z.re.fract() == zero {
+            return Err(MathError::Pole);
+        }
+
+        if z.re >= zero {
+            return loggamma_right(z, a);
+        }
+
+        // Recurrence: lnGamma(z) = lnGamma(z + n) - sum_{k<n} Log(z + k), where
+        // each principal Log is analytic off the negative real axis.
+        let n = (-z.to_f64().0).floor() as usize + 1;
+        let shifted = z.add(Complex256::new(Float256::from(n as f64), zero));
+        let mut result = loggamma_right(shifted, a)?;
+        for k in 0..n {
+            let term = z.add(Complex256::new(Float256::from(k as f64), zero));
+            result = result.sub(term.ln());
+        }
+        Ok(result)
+    }
 }

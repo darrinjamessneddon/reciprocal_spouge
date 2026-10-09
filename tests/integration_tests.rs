@@ -6,9 +6,9 @@ use reciprocal_spouge::core::{
     Complex256 as CoreComplex256, ComplexOps, ComplexOps as CoreComplexOps, MathError,
 };
 use reciprocal_spouge::{
-    ln_gamma as root_ln_gamma, rspouge as root_rspouge, rspouge_c256 as root_rspouge_c256,
-    spouge as root_spouge, spouge_c256 as root_spouge_c256, Complex256 as RootComplex256,
-    ComplexOps as RootComplexOps,
+    ln_gamma as root_ln_gamma, loggamma as root_loggamma, rspouge as root_rspouge,
+    rspouge_c256 as root_rspouge_c256, spouge as root_spouge, spouge_c256 as root_spouge_c256,
+    Complex256 as RootComplex256, ComplexOps as RootComplexOps,
 };
 use std::str::FromStr;
 
@@ -274,4 +274,30 @@ proptest! {
         assert_f256_close(product.re, Float256::from(1.0), Float256::from(1e-12));
         assert_f256_close(product.im, Float256::from(0.0), Float256::from(1e-12));
     }
+}
+
+#[test]
+fn loggamma_includes_winding_number_term() {
+    for input in [c256(2.5, 0.25), c256(1.5, 12.0), c256(-2.5, 3.0)] {
+        let value = root_loggamma(input, DEFAULT_SPOUGE_A).unwrap();
+        assert_complex_close(
+            value.exp(),
+            root_spouge_c256(input, DEFAULT_SPOUGE_A).unwrap(),
+            Float256::from(1e-9),
+        );
+    }
+
+    // Stirling: Im lnGamma(z) ~ Im[(z - 1/2) ln z - z] is continuous in z.
+    let z = c256(1.5, 12.0);
+    let (x, y) = z.to_f64();
+    let stirling_im = (x - 0.5) * y.atan2(x) + y * x.hypot(y).ln() - y;
+    let value = root_loggamma(z, DEFAULT_SPOUGE_A).unwrap().to_f64().1;
+    assert!(
+        (value - stirling_im).abs() < 0.1,
+        "{value} vs {stirling_im}"
+    );
+    assert_eq!(
+        root_loggamma(c256(-1.0, 0.0), DEFAULT_SPOUGE_A),
+        Err(MathError::Pole)
+    );
 }
