@@ -158,6 +158,20 @@ pub mod complex {
         }
 
         fn arg(self) -> Float256 {
+            // f256's atan2 returns the wrong angle when |im| == |re| (non-zero).
+            if self.re.abs() == self.im.abs() && self.re != Float256::from(0.0) {
+                let quarter = f256::consts::PI / Float256::from(4.0);
+                let angle = if self.re > Float256::from(0.0) {
+                    quarter
+                } else {
+                    quarter * Float256::from(3.0)
+                };
+                return if self.im < Float256::from(0.0) {
+                    -angle
+                } else {
+                    angle
+                };
+            }
             self.im.atan2(&self.re)
         }
 
