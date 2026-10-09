@@ -10,6 +10,6 @@ pub use error::{
     ComplexError, MathError, ParameterOutOfRangeError, ParseError, ParseResult, Result,
 };
 pub use gamma::{spouge, spouge_c256};
-pub use lngamma::ln_gamma;
+pub use lngamma::{ln_gamma, loggamma};
 pub use rgamma::{rspouge, rspouge_c256};
 pub use shared::{factorial, spouge_coefficients};

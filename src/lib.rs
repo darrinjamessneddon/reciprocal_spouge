@@ -69,7 +69,7 @@
 pub mod core;
 
 pub use core::{
-    factorial, ln_gamma, rspouge, rspouge_c256, spouge, spouge_c256, spouge_coefficients,
+    factorial, ln_gamma, loggamma, rspouge, rspouge_c256, spouge, spouge_c256, spouge_coefficients,
     Complex256, ComplexComparisons, ComplexError, ComplexOps, MathError, ParameterOutOfRangeError,
     ParseError, ParseResult, Result,
 };
