@@ -405,6 +405,60 @@ pub mod lngamma {
         }
 
         #[test]
+        fn lngamma_and_loggamma_are_stable_across_scales() {
+            for input in ["1e-30", "1e-10", "0.5", "5", "1000", "9999.5"] {
+                let z = Complex256::new(f(input), Float256::from(0.0));
+                let principal = ln_gamma(z, A_REF).unwrap();
+                let continuous = loggamma(z, A_REF).unwrap();
+                assert!(
+                    principal.re.is_finite()
+                        && principal.im.is_finite()
+                        && continuous.re.is_finite()
+                        && continuous.im.is_finite(),
+                    "non-finite output for {input}"
+                );
+                assert!(
+                    rel_err(principal.re, continuous.re) < 1e-25
+                        && rel_err(principal.im, continuous.im) < 1e-25,
+                    "ln_gamma and loggamma differ for {input}"
+                );
+            }
+
+            for input in ["-0.5", "-1.5", "-10.5"] {
+                let z = Complex256::new(f(input), Float256::from(0.0));
+                let principal = ln_gamma(z, A_REF).unwrap();
+                let continuous = loggamma(z, A_REF).unwrap();
+                assert!(
+                    principal.re.is_finite()
+                        && principal.im.is_finite()
+                        && continuous.re.is_finite()
+                        && continuous.im.is_finite(),
+                    "non-finite output for {input}"
+                );
+                let principal_gamma = principal.exp();
+                let continuous_gamma = continuous.exp();
+                let scale = principal_gamma.magnitude().max(Float256::from(1.0));
+                assert!(
+                    to64(principal_gamma.sub(continuous_gamma).magnitude() / scale) < 1e-22,
+                    "exponentials differ for {input}"
+                );
+            }
+
+            let near_zero = Complex256::new(f("1e-30"), Float256::from(0.0));
+            let twice_near_zero = Complex256::new(f("2e-30"), Float256::from(0.0));
+            let expected_delta = -Float256::from(2.0).ln();
+            for evaluate in [ln_gamma, loggamma] {
+                let first = evaluate(near_zero, A_REF).unwrap();
+                let second = evaluate(twice_near_zero, A_REF).unwrap();
+                assert!(first.re.is_finite() && second.re.is_finite());
+                assert!(
+                    to64((second.re - first.re - expected_delta).abs()) < 1e-25,
+                    "doubling a near-zero input should change log-gamma by about -ln(2)"
+                );
+            }
+        }
+
+        #[test]
         fn convergence_over_a() {
             let z = c(3.7, 0.0);
             let exact = loggamma(z, 100).unwrap();
