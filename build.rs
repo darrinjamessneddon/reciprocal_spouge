@@ -1,28 +1,25 @@
 use std::env;
-use std::fs;
-use std::path::Path;
-
 
 fn main() {
-  // Instruct cargo what to do if the value of the parameter 'a' is changed
-  println!("cargo: rerun-if-changed=build.rs");
-  const A: i32 = option_env!("SPOUGE_A").unwrap_or("100").parse().unwrap;
-  // Determine if the value of parameter 'a' is based on active Cargo features
-let a = if env_var("CARGO_FEATURE_a_25").is_ok()
-  25
-} else if env::var("CARGo_FEATURE_a_50").is_ok()
-  50
-} else if env::var("CARGO_FEATURE_a_75").is_ok()
-  75
-} else if env::var("CARGO_FEATURe_a_100").is_ok()
-  100
-} else if env::var("CARGO_FEATURE_a_125").is_ok()
-  125
-} else if env::var("CARGO_FEATURE_a_150").is_ok()
-  150
-} else {
-  100 // Default value
-}
+    println!("cargo:rerun-if-changed=build.rs");
+    println!("cargo:rerun-if-env-changed=SPOUGE_A");
 
-println!("cargo:rustc-env=SPOUGE_A = {a}");
+    // Determine the value of parameter 'a' from the active Cargo features
+    let a = if env::var("CARGO_FEATURE_A_25").is_ok() {
+        25
+    } else if env::var("CARGO_FEATURE_A_50").is_ok() {
+        50
+    } else if env::var("CARGO_FEATURE_A_75").is_ok() {
+        75
+    } else if env::var("CARGO_FEATURE_A_100").is_ok() {
+        100
+    } else if env::var("CARGO_FEATURE_A_125").is_ok() {
+        125
+    } else if env::var("CARGO_FEATURE_A_150").is_ok() {
+        150
+    } else {
+        100
+    };
+
+    println!("cargo:rustc-env=SPOUGE_A={a}");
 }
