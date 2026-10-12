@@ -4,6 +4,9 @@ use std::path::Path;
 
 
 fn main() {
+  // Instruct cargo what to do if the value of the parameter 'a' is changed
+  println!("cargo: rerun-if-changed=build.rs");
+  const A: i32 = option_env!("SPOUGE_A").unwrap_or("100").parse().unwrap;
   // Determine if the value of parameter 'a' is based on active Cargo features
 let a = if env_var("CARGO_FEATURE_a_25").is_ok()
   25
@@ -21,4 +24,5 @@ let a = if env_var("CARGO_FEATURE_a_25").is_ok()
   100 // Default value
 }
 
-
+println!("cargo:rustc-env=SPOUGE_A = {a}");
+}
