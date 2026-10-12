@@ -6,6 +6,15 @@ description = "High-precision gamma and reciprocal gamma functions using the Spo
 license = "MIT"
 repository = "https://github.com/darrinjamessneddon/reciprocal_spouge"
 readme = "README.md"
+build = "build.rs"
+
+[features]
+a_25 = []
+a_50 = []
+a_75 = []
+a_100 = []
+a_125 = []
+a_150 = []
 
 [dependencies]
 num = "0.4.3"
