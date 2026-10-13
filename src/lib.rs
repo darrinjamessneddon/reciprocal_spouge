@@ -69,9 +69,9 @@
 pub mod core;
 
 pub use core::{
-    factorial, ln_gamma, loggamma, rspouge, rspouge_c256, spouge, spouge_c256, spouge_coefficients,
-    Complex256, ComplexComparisons, ComplexError, ComplexOps, MathError, ParameterOutOfRangeError,
-    ParseError, ParseResult, Result,
+    digamma, digamma_c256, factorial, ln_gamma, loggamma, rspouge, rspouge_c256, spouge,
+    spouge_c256, spouge_coefficients, Complex256, ComplexComparisons, ComplexError, ComplexOps,
+    MathError, ParameterOutOfRangeError, ParseError, ParseResult, Result,
 };
 
 // The core module contains the following submodules:
@@ -81,3 +81,4 @@ pub use core::{
 // rgamma: a submodule holding a spouge-based implementation of the reciprocal gamma function.
 // error: a submodule providing error handling for the library (this is far from complete, and may need to be completely reworked).
 // lngamma: a submodule holding an implementation of the natural logarithm of the gamma function.
+// digamma: a submodule holding an implementation of the digamma function.

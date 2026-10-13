@@ -1,14 +1,16 @@
 use f256::f256 as Float256;
 use proptest::prelude::*;
 use reciprocal_spouge::core::{
-    ln_gamma as core_ln_gamma, rspouge as core_rspouge, rspouge_c256 as core_rspouge_c256,
-    spouge as core_spouge, spouge_c256 as core_spouge_c256, spouge_coefficients, Complex256,
-    Complex256 as CoreComplex256, ComplexOps, ComplexOps as CoreComplexOps, MathError,
+    digamma as core_digamma, digamma_c256 as core_digamma_c256, ln_gamma as core_ln_gamma,
+    rspouge as core_rspouge, rspouge_c256 as core_rspouge_c256, spouge as core_spouge,
+    spouge_c256 as core_spouge_c256, spouge_coefficients, Complex256, Complex256 as CoreComplex256,
+    ComplexOps, ComplexOps as CoreComplexOps, MathError,
 };
 use reciprocal_spouge::{
-    ln_gamma as root_ln_gamma, loggamma as root_loggamma, rspouge as root_rspouge,
-    rspouge_c256 as root_rspouge_c256, spouge as root_spouge, spouge_c256 as root_spouge_c256,
-    Complex256 as RootComplex256, ComplexOps as RootComplexOps,
+    digamma as root_digamma, digamma_c256 as root_digamma_c256, ln_gamma as root_ln_gamma,
+    loggamma as root_loggamma, rspouge as root_rspouge, rspouge_c256 as root_rspouge_c256,
+    spouge as root_spouge, spouge_c256 as root_spouge_c256, Complex256 as RootComplex256,
+    ComplexOps as RootComplexOps,
 };
 use std::str::FromStr;
 
@@ -137,6 +139,15 @@ fn flattened_reexports_preserve_access_to_existing_core_api() {
         core_ln_gamma(input, DEFAULT_SPOUGE_A).unwrap(),
         Float256::from(0.0),
     );
+    assert_complex_close(
+        root_digamma_c256(input, DEFAULT_SPOUGE_A).unwrap(),
+        core_digamma_c256(input, DEFAULT_SPOUGE_A).unwrap(),
+        Float256::from(0.0),
+    );
+    assert_eq!(
+        root_digamma(input, DEFAULT_SPOUGE_A).unwrap(),
+        core_digamma(input, DEFAULT_SPOUGE_A).unwrap(),
+    );
 }
 
 #[test]
@@ -154,6 +165,37 @@ fn spouge_api_returns_parameter_out_of_range_for_small_a() {
     );
     assert_eq!(root_spouge(input, 1), Err(MathError::ParameterOutOfRange));
     assert_eq!(root_rspouge(input, 1), Err(MathError::ParameterOutOfRange));
+    assert_eq!(root_digamma(input, 1), Err(MathError::ParameterOutOfRange));
+    assert_eq!(
+        root_digamma_c256(input, 1),
+        Err(MathError::ParameterOutOfRange)
+    );
+}
+
+#[test]
+fn digamma_submodule_and_reexports_are_accessible() {
+    let input = c256(1.5, 0.5);
+
+    // Test access via module path under core
+    let module_res_c256 =
+        reciprocal_spouge::core::digamma::digamma_c256(input, DEFAULT_SPOUGE_A).unwrap();
+    let module_res_str =
+        reciprocal_spouge::core::digamma::digamma(input, DEFAULT_SPOUGE_A).unwrap();
+
+    // Test access via module path under root
+    let root_module_res_c256 =
+        reciprocal_spouge::digamma::digamma_c256(input, DEFAULT_SPOUGE_A).unwrap();
+    let root_module_res_str = reciprocal_spouge::digamma::digamma(input, DEFAULT_SPOUGE_A).unwrap();
+
+    // Test access via root re-exports
+    let root_res_c256 = root_digamma_c256(input, DEFAULT_SPOUGE_A).unwrap();
+    let root_res_str = root_digamma(input, DEFAULT_SPOUGE_A).unwrap();
+
+    assert_eq!(root_res_str, root_res_c256.to_string());
+    assert_complex_close(root_res_c256, module_res_c256, Float256::from(0.0));
+    assert_complex_close(root_res_c256, root_module_res_c256, Float256::from(0.0));
+    assert_eq!(root_res_str, module_res_str);
+    assert_eq!(root_res_str, root_module_res_str);
 }
 
 #[test]
