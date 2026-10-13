@@ -1,3 +1,3 @@
-pub mod digamma {
-  // add code here
-}
+pub mod digamma;
+
+pub use digamma;:digamma::digamma;
