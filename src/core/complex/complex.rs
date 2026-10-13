@@ -101,6 +101,7 @@ pub mod complex {
         fn sin(self) -> Self;
         fn cos(self) -> Self;
         fn tan(self) -> Self;
+        fn cot(self) -> Self;
     }
 
     #[allow(clippy::wrong_self_convention)]
@@ -325,6 +326,8 @@ pub mod complex {
         fn tan(self) -> Self {
             self.sin().div(self.cos())
         }
+        fn cot(self) -> Self {
+            self.cos().div(self.sin())
     }
 
     impl ComplexComparisons for Complex256 {
