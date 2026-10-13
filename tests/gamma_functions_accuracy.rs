@@ -1,6 +1,7 @@
 use f256::f256 as Float256;
 use reciprocal_spouge::{
-    ln_gamma, rspouge, rspouge_c256, spouge, spouge_c256, Complex256, ComplexOps, MathError,
+    digamma_c256, ln_gamma, rspouge, rspouge_c256, spouge, spouge_c256, Complex256, ComplexOps,
+    MathError,
 };
 use std::str::FromStr;
 
@@ -40,6 +41,21 @@ fn spouge_matches_known_real_values() {
         let actual = spouge_c256(real(x), A).unwrap();
         assert_close(actual, real(expected), 1e-12, &format!("gamma({x})"));
     }
+}
+
+#[test]
+fn digamma_matches_known_values_and_reports_poles() {
+    let cases = [
+        (1.0, -0.577_215_664_901_532_9),
+        (0.5, -1.963_510_026_021_423_5),
+        (-0.5, 0.036_489_973_978_576_52),
+    ];
+    for (x, expected) in cases {
+        let actual = digamma_c256(real(x), A).unwrap();
+        assert_close(actual, real(expected), 1e-12, &format!("digamma({x})"));
+    }
+    assert_eq!(digamma_c256(real(0.0), A), Err(MathError::Pole));
+    assert_eq!(digamma_c256(real(-2.0), A), Err(MathError::Pole));
 }
 
 #[test]
