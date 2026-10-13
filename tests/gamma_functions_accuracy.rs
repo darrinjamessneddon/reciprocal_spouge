@@ -46,7 +46,7 @@ fn spouge_matches_known_real_values() {
 #[test]
 fn digamma_matches_known_values_and_reports_poles() {
     let cases = [
-        (1.0, -0.577_215_664_901_532_9),
+        (1.0, -std::f64::consts::EULER_GAMMA),
         (0.5, -1.963_510_026_021_423_5),
         (-0.5, 0.036_489_973_978_576_52),
     ];
