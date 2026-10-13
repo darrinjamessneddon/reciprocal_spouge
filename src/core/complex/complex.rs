@@ -328,6 +328,7 @@ pub mod complex {
         }
         fn cot(self) -> Self {
             self.cos().div(self.sin())
+        }
     }
 
     impl ComplexComparisons for Complex256 {
