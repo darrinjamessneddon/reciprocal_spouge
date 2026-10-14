@@ -5,6 +5,7 @@ pub mod gamma; // a submodule holding the spouge approximation of the gamma func
 pub mod lngamma; // a submodule holding an implementation of the natural logarithm of the gamma function.
 pub mod rgamma; // a submodule holding a spouge-based implementation of the reciprocal gamma function.
 pub mod shared; // a submodule providing functions that are shared between the other modules.
+pub mod trigamma; // a submodule holding an implementation of the trigamma function.
 
 pub use complex::{Complex256, ComplexComparisons, ComplexOps};
 pub use digamma::{digamma, digamma_c256};
@@ -15,3 +16,4 @@ pub use gamma::{spouge, spouge_c256};
 pub use lngamma::{ln_gamma, loggamma};
 pub use rgamma::{rspouge, rspouge_c256};
 pub use shared::{factorial, spouge_coefficients};
+pub use trigamma::{trigamma, trigamma_c256};
