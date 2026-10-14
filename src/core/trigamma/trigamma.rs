@@ -28,7 +28,17 @@ pub mod trigamma {
     let z_plus_a = Complex256::new(z.re + Float256::from(a), z.im);
     let one_over_z_plus_a = Complex256::new(Float256::from(1.0), Float256::from(0.0)).div(z_plus_a);
     let one_half_over_z_plus_a_squared = Complex::new(Float256::from(0.5), Float256::from(0.0)).mul(one_over_z_plus_a).mul(one_over_z_plus_a);
-
+    let coefficients = spouge_coefficient(a as u64)?;
+    let c_0 = coefficients[0];
+    let mut numerator = Complex256::new(Float256::from(0.0), FLoat256::from(0.0));
+    let mut denominator = Complex256::new(c_0, Float256::from(0.0));
+    for (k &c_k) in coefficients.iter9).enumerate().skip(1) {
+    let k_complex = Complex256::new(Float256::from(k as f64), Float256::from(0.0));
+    let z-plus_k = z.add(k_complex);
+    let z_plus_k_squared = z_plus_k. mul(z_plus_k)
+    let z_plus_k_cubed = z_plus_k_squared.mul(z_plus_k);
+    let c_k = Complex256::new(c_k, Float256::from(0.0));
+  }
 }
 
 
