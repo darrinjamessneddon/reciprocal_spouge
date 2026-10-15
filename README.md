@@ -1,10 +1,13 @@
 # RECIPROCAL SPOUGE
 
-## About:
-This rust library is to allow the accurate computation of the gamma function, the reciprocal gamma function, and the log-gamma function with high precision and accuracy.
+## About
+This rust library is to enable users to compute special functions with high precision and accuracy using the Spouge approximation.
 
+Functions implemented include reciprocal gamma, gamma, log-gamma, digamma and trigamma.
 
-## Prerequisites & requirements:
+The library also includes a custom struct Complex256 containing functions pertaining to complex numbers with f256 real and imaginary parts.
+
+## Prerequisites & requirements
 
 - Rust and Cargo installed
 - A supported stable Rust toolchain
@@ -13,11 +16,17 @@ This rust library is to allow the accurate computation of the gamma function, th
 - For testing, `proptest` is used
 - The project is still under active development and is not yet production-ready
 
-## Usage:
+## Installation
 
+Installation guidelines are set out in docs/INSTALLATION.md
 
+## Special Functions Usage Examples
 
-## Usage Examples
+Usage examples for the special functions mentioned above are set out in docs/SPECIAL_FUNCTIONS_USAGE.md
+
+## Complex256 Usage Examples
+
+Usage examples for the Complex256 struct are set out in docs/Complex256.md
 
 ## Contributing Guidelines
 
