@@ -26,7 +26,7 @@ Usage examples for the special functions mentioned above are set out in docs/SPE
 
 ## Complex256 Usage Examples
 
-Usage examples for the Complex256 struct are set out in docs/Complex256.md
+Usage examples for the Complex256 struct are set out in docs/Complex256_USAGE.md
 
 ## Contributing Guidelines
 
