@@ -1,6 +1,6 @@
-#SPECIAL FUNCTIONS USAGE
+# SPECIAL FUNCTIONS USAGE
 
-##The Spouge Approximation
+## The Spouge Approximation
 
 The Spouge approximation takes two variables as input, a complex number z, and a parameter "a".
 
