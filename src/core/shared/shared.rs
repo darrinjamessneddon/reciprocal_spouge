@@ -55,8 +55,8 @@ pub mod shared {
     use astro_float::{ctx::Context, BigFloat, Consts, RoundingMode};
     use rayon::prelude::*;
 
-    pub const TARGET_PRECISION: usize = 476; // TO match a true 512-bit precision
-    pub const WORKING_PRECISION: usize = TARGET_PRECISION + 128; // Total 604 bits
+    pub const TARGET_PRECISION: usize = 512; // To match at least a 512-bit precision
+    pub const WORKING_PRECISION: usize = TARGET_PRECISION + 128; // Total 640 bits
     pub const GUARD_DIGITS: usize = 128; // Number of guard digits added to the target precision
 
     pub fn create_context() -> Context {
