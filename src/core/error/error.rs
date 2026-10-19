@@ -63,27 +63,6 @@ pub mod error {
     pub type Result<T> = std::result::Result<T, MathError>;
     pub type ParseResult<T> = std::result::Result<T, ParseError>;
 
-    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub enum ComplexError {
-        DivisionByZero,
-        Overflow,
-        Underflow,
-        ParseError(ParseError),
-        OutOfRange,
-        UnknownError,
-    }
-    impl ComplexError {
-        pub fn message(&self) -> &'static str {
-            match self {
-                Self::DivisionByZero => "Attempted division by zero",
-                Self::Overflow => "Arithmetic overflow",
-                Self::Underflow => "Arithmetic underflow",
-                Self::ParseError(err) => err.message(),
-                Self::OutOfRange => "Complex number is out of range",
-                Self::UnknownError => "Unknown error",
-            }
-        }
-    }
 
     #[cfg(test)]
     mod tests {
