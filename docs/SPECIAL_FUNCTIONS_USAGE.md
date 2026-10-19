@@ -10,4 +10,19 @@ To improve the speed of computation a vector of Spouge Coefficients is pre-compu
 
 The default setting for "a" is 100, but the value can be re-set to 25, 50, 75, 125 or 150 as desired. These values have been stored in a build script.
 
+## Usage Examples
+
+let a = 150;
+
+let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
+
+let gamma = spouge(z, a).expect("valid Spouge parameter");
+
+let log_gamma_val = loggamma(z, a).expect("valid Spouge parameter");
+
+let digamma_val = digamma(z, a).expect("valid Spouge parameter");
+
+let trigamma_val = gtrigamma(z, a).expect("valid Spouge parameter");
+
+
 
