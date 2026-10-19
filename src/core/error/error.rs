@@ -48,6 +48,7 @@ pub mod error {
         InvalidFormat,
         UnexpectedCharacter,
         InvalidType,
+        ConversionFailure,
         UnknownError,
     }
     impl ParseError {
@@ -56,34 +57,13 @@ pub mod error {
                 Self::InvalidFormat => "Invalid format",
                 Self::UnexpectedCharacter => "Unexpected character",
                 Self::InvalidType => "Invalid type",
+                Self::ConversionFailure => "Conversion failure",
                 Self::UnknownError => "Unknown error",
             }
         }
     }
     pub type Result<T> = std::result::Result<T, MathError>;
     pub type ParseResult<T> = std::result::Result<T, ParseError>;
-
-    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub enum ComplexError {
-        DivisionByZero,
-        Overflow,
-        Underflow,
-        ParseError(ParseError),
-        OutOfRange,
-        UnknownError,
-    }
-    impl ComplexError {
-        pub fn message(&self) -> &'static str {
-            match self {
-                Self::DivisionByZero => "Attempted division by zero",
-                Self::Overflow => "Arithmetic overflow",
-                Self::Underflow => "Arithmetic underflow",
-                Self::ParseError(err) => err.message(),
-                Self::OutOfRange => "Complex number is out of range",
-                Self::UnknownError => "Unknown error",
-            }
-        }
-    }
 
     #[cfg(test)]
     mod tests {

@@ -14,14 +14,19 @@ pub mod complex {
         pub fn new(re: Float256, im: Float256) -> Self {
             Complex256 { re, im }
         }
+        pub fn try_to_f64(self) -> Result<(f64, f64), ParseError> {
+            let convert = |x: Float256| {
+                x.to_string()
+                    .parse::<f64>()
+                    .ok()
+                    .filter(|v| v.is_finite())
+                    .ok_or(ParseError::ConversionFailure)
+            };
+            Ok((convert(self.re)?, convert(self.im)?))
+        }
+        /// Lossy conversion; returns `NaN` components if the conversion fails.
         pub fn to_f64(self) -> (f64, f64) {
-            let re_f256 = self.re;
-            let im_f256 = self.im;
-            let re_f256_str = re_f256.to_string();
-            let im_f256_str = im_f256.to_string();
-            let re_f64 = re_f256_str.parse::<f64>().unwrap_or(0.0);
-            let im_f64 = im_f256_str.parse::<f64>().unwrap_or(0.0);
-            (re_f64, im_f64)
+            self.try_to_f64().unwrap_or((f64::NAN, f64::NAN))
         }
         pub fn from_f64(re: f64, im: f64) -> Self {
             Complex256 {
@@ -29,10 +34,14 @@ pub mod complex {
                 im: Float256::from(im),
             }
         }
+        pub fn try_to_complex64(self) -> Result<Complex64, ParseError> {
+            let (re, im) = self.try_to_f64()?;
+            Ok(Complex64::new(re, im))
+        }
+        /// Lossy conversion; returns `NaN` components if the conversion fails.
         pub fn to_complex64(self) -> Complex64 {
-            let re_f64: f64 = self.re.to_string().parse().unwrap_or(0.0);
-            let im_f64: f64 = self.im.to_string().parse().unwrap_or(0.0);
-            Complex64::new(re_f64, im_f64)
+            let (re, im) = self.to_f64();
+            Complex64::new(re, im)
         }
         pub fn from_complex64(c: Complex64) -> Self {
             Complex256 {

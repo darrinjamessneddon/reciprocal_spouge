@@ -71,7 +71,7 @@ pub mod core;
 pub use core::{
     digamma, digamma_c256, factorial, ln_gamma, loggamma, rspouge, rspouge_c256, spouge,
     spouge_c256, spouge_coefficients, trigamma, trigamma_c256, Complex256, ComplexComparisons,
-    ComplexError, ComplexOps, MathError, ParameterOutOfRangeError, ParseError, ParseResult, Result,
+    ComplexOps, MathError, ParameterOutOfRangeError, ParseError, ParseResult, Result,
 };
 
 // The core module contains the following submodules:

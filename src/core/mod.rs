@@ -9,9 +9,7 @@ pub mod trigamma; // a submodule holding an implementation of the trigamma funct
 
 pub use complex::{Complex256, ComplexComparisons, ComplexOps};
 pub use digamma::{digamma, digamma_c256};
-pub use error::{
-    ComplexError, MathError, ParameterOutOfRangeError, ParseError, ParseResult, Result,
-};
+pub use error::{MathError, ParameterOutOfRangeError, ParseError, ParseResult, Result};
 pub use gamma::{spouge, spouge_c256};
 pub use lngamma::{ln_gamma, loggamma};
 pub use rgamma::{rspouge, rspouge_c256};
