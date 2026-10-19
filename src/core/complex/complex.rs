@@ -3,7 +3,7 @@ pub mod complex {
     use f256::f256 as Float256;
     use num_complex::Complex64;
 
-    use crate::ParseError;
+    use crate::{MathError, ParseError};
 
     #[derive(Debug, Clone, Copy, PartialEq)]
     pub struct Complex256 {
@@ -54,17 +54,6 @@ pub mod complex {
             s.parse().ok()
         }
 
-        fn checked_mul(self, other: Self) -> Option<Self> {
-            let re = (self.re * other.re) - (self.im * other.im);
-            let im = (self.re * other.im) + (self.im * other.re);
-
-            if !re.is_finite() || !im.is_finite() {
-                return None;
-            }
-
-            Some(Complex256 { re, im })
-        }
-
         pub fn checked_add(self, other: Self) -> Option<Self> {
             let re = self.re + other.re;
             let im = self.im + other.im;
@@ -85,6 +74,192 @@ pub mod complex {
             }
 
             Some(Complex256 { re, im })
+        }
+
+        fn zero() -> Self {
+            Complex256::new(Float256::from(0.0), Float256::from(0.0))
+        }
+
+        fn is_exact_zero(self) -> bool {
+            self.re == Float256::from(0.0) && self.im == Float256::from(0.0)
+        }
+
+        /// Validates a component pair: infinities map to `Overflow`, `NaN` to `Pole`.
+        fn finite_or_err(re: Float256, im: Float256) -> Result<Self, MathError> {
+            if re.is_nan() || im.is_nan() {
+                Err(MathError::Pole)
+            } else if !re.is_finite() || !im.is_finite() {
+                Err(MathError::Overflow)
+            } else {
+                Ok(Complex256 { re, im })
+            }
+        }
+
+        /// Like `finite_or_err`, but a zero result from non-zero inputs is `Underflow`.
+        fn nonzero_result(self, re: Float256, im: Float256) -> Result<Self, MathError> {
+            let out = Self::finite_or_err(re, im)?;
+            if out.is_exact_zero() && !self.is_exact_zero() {
+                return Err(MathError::Underflow);
+            }
+            Ok(out)
+        }
+
+        pub fn try_add(self, other: Self) -> Result<Self, MathError> {
+            Self::finite_or_err(self.re + other.re, self.im + other.im)
+        }
+
+        pub fn try_sub(self, other: Self) -> Result<Self, MathError> {
+            Self::finite_or_err(self.re - other.re, self.im - other.im)
+        }
+
+        pub fn try_mul(self, other: Self) -> Result<Self, MathError> {
+            let terms = [
+                self.re * other.re,
+                self.im * other.im,
+                self.re * other.im,
+                self.im * other.re,
+            ];
+            if terms.iter().any(|t| t.is_infinite()) {
+                return Err(MathError::Overflow);
+            }
+            let re = terms[0] - terms[1];
+            let im = terms[2] + terms[3];
+            if other.is_exact_zero() || self.is_exact_zero() {
+                return Self::finite_or_err(re, im);
+            }
+            Self::finite_or_err(re, im)?;
+            if re == Float256::from(0.0) && im == Float256::from(0.0) {
+                return Err(MathError::Underflow);
+            }
+            Ok(Complex256 { re, im })
+        }
+
+        pub fn try_div(self, other: Self) -> Result<Self, MathError> {
+            if other.is_exact_zero() {
+                return Err(MathError::DivisionByZero);
+            }
+            let denom = other.re * other.re + other.im * other.im;
+            if !denom.is_finite() {
+                return Err(MathError::Overflow);
+            }
+            if denom == Float256::from(0.0) {
+                return Err(MathError::Underflow);
+            }
+            self.nonzero_result(
+                (self.re * other.re + self.im * other.im) / denom,
+                (self.im * other.re - self.re * other.im) / denom,
+            )
+        }
+
+        pub fn try_recip(self) -> Result<Self, MathError> {
+            Complex256::new(Float256::from(1.0), Float256::from(0.0)).try_div(self)
+        }
+
+        pub fn try_exp(self) -> Result<Self, MathError> {
+            let exp_re = self.re.exp();
+            if exp_re == Float256::from(0.0) {
+                return Err(MathError::Underflow);
+            }
+            if exp_re.is_infinite() {
+                return Err(MathError::Overflow);
+            }
+            Self::finite_or_err(exp_re * self.im.cos(), exp_re * self.im.sin())
+        }
+
+        pub fn try_ln(self) -> Result<Self, MathError> {
+            if self.is_exact_zero() {
+                return Err(MathError::Pole);
+            }
+            let mag = self.magnitude();
+            if !mag.is_finite() {
+                return Err(MathError::Overflow);
+            }
+            if mag == Float256::from(0.0) {
+                return Err(MathError::Underflow);
+            }
+            Self::finite_or_err(mag.ln(), self.arg())
+        }
+
+        pub fn try_powc(self, exp: Self) -> Result<Self, MathError> {
+            if self.is_exact_zero() {
+                return if exp.is_exact_zero() {
+                    Err(MathError::Pole)
+                } else if exp.re > Float256::from(0.0) {
+                    Ok(Self::zero())
+                } else {
+                    Err(MathError::DivisionByZero)
+                };
+            }
+            self.try_ln()?.try_mul(exp)?.try_exp()
+        }
+
+        pub fn try_powf(self, exp: Float256) -> Result<Self, MathError> {
+            self.try_powc(Complex256::new(exp, Float256::from(0.0)))
+        }
+
+        pub fn try_powi(self, exp: i32) -> Result<Self, MathError> {
+            let one = Complex256::new(Float256::from(1.0), Float256::from(0.0));
+
+            if exp == 0 {
+                return Ok(one);
+            }
+
+            let mut base = if exp < 0 { self.try_recip()? } else { self };
+            let mut n: u32 = exp.unsigned_abs();
+            let mut result = one;
+
+            while n > 0 {
+                if (n & 1) == 1 {
+                    result = result.try_mul(base)?;
+                }
+                n >>= 1;
+                if n > 0 {
+                    base = base.try_mul(base)?;
+                }
+            }
+
+            Ok(result)
+        }
+
+        pub fn try_sqrt(self) -> Result<Self, MathError> {
+            let mag = self.magnitude();
+            if !mag.is_finite() {
+                return Err(MathError::Overflow);
+            }
+            let re_sqrt = ((self.re + mag) / Float256::from(2.0)).sqrt();
+            let im_sqrt = ((mag - self.re) / Float256::from(2.0)).sqrt();
+            let im = if self.im >= Float256::from(0.0) {
+                im_sqrt
+            } else {
+                -im_sqrt
+            };
+            self.nonzero_result(re_sqrt, im)
+        }
+
+        fn try_exp_i(self, sign: f64) -> Result<Self, MathError> {
+            self.try_mul(Complex256::from_f64(0.0, sign))?.try_exp()
+        }
+
+        pub fn try_sin(self) -> Result<Self, MathError> {
+            let e_i = self.try_exp_i(1.0)?;
+            let e_neg_i = self.try_exp_i(-1.0)?;
+            e_i.try_sub(e_neg_i)?
+                .try_div(Complex256::from_f64(0.0, 2.0))
+        }
+
+        pub fn try_cos(self) -> Result<Self, MathError> {
+            let e_i = self.try_exp_i(1.0)?;
+            let e_neg_i = self.try_exp_i(-1.0)?;
+            e_i.try_add(e_neg_i)?
+                .try_div(Complex256::from_f64(2.0, 0.0))
+        }
+
+        pub fn try_tan(self) -> Result<Self, MathError> {
+            self.try_sin()?.try_div(self.try_cos()?)
+        }
+
+        pub fn try_cot(self) -> Result<Self, MathError> {
+            self.try_cos()?.try_div(self.try_sin()?)
         }
     }
 
@@ -211,36 +386,8 @@ pub mod complex {
         }
 
         fn powi(self, exp: i32) -> Self {
-            let one = Complex256 {
-                re: Float256::from(1.0),
-                im: Float256::from(0.0),
-            };
-
-            if exp == 0 {
-                return one;
-            }
-
-            let mut base = if exp < 0 { self.recip() } else { self };
-            let mut n: u32 = exp.unsigned_abs();
-            let mut result = one;
-
-            while n > 0 {
-                if (n & 1) == 1 {
-                    result = result.checked_mul(base).unwrap_or_else(|| {
-                        panic!("Complex256::powi overflow/invalid value while multiplying result by base")
-                    });
-                }
-
-                n >>= 1;
-
-                if n > 0 {
-                    base = base.checked_mul(base).unwrap_or_else(|| {
-                        panic!("Complex256::powi overflow/invalid value while squaring base")
-                    });
-                }
-            }
-
-            result
+            self.try_powi(exp)
+                .unwrap_or_else(|e| panic!("Complex256::powi failed: {}", e.message()))
         }
 
         fn exp(self) -> Self {
@@ -434,7 +581,8 @@ pub mod complex {
 
     #[cfg(test)]
     mod tests {
-        use super::{Complex256, ComplexComparisons};
+        use super::{Complex256, ComplexComparisons, ComplexOps};
+        use crate::MathError;
         use f256::f256 as Float256;
         use std::str::FromStr;
 
@@ -488,6 +636,61 @@ pub mod complex {
             assert!(!c256(0.002, 1.0).is_i(tol));
             assert!(!c256(2.0, 0.002).is_real(tol));
             assert!(!c256(0.000_5, 0.000_5).is_imaginary(tol));
+        }
+
+        #[test]
+        fn try_div_and_recip_report_division_by_zero() {
+            let zero = c256(0.0, 0.0);
+            assert_eq!(c256(1.0, 1.0).try_div(zero), Err(MathError::DivisionByZero));
+            assert_eq!(zero.try_recip(), Err(MathError::DivisionByZero));
+            assert_eq!(zero.try_powi(-1), Err(MathError::DivisionByZero));
+            assert!(c256(1.0, 0.0).try_tan().is_ok());
+        }
+
+        #[test]
+        fn try_ops_report_overflow() {
+            let big = Complex256::new(Float256::MAX, Float256::MAX);
+            assert_eq!(big.try_add(big), Err(MathError::Overflow));
+            assert_eq!(big.try_mul(big), Err(MathError::Overflow));
+            assert_eq!(c256(1e6, 0.0).try_exp(), Err(MathError::Overflow));
+            assert_eq!(c256(2.0, 0.0).try_powi(i32::MAX), Err(MathError::Overflow));
+            assert_eq!(big.try_sqrt(), Err(MathError::Overflow));
+        }
+
+        #[test]
+        fn try_ops_report_underflow() {
+            let tiny = Complex256::new(Float256::MIN_POSITIVE, Float256::from(0.0));
+            assert_eq!(tiny.try_mul(tiny), Err(MathError::Underflow));
+            assert_eq!(c256(-1e6, 0.0).try_exp(), Err(MathError::Underflow));
+        }
+
+        #[test]
+        fn try_ops_report_non_finite_inputs_and_poles() {
+            let nan = Complex256::new(Float256::NAN, Float256::from(0.0));
+            assert_eq!(nan.try_add(c256(1.0, 0.0)), Err(MathError::Pole));
+            assert_eq!(c256(0.0, 0.0).try_ln(), Err(MathError::Pole));
+            assert_eq!(
+                c256(0.0, 0.0).try_powc(c256(0.0, 0.0)),
+                Err(MathError::Pole)
+            );
+        }
+
+        #[test]
+        fn try_ops_match_unchecked_results_on_valid_input() {
+            let a = c256(1.5, -2.0);
+            let b = c256(0.5, 3.0);
+            assert_eq!(a.try_add(b), Ok(a.add(b)));
+            assert_eq!(a.try_mul(b), Ok(a.mul(b)));
+            assert_eq!(a.try_div(b), Ok(a.div(b)));
+            assert_eq!(a.try_powi(3), Ok(a.powi(3)));
+            assert_eq!(a.try_sqrt(), Ok(a.sqrt()));
+            assert_eq!(a.try_sin(), Ok(a.sin()));
+        }
+
+        #[test]
+        #[should_panic(expected = "Complex256::powi failed")]
+        fn powi_still_panics_on_overflow() {
+            let _ = c256(2.0, 0.0).powi(i32::MAX);
         }
 
         #[test]
