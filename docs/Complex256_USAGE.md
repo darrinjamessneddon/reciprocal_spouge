@@ -89,4 +89,24 @@ fn main() {
 
 ```
 
+## absolute value
+
+```rust
+use f256::f256;
 use reciprocal_spouge::{Complex256, ComplexOps);
+
+fn main() {
+    let z =
+
+}
+
+```
+
+## arg
+
+
+}
+
+```
+
+
