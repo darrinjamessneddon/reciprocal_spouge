@@ -16,13 +16,26 @@ let a = 150;
 
 let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
 
+let four_factorial = factorial(4);
+
+// Add tolerance value
+let tol = 1e-90;
+
 let gamma = spouge(z, a).expect("valid Spouge parameter");
+
+assert!(gamma =)
 
 let log_gamma_val = loggamma(z, a).expect("valid Spouge parameter");
 
+assert!(log_gamma_val = 
+
 let digamma_val = digamma(z, a).expect("valid Spouge parameter");
 
-let trigamma_val = gtrigamma(z, a).expect("valid Spouge parameter");
+assert!(digamma_val = 
+
+let trigamma_val = trigamma(z, a).expect("valid Spouge parameter");
+
+assert!(trigamma_val = 
 
 
 
