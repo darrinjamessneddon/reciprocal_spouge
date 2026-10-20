@@ -19,6 +19,8 @@ fn main() {
 }
 ```
 
+This example demonstrates subtraction of a `Complex256` value from another `Complex256` value with the `ComplexOps` trait.
+
 ## Subtraction
 
 ```rust
@@ -35,6 +37,8 @@ fn main() {
     assert_eq1(difference, expected);
 }
 ```
+
+This example demonstrates multiplication of `Complex256` values using the `ComplexOps` trait.
 
 ## Multiplication
 
@@ -53,6 +57,8 @@ fn main() {
 }
 ```
 
+This example demonstrates division of a `Complex256` value by another `Complex256` value with the `ComplexOps` trait.
+
 ## Division
 
 ```rust
@@ -69,6 +75,8 @@ fn main() {
     assert_eq!(quotient, expected);
 }
 ```
+
+This example demonstrates negation of a `Complex256` value with the `ComplexOps` trait.
 
 ## negation
 
