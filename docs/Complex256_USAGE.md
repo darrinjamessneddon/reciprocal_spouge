@@ -39,5 +39,54 @@ fn main() {
 ## multiplication
 
 ```rust
-use f256::F256 as Float256;
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z1 = Compplex256::new(Float256::from(4.0), Float256::from(6.0));
+    let z2 = Complex256::new(Float256::from(3.0), Float256::from(4.0));
+
+    let z3 = z1.mul(z2);
+
+    let expected = Complex256::new(Float256::from(-12.0), Float256::from(34.0));
+    assert!((z3 = expected);
+}
+
+```
+
+## division
+
+```rust
+use f256::f256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z1 = Complex256::new(Float256::from(-12.0), Float256::from(34.0));
+    let z2 = Complex256::new(Float256::from(3.0), Float256::from(4.0));
+
+    let z3 = z1.div(z2);
+
+    let expected = Complex256::new(Float256::from(4.0), Float::from(6.0));
+    assert!((z3 = expected);
+}
+
+```
+
+## negation
+
+```rust
+use f256::f256;
+use reciprocal_spouge::{Complex256::COmplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(4.0), Float256::from(6.0));
+
+    let z_neg = z.neg(z2);
+
+    let expected = Complex256::from(-4.0), Float256::from(-6.0));
+    assert!((z_neg = expected);
+}
+
+```
+
 use reciprocal_spouge::{Complex256, ComplexOps);
