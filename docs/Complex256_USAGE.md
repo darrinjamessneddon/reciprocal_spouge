@@ -14,6 +14,7 @@ fn main() {
 
     let z3 = z1.add(z2);
 
-    assert!(z3 == z1 + z2);
+    let expected = Complex256::new(Float256::from(4.0), Float256::from(6.0));
+    assert!(z3 == expected);
 }
 ```
