@@ -4,25 +4,53 @@
 
 The Spouge approximation takes two variables as input, a complex number z, and a parameter "a".
 
-The latter is (for our purposes) an integer between 2 and 151.
+The latter must be an integer between 2 and 150, inclusive.
 
 To improve the speed of computation a vector of Spouge Coefficients is pre-computed using the parameter "a".
 
-The default setting for "a" is 100, but the value can be re-set to 25, 50, 75, 125 or 150 as desired. These values have been stored in a build script.
+The build script sets "a" to 100 by default, with Cargo features for 25, 50, 75, 125, and 150. The functions take "a" explicitly.
 
 ## Usage Examples
 
-let a = 150;
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{
+    digamma_c256, loggamma, spouge_c256, trigamma_c256, Complex256, ComplexOps,
+};
 
-let z = Complex256::new(Float256::from(5.0), Float256::from(0.0));
+const A: usize = 25;
 
-let gamma = spouge(z, a).expect("valid Spouge parameter");
+fn assert_close(actual: Complex256, expected: Complex256, tolerance: f64) {
+    let difference = actual.sub(expected).magnitude();
+    assert!(
+        difference <= Float256::from(tolerance),
+        "expected {expected}, got {actual}, diff={difference}"
+    );
+}
 
-let log_gamma_val = loggamma(z, a).expect("valid Spouge parameter");
+fn main() {
+    let z = Complex256::from_f64(1.0, 0.0);
 
-let digamma_val = digamma(z, a).expect("valid Spouge parameter");
+    let gamma = spouge_c256(z, A).expect("valid Spouge parameter");
+    assert_close(gamma, Complex256::from_f64(1.0, 0.0), 1e-12);
 
-let trigamma_val = gtrigamma(z, a).expect("valid Spouge parameter");
+    let log_gamma_val = loggamma(z, A).expect("valid Spouge parameter");
+    assert_close(log_gamma_val.exp(), gamma, 1e-12);
 
+    let digamma_val = digamma_c256(z, A).expect("valid Spouge parameter");
+    assert_close(
+        digamma_val,
+        Complex256::from_f64(-std::f64::consts::EULER_GAMMA, 0.0),
+        1e-12,
+    );
+
+    let trigamma_val = trigamma_c256(z, A).expect("valid Spouge parameter");
+    assert_close(
+        trigamma_val,
+        Complex256::from_f64(std::f64::consts::PI.powi(2) / 6.0, 0.0),
+        1e-8,
+    );
+}
+```
 
 
