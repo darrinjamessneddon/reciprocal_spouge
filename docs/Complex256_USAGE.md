@@ -94,7 +94,43 @@ fn main() {
 }
 ```
 
+## Absolute value:
 
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let abs_z = z.abs();
+
+    let expected = 2.2360679774997896964091736687312762354406183596115252572427089724541052092;
+
+    assert_eq!(and_z, expected);
+}
+```
+
+## Conjugate
+
+```rust
+use f256::f255 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let conjugate = z.conj();
+
+    let expected = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+
+    assert_eq!(conjugate, expected);
+}
+```
+
+
+
+
+
+    
 
 
 
