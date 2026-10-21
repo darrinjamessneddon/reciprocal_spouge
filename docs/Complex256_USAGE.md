@@ -171,7 +171,49 @@ fn main() {
 }
 ```
 
+This example demonsgrates raising a `Complex256` value to the power of a `f256` value with the `ComplexOps` trait.
 
+## Powf Function
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let exponent = Float256:from("3.1415926");
+    let result = z.powf(exponent);
+
+    let expected_re_str = "-11.82646698597011528465526000285883763094322656386824274409109082964041096"
+    let expected_im_str = "-4.138850340076041866283067425612456813067533929442880780012629783710972797"
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates raising a `Complex256` value to the power of an integer (i32) with the `ComplexOps` trait.
+
+## Powi Function
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let exponent = 3;
+    let result = z.powi(exponent);
+
+    let expected = Complex256::new(Float256::from(-11.0), Float256::from(-2.0));
+
+    assert_eq!(result, expected);
+}
+```
+
+
+
+    
 
 
 
