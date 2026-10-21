@@ -94,6 +94,8 @@ fn main() {
 }
 ```
 
+This example demonstrates the absolute value of a `Complex256` value with the `ComplexOps` trait.
+
 ## Absolute value:
 
 ```rust
@@ -110,6 +112,8 @@ fn main() {
 }
 ```
 
+This example demonstrates the conjugate of a `Complex256` value with the `ComplexOps` trait.
+
 ## Conjugate
 
 ```rust
@@ -124,6 +128,45 @@ fn main() {
 
     assert_eq!(conjugate, expected);
 }
+```
+
+This example demonstrates the magnitude of a `Complex256` value with the `ComplexOps` trait.
+
+## Magnitude
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(FLoat256::from(1.0), Float256::from(2.0));
+    let mag_z = z.magnitude();
+
+    let expected = 2.23606797749978969640917366873127623544061835961152572427089724541052092;
+
+    assert_eq!(mag_z, expected);
+}
+```
+
+This example demonstrates the raising of a `Complex256` value to the power of another `Complex256` value with the `ComplexOps` trait.
+
+## Powc Function
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z1 = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let z2 = Complex256::n ew(Float256::from(3.0), Float256;:from(4.0));
+    let result = z1.powc(z2);
+
+    let expected_re_str = "0.129009594074466894077052339652447244091845464472294727770700393582527832"
+    let expected_im_str = "0.03392409290517012669761785462254790154054732022267760839965165515194522"
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+]
 ```
 
 
