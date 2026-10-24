@@ -211,6 +211,87 @@ fn main() {
 }
 ```
 
+This example demonstrates taking the exponent of a `Complex256` value with the `ComplexOps` trait.
+
+## Exponential
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let result = z.exp();
+
+    let expected_re_str = "-1.13120438375681363843125525551079471062886799582652575021772191041650193";
+    let expected_im_str = "2.47172667200481892761693089355166453273619036924100818420075883527783967";
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates taking the natural logarithm of a `Complex256` value with the `ComplexOps` trait.
+
+## Natural Logarithm
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let result = z.ln();
+
+    let expected_re_str = "0.8047189562170501873003796666130938197628006771342588609563239457370849";
+    let expected_im_str = "1.107148171779409050301706546017853704007004764540143264667653920743371034;
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(Complex_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates taking the logarithm base10 of a `Complex256` value with the `ComplexOps` trait.
+
+## Logarithm Base10
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let result = z.log10();
+
+    let expected_re_str = "0.3494850021680093694455211138700073647695012827633090226305997180333825356"
+    let expected_in_str = "0.480828578784234057373949959119329899707069251685754086023650078002816663"
+    let expected = Complex256::new(Float256::from(expected_re_str), Floa256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates taking the square root of a `Complex256` value with the `ComplexOps` traits.
+It returns one of the square roots
+
+## Square Root
+
+```rust
+
+use f256::F256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256:;from(1.0), Float256::from(2.0));
+    let result = z.sqrt();
+
+    let expected_re_str = "1.27201964951406896425242246173749149171560804184009624861664038253929758;
+    let expected_im_str = "0.78615137775742328606955858584295892952312205783772323766490197010118205;
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
 
 
     
