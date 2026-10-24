@@ -152,7 +152,7 @@ fn main() {
 
 This example demonstrates raising a `Complex256` value to the power of another `Complex256` value with the `ComplexOps` trait.
 
-## Powc Function
+## Powc
 
 ```rust
 use f256::f256 as Float256;
@@ -173,7 +173,7 @@ fn main() {
 
 This example demonsgrates raising a `Complex256` value to the power of a `f256` value with the `ComplexOps` trait.
 
-## Powf Function
+## Powf
 
 ```rust
 use f256::f256 as Float256;
@@ -184,8 +184,8 @@ fn main() {
     let exponent = Float256:from("3.1415926");
     let result = z.powf(exponent);
 
-    let expected_re_str = "-11.82646698597011528465526000285883763094322656386824274409109082964041096"
-    let expected_im_str = "-4.138850340076041866283067425612456813067533929442880780012629783710972797"
+    let expected_re_str = "-11.82646698597011528465526000285883763094322656386824274409109082964041096";
+    let expected_im_str = "-4.138850340076041866283067425612456813067533929442880780012629783710972797";
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
@@ -263,8 +263,8 @@ fn main() {
     let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
     let result = z.log10();
 
-    let expected_re_str = "0.3494850021680093694455211138700073647695012827633090226305997180333825356"
-    let expected_in_str = "0.480828578784234057373949959119329899707069251685754086023650078002816663"
+    let expected_re_str = "0.3494850021680093694455211138700073647695012827633090226305997180333825356";
+    let expected_in_str = "0.480828578784234057373949959119329899707069251685754086023650078002816663";
     let expected = Complex256::new(Float256::from(expected_re_str), Floa256::from(expected_im_str));
 
     assert_eq!(result, expected);
