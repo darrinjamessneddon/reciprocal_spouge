@@ -194,7 +194,7 @@ fn main() {
 
 This example demonstrates raising a `Complex256` value to the power of an integer (i32) with the `ComplexOps` trait.
 
-## Powi Function
+## Powi
 
 ```rust
 use f256::f256 as Float256;
@@ -265,7 +265,7 @@ fn main() {
 
     let expected_re_str = "0.3494850021680093694455211138700073647695012827633090226305997180333825356";
     let expected_in_str = "0.480828578784234057373949959119329899707069251685754086023650078002816663";
-    let expected = Complex256::new(Float256::from(expected_re_str), Floa256::from(expected_im_str));
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
@@ -277,7 +277,6 @@ It returns one of the square roots
 ## Square Root
 
 ```rust
-
 use f256::F256 as Float256;
 use reciprocal_spouge::{Complex256, ComplexOps};
 
@@ -292,6 +291,104 @@ fn main() {
     assert_eq!(result, expected);
 }
 ```
+
+This example demonstrates taking the reciprocal of a `Complex256` value with the `ComplexOps` trait.
+
+## Reciprocal
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let result = z.recip();
+
+    let expected = Complex256::new(Float256::from(0.2), Float256::from(-0.4));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates taking the sine of a `Complex256` value with the `ComplexOps` trait.
+
+## Sine
+
+```rust
+use f256;:f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let result = z.sin();
+    let expected_re_str = "3.1657785132161681467407346171919055383791107678914689322893274643048881";
+    let expected_im_str = "1.95960104142160589707035204998935827843632016018455965880190149916309425";
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates taking the sine of a `Complex256` value with the `ComplexOps` trait.
+
+## Cosine
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256;:from(1.0), Float256::from(2.0));
+    let result = z.cos();
+    let expected_re_str = "2.03272300701966552943634344849951426373199040663875238194522463491499985";
+    let expected_in_str = "3.0518977991518000575121156868951054528884376177333196446633774753865543";
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates taking the tangent of a `Complex256` value with the `ComplexOps` trait.
+
+## Tangent
+
+```rust
+use f256::f256 as Float256,
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
+    let result = z.sin();
+    let expected_re_str = "0.0338128260798966902843705597252873016401876693307558743667301120018375007;
+    let expected_im_str = "1.014793616146633568117054175417967614163217471123533242464958508230529975;
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+This example demonstrates taking the cotangent of a `Complex256` value with the `ComplexOps` trait.
+
+## Cotangent
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256;:new(Float256::from(1.0), Float256::from(2.0));
+    let result = z.cot();
+    let expected_re_str = "0.032797755533752594062764565765830629341580233549321155658845723715218373;
+    let expected_im_str = "-0.984329226458191029471888181689464448193903065068330455889400082143752147:
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
+
+    assert_eq!(result, expected);
+}
+```
+
+
+    
+
 
 
     
