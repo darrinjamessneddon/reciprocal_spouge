@@ -278,7 +278,6 @@ pub mod complex {
         fn powi(self, exp: i32) -> Self;
         fn exp(self) -> Self;
         fn ln(self) -> Self;
-        fn log(self) -> Self;
         fn log10(self) -> Self;
         fn recip(self) -> Self;
         fn sqrt(self) -> Self;
@@ -403,13 +402,6 @@ pub mod complex {
                 re: self.magnitude().ln(),
                 im: self.arg(),
             }
-        }
-
-        fn log(self) -> Self {
-            self.ln().div(Complex256 {
-                re: Float256::from(10.0_f64.ln()),
-                im: Float256::from(0.0),
-            })
         }
 
         fn log10(self) -> Self {
