@@ -27,10 +27,13 @@ Usage examples for the special functions mentioned above are set out in docs/SPE
 ## Complex256 Usage Examples
 
 The Complex256 struct contains two traits: pub trait ComplexOps and pub trait ComplexComparisons.
+
 ComplexOps deals with mathematical operations.
+
 ComplexComparisons deals with boolean operations.
 
 Usage examples for Complex256::ComplexOps are set out in docs/Complex256/ComplexOps_USAGE.md
+
 Usage examples for Complex256::ComplexComparisons are set in docs/Complex256/ComplexComparisons_USAGE.md
 
 ## Contributing Guidelines
