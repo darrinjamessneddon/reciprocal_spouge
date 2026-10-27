@@ -271,7 +271,7 @@ fn main() {
 }
 ```
 
-This example demonstrates taking the square root of a `Complex256` value with the `ComplexOps` traits.
+This example demonstrates taking the square root of a `Complex256` value with the `ComplexOps` trait.
 It returns one of the square roots
 
 ## Square Root
@@ -387,6 +387,8 @@ fn main() {
 ```
 
 These examples demonstrate conversion of `Complex256` values to `Complex64` values with the `ComplexOps` trait.
+
+## Complex256 to Complex64
 
 ```rust
 use f256::f256 as Float256;
