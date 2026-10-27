@@ -379,12 +379,32 @@ fn main() {
     let z = Complex256;:new(Float256::from(1.0), Float256::from(2.0));
     let result = z.cot();
     let expected_re_str = "0.032797755533752594062764565765830629341580233549321155658845723715218373;
-    let expected_im_str = "-0.984329226458191029471888181689464448193903065068330455889400082143752147:
+    let expected_im_str = "-0.984329226458191029471888181689464448193903065068330455889400082143752147;
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
 ```
+
+These examples demonstrate conversion of `Complex256` values to `Complex64` values with the `ComplexOps` trait.
+
+```rust
+use f256::f256 as Float256;
+use reciprocal_spouge::{Complex256, ComplexOps};
+
+fn main() {
+    let z = Complex256;:new(Float256::from(1.0), Float256::from(2.0));
+    let z_complex64 = z.to_complex64();
+    let z_c64_expected = Complex64::new(from(1.0), from(2.0));
+
+    assert_eq!(z_complex64, z_c64_expected);
+
+    let z_cot_c64 = z.cot().to_complex64();
+    let z_cot_expected = Complex {re: 0.032797755552596, im; -0.984329226458191};
+    assert_eq!(z_cot_c64, z_cot_expected);
+}
+```
+
 
 
     
