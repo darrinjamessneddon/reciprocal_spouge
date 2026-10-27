@@ -1,6 +1,6 @@
 # Complex256 Usage
 
-This example demonstrates adding two `Complex256` values with the `ComplexOps` trait.
+This document demonstrates common `Complex256` operations using the `ComplexOps` trait.
 
 ## Addition
 
@@ -19,8 +19,6 @@ fn main() {
 }
 ```
 
-This example demonstrates subtraction of a `Complex256` value from another `Complex256` value with the `ComplexOps` trait.
-
 ## Subtraction
 
 ```rust
@@ -37,8 +35,6 @@ fn main() {
     assert_eq!(difference, expected);
 }
 ```
-
-This example demonstrates multiplication of `Complex256` values using the `ComplexOps` trait.
 
 ## Multiplication
 
@@ -57,8 +53,6 @@ fn main() {
 }
 ```
 
-This example demonstrates division of a `Complex256` value by another `Complex256` value with the `ComplexOps` trait.
-
 ## Division
 
 ```rust
@@ -76,8 +70,6 @@ fn main() {
 }
 ```
 
-This example demonstrates negation of a `Complex256` value with the `ComplexOps` trait.
-
 ## Negation
 
 ```rust
@@ -93,8 +85,6 @@ fn main() {
     assert_eq!(z_neg, expected);
 }
 ```
-
-This example demonstrates the absolute value (modulus) of a `Complex256` value with the `ComplexOps` trait.
 
 ## Absolute Value
 
@@ -113,8 +103,6 @@ fn main() {
 }
 ```
 
-This example demonstrates the conjugate of a `Complex256` value with the `ComplexOps` trait.
-
 ## Conjugate
 
 ```rust
@@ -130,8 +118,6 @@ fn main() {
     assert_eq!(conjugate, expected);
 }
 ```
-
-This example demonstrates the magnitude of a `Complex256` value with the `ComplexOps` trait.
 
 ## Magnitude
 
@@ -149,8 +135,6 @@ fn main() {
     assert_eq!(mag_z, expected);
 }
 ```
-
-This example demonstrates raising a `Complex256` value to the power of another `Complex256` value with the `ComplexOps` trait.
 
 ## Powc
 
@@ -171,8 +155,6 @@ fn main() {
 }
 ```
 
-This example demonsgrates raising a `Complex256` value to the power of a `f256` value with the `ComplexOps` trait.
-
 ## Powf
 
 ```rust
@@ -181,7 +163,7 @@ use reciprocal_spouge::{Complex256, ComplexOps};
 
 fn main() {
     let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
-    let exponent = Float256:from("3.1415926");
+    let exponent = Float256::from("3.1415926");
     let result = z.powf(exponent);
 
     let expected_re_str = "-11.82646698597011528465526000285883763094322656386824274409109082964041096";
@@ -191,8 +173,6 @@ fn main() {
     assert_eq!(result, expected);
 }
 ```
-
-This example demonstrates raising a `Complex256` value to the power of an integer (i32) with the `ComplexOps` trait.
 
 ## Powi
 
@@ -210,8 +190,6 @@ fn main() {
     assert_eq!(result, expected);
 }
 ```
-
-This example demonstrates taking the exponent of a `Complex256` value with the `ComplexOps` trait.
 
 ## Exponential
 
@@ -231,8 +209,6 @@ fn main() {
 }
 ```
 
-This example demonstrates taking the natural logarithm of a `Complex256` value with the `ComplexOps` trait.
-
 ## Natural Logarithm
 
 ```rust
@@ -245,13 +221,11 @@ fn main() {
 
     let expected_re_str = "0.8047189562170501873003796666130938197628006771342588609563239457370849";
     let expected_im_str = "1.107148171779409050301706546017853704007004764540143264667653920743371034";
-    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(Complex_im_str));
+    let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
 ```
-
-This example demonstrates taking the logarithm base10 of a `Complex256` value with the `ComplexOps` trait.
 
 ## Logarithm Base10
 
@@ -264,35 +238,30 @@ fn main() {
     let result = z.log10();
 
     let expected_re_str = "0.3494850021680093694455211138700073647695012827633090226305997180333825356";
-    let expected_in_str = "0.480828578784234057373949959119329899707069251685754086023650078002816663";
+    let expected_im_str = "0.480828578784234057373949959119329899707069251685754086023650078002816663";
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
 ```
-
-This example demonstrates taking the square root of a `Complex256` value with the `ComplexOps` trait.
-It returns one of the square roots
 
 ## Square Root
 
 ```rust
-use f256::F256 as Float256;
+use f256::f256 as Float256;
 use reciprocal_spouge::{Complex256, ComplexOps};
 
 fn main() {
-    let z = Complex256::new(Float256:;from(1.0), Float256::from(2.0));
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
     let result = z.sqrt();
 
-    let expected_re_str = "1.27201964951406896425242246173749149171560804184009624861664038253929758;
-    let expected_im_str = "0.78615137775742328606955858584295892952312205783772323766490197010118205;
+    let expected_re_str = "1.27201964951406896425242246173749149171560804184009624861664038253929758";
+    let expected_im_str = "0.78615137775742328606955858584295892952312205783772323766490197010118205";
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
 ```
-
-This example demonstrates taking the reciprocal of a `Complex256` value with the `ComplexOps` trait.
 
 ## Reciprocal
 
@@ -310,17 +279,16 @@ fn main() {
 }
 ```
 
-This example demonstrates taking the sine of a `Complex256` value with the `ComplexOps` trait.
-
 ## Sine
 
 ```rust
-use f256;:f256 as Float256;
+use f256::f256 as Float256;
 use reciprocal_spouge::{Complex256, ComplexOps};
 
 fn main() {
     let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
     let result = z.sin();
+
     let expected_re_str = "3.1657785132161681467407346171919055383791107678914689322893274643048881";
     let expected_im_str = "1.95960104142160589707035204998935827843632016018455965880190149916309425";
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
@@ -329,8 +297,6 @@ fn main() {
 }
 ```
 
-This example demonstrates taking the sine of a `Complex256` value with the `ComplexOps` trait.
-
 ## Cosine
 
 ```rust
@@ -338,36 +304,34 @@ use f256::f256 as Float256;
 use reciprocal_spouge::{Complex256, ComplexOps};
 
 fn main() {
-    let z = Complex256::new(Float256;:from(1.0), Float256::from(2.0));
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
     let result = z.cos();
+
     let expected_re_str = "2.03272300701966552943634344849951426373199040663875238194522463491499985";
-    let expected_in_str = "3.0518977991518000575121156868951054528884376177333196446633774753865543";
+    let expected_im_str = "-3.0518977991518000575121156868951054528884376177333196446633774753865543";
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
 ```
-
-This example demonstrates taking the tangent of a `Complex256` value with the `ComplexOps` trait.
 
 ## Tangent
 
 ```rust
-use f256::f256 as Float256,
+use f256::f256 as Float256;
 use reciprocal_spouge::{Complex256, ComplexOps};
 
 fn main() {
     let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
-    let result = z.sin();
-    let expected_re_str = "0.0338128260798966902843705597252873016401876693307558743667301120018375007;
-    let expected_im_str = "1.014793616146633568117054175417967614163217471123533242464958508230529975;
+    let result = z.tan();
+
+    let expected_re_str = "0.0338128260798966902843705597252873016401876693307558743667301120018375007";
+    let expected_im_str = "1.014793616146633568117054175417967614163217471123533242464958508230529975";
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
 ```
-
-This example demonstrates taking the cotangent of a `Complex256` value with the `ComplexOps` trait.
 
 ## Cotangent
 
@@ -376,48 +340,36 @@ use f256::f256 as Float256;
 use reciprocal_spouge::{Complex256, ComplexOps};
 
 fn main() {
-    let z = Complex256;:new(Float256::from(1.0), Float256::from(2.0));
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
     let result = z.cot();
-    let expected_re_str = "0.032797755533752594062764565765830629341580233549321155658845723715218373;
-    let expected_im_str = "-0.984329226458191029471888181689464448193903065068330455889400082143752147;
+
+    let expected_re_str = "0.032797755533752594062764565765830629341580233549321155658845723715218373";
+    let expected_im_str = "-0.984329226458191029471888181689464448193903065068330455889400082143752147";
     let expected = Complex256::new(Float256::from(expected_re_str), Float256::from(expected_im_str));
 
     assert_eq!(result, expected);
 }
 ```
 
-These examples demonstrate conversion of `Complex256` values to `Complex64` values with the `ComplexOps` trait.
-
 ## Complex256 to Complex64
 
 ```rust
 use f256::f256 as Float256;
+use num_complex::{Complex, Complex64};
 use reciprocal_spouge::{Complex256, ComplexOps};
 
 fn main() {
-    let z = Complex256;:new(Float256::from(1.0), Float256::from(2.0));
-    let z_complex64 = z.to_complex64();
-    let z_c64_expected = Complex64::new(from(1.0), from(2.0));
+    let z = Complex256::new(Float256::from(1.0), Float256::from(2.0));
 
+    let z_complex64 = z.to_complex64();
+    let z_c64_expected = Complex64::new(1.0, 2.0);
     assert_eq!(z_complex64, z_c64_expected);
 
     let z_cot_c64 = z.cot().to_complex64();
-    let z_cot_expected = Complex {re: 0.032797755552596, im; -0.984329226458191};
+    let z_cot_expected = Complex {
+        re: 0.032797755533752594,
+        im: -0.984329226458191,
+    };
     assert_eq!(z_cot_c64, z_cot_expected);
 }
 ```
-
-
-
-    
-
-
-
-    
-
-
-
-    
-
-
-
