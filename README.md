@@ -12,7 +12,7 @@ The library also includes a custom struct Complex256 containing functions pertai
 - Rust and Cargo installed
 - A supported stable Rust toolchain
 - Internet access to download crate dependencies
-- This library depends on `f256`, `astro_float`, and `rayon`
+- This library depends on `num`, num-traits`, `num-complex`, `num-bigint`, `f256`, `astro_float`, and `rayon`
 - For testing, `proptest` is used
 - The project is still under active development and is not yet production-ready
 
@@ -26,11 +26,10 @@ Usage examples for the special functions mentioned above are set out in docs/SPE
 
 ## Complex256 Usage Examples
 
-The Complex256 struct contains two traits: pub trait ComplexOps and pub trait ComplexComparisons.
+The Complex256 struct contains two traits:
 
-ComplexOps deals with mathematical operations.
-
-ComplexComparisons deals with boolean operations.
+* ComplexOps deals with mathematical operations.
+* ComplexComparisons deals with boolean operations.
 
 Usage examples for Complex256::ComplexOps are set out in docs/Complex256/ComplexOps_USAGE.md
 
