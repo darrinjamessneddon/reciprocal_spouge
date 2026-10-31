@@ -318,6 +318,24 @@ proptest! {
     }
 }
 
+proptest! {
+    #{test]
+    fn gamma_and_reciprocal_gamma_stay_consistent_under_proptest{
+        re in -999.5f64..999.5,
+        im in -999.5f64..999.5,
+        ) {
+            prop_assuem!(im.abs() > 1e-6 || re.fract().abs > 1e-6 || re >= 0.0);
+
+            let z = c256(re, im);
+            let gamma = root_spouge_c256(z, DEFAULT_SPOUGE_A).unwrap();
+            let reciprocal_gamma = root_rspouge_c256(z, DEFAULT_SPOUGE_A).unwrap();
+            let product = gamma.mul(reciprocal_gamma);
+
+                assert_f256_close(product.re, Float256::from(1.0), Float256::from(1e-12));
+                assert_f256_close(product.im, Float256::from(0.0), Float256::from(1e-12));
+        }
+    }
+
 #[test]
 fn loggamma_includes_winding_number_term() {
     for input in [c256(2.5, 0.25), c256(1.5, 12.0), c256(-2.5, 3.0)] {
