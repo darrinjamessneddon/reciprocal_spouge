@@ -298,14 +298,10 @@ fn complex_operations_cover_public_api_examples() {
 
 proptest! {
     #[test]
-    #[ignore = "Template placeholder: enable after choosing property-test domains and tolerances"]
     fn gamma_and_reciprocal_gamma_stay_consistent_under_proptest(
-        re in -4.5f64..4.5,
-        im in -4.5f64..4.5,
+        re in -999.5f64..999.5,
+        im in -999.5f64..999.5,
     ) {
-        // TODO: Narrow or widen these domains as the implementation matures.
-        // TODO: Skip poles and numerically fragile regions with `prop_assume!`.
-        // TODO: Record any counterexamples here as deterministic regression tests.
         prop_assume!(im.abs() > 1e-6 || re.fract().abs() > 1e-6 || re >= 0.0);
 
         let z = c256(re, im);
@@ -317,24 +313,6 @@ proptest! {
         assert_f256_close(product.im, Float256::from(0.0), Float256::from(1e-12));
     }
 }
-
-proptest! {
-    #{test]
-    fn gamma_and_reciprocal_gamma_stay_consistent_under_proptest{
-        re in -999.5f64..999.5,
-        im in -999.5f64..999.5,
-        ) {
-            prop_assuem!(im.abs() > 1e-6 || re.fract().abs > 1e-6 || re >= 0.0);
-
-            let z = c256(re, im);
-            let gamma = root_spouge_c256(z, DEFAULT_SPOUGE_A).unwrap();
-            let reciprocal_gamma = root_rspouge_c256(z, DEFAULT_SPOUGE_A).unwrap();
-            let product = gamma.mul(reciprocal_gamma);
-
-                assert_f256_close(product.re, Float256::from(1.0), Float256::from(1e-12));
-                assert_f256_close(product.im, Float256::from(0.0), Float256::from(1e-12));
-        }
-    }
 
 #[test]
 fn loggamma_includes_winding_number_term() {
