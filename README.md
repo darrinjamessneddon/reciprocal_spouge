@@ -12,7 +12,7 @@ The library also includes a custom struct Complex256 containing functions pertai
 - Rust and Cargo installed
 - A supported stable Rust toolchain
 - Internet access to download crate dependencies
-- This library depends on `num`, num-traits`, `num-complex`, `num-bigint`, `f256`, `astro_float`, and `rayon`
+- This library depends on `num`, `num-traits`, `num-complex`, `num-bigint`, `f256`, `astro_float`, and `rayon`
 - For testing, `proptest` is used
 - The project is still under active development and is not yet production-ready
 
