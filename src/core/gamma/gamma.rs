@@ -18,7 +18,7 @@ pub mod gamma {
             return Err(MathError::ParameterOutOfRange);
         }
         // The spouge approximation calculates takes a z value and a parameter a, and returns the value of
-        // gamma(z + 1). To compensate for this, we will subtract 1 from the input value z before passing it to the approximation.
+        // gamma(z + 1). To compensate for this, we will calculate gamma(z + 1) and divide it by z.
         let max_limit = Float256::from(10000.0);
         if z.re > max_limit || z.im > max_limit {
             return Err(MathError::Overflow);
