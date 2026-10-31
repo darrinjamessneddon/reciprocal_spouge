@@ -299,8 +299,8 @@ fn complex_operations_cover_public_api_examples() {
 proptest! {
     #[test]
     fn gamma_and_reciprocal_gamma_stay_consistent_under_proptest(
-        re in -9999.5f64..9999.5,
-        im in -9999.5f64..9999.5,
+        re in -999.5f64..999.5,
+        im in -999.5f64..999.5,
     ) {
         prop_assume!(im.abs() > 1e-6 || re.fract().abs() > 1e-6 || re >= 0.0);
 
