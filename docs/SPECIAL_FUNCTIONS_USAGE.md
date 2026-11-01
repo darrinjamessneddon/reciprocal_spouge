@@ -18,7 +18,7 @@ use reciprocal_spouge::{
     digamma_c256, loggamma, spouge_c256, trigamma_c256, Complex256, ComplexOps,
 };
 
-const A: usize = 25;
+const A: usize = 75;
 
 fn assert_close(actual: Complex256, expected: Complex256, tolerance: f64) {
     let difference = actual.sub(expected).magnitude();
