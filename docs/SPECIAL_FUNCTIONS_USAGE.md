@@ -8,7 +8,7 @@ The latter must be an integer between 2 and 150, inclusive.
 
 To improve the speed of computation a vector of Spouge Coefficients is pre-computed using the parameter "a".
 
-The build script sets "a" to 100 by default, with Cargo features for 25, 50, 75, 125, and 150. The functions take "a" explicitly.
+The build script sets "a" to 100 by default, with Cargo features for 50, 75, 125, and 150. The functions take "a" explicitly.
 
 ## Usage Examples
 
