@@ -13,8 +13,6 @@ fn main() {
         100
     } else if env::var("CARGO_FEATURE_A_125").is_ok() {
         125
-    } else if env::var("CARGO_FEATURE_A_150").is_ok() {
-        150
     } else {
         100
     };

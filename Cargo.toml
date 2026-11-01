@@ -13,7 +13,6 @@ a_50 = []
 a_75 = []
 a_100 = []
 a_125 = []
-a_150 = []
 
 [dependencies]
 num = "0.4.3"
@@ -26,4 +25,3 @@ astro-float = "0.9.6"
 
 [dev-dependencies]
 proptest = "1.11.0"
-
