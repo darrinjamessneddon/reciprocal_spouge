@@ -9,8 +9,6 @@ fn main() {
         50
     } else if env::var("CARGO_FEATURE_A_75").is_ok() {
         75
-    } else if env::var("CARGO_FEATURE_A_100").is_ok() {
-        100
     } else {
         100
     };
