@@ -12,7 +12,6 @@ build = "build.rs"
 a_50 = []
 a_75 = []
 a_100 = []
-a_125 = []
 
 [dependencies]
 num = "0.4.3"
