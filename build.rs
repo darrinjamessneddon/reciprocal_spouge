@@ -5,9 +5,7 @@ fn main() {
     println!("cargo:rerun-if-env-changed=SPOUGE_A");
 
     // Determine the value of parameter 'a' from the active Cargo features
-    let a = if env::var("CARGO_FEATURE_A_25").is_ok() {
-        25
-    } else if env::var("CARGO_FEATURE_A_50").is_ok() {
+    let a = if env::var("CARGO_FEATURE_A_50").is_ok() {
         50
     } else if env::var("CARGO_FEATURE_A_75").is_ok() {
         75

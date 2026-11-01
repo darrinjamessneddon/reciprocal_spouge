@@ -9,7 +9,6 @@ readme = "README.md"
 build = "build.rs"
 
 [features]
-a_25 = []
 a_50 = []
 a_75 = []
 a_100 = []
