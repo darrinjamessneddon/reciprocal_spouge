@@ -21,7 +21,13 @@ use std::str::FromStr;
 /// - Keep the Spouge parameter `a` fixed inside a test so that failures are easier to reproduce.
 /// - Start with identities that are mathematically stable, then add wider-input coverage.
 /// - Use `prop_assume!` in property tests to skip poles and other unsupported regions.
-const DEFAULT_SPOUGE_A: usize = 12;
+const DEFAULT_SPOUGE_A: usize = if cfg!(feature = "a_80") {
+    80
+} else if cfg!(feature = "a_90") {
+    90
+} else {
+    100
+};
 
 fn c256(re: f64, im: f64) -> Complex256 {
     Complex256::from_f64(re, im)
@@ -213,6 +219,22 @@ fn spouge_api_still_supports_successful_coefficient_paths() {
     );
     assert_eq!(gamma_string, gamma_of_one.to_string());
     assert_eq!(reciprocal_gamma_string, reciprocal_gamma_of_one.to_string());
+}
+
+#[test]
+fn spouge_api_supports_configured_a_options() {
+    let input = c256(2.5, 0.25);
+
+    for a in [80_usize, 90, 100] {
+        assert_eq!(spouge_coefficients(a as u64).unwrap().len(), a);
+        let gamma = root_spouge_c256(input, a).unwrap();
+        let reciprocal_gamma = root_rspouge_c256(input, a).unwrap();
+        assert_complex_close(
+            gamma.mul(reciprocal_gamma),
+            c256(1.0, 0.0),
+            Float256::from(1e-12),
+        );
+    }
 }
 
 #[test]
