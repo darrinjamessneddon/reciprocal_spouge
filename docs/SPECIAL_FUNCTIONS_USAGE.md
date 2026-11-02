@@ -8,7 +8,7 @@ The latter must be an integer between 2 and 150, inclusive.
 
 To improve the speed of computation a vector of Spouge Coefficients is pre-computed using the parameter "a".
 
-The build script sets "a" to 100 by default, with Cargo features for 50, 75, 125, and 150. The functions take "a" explicitly.
+The build script sets "a" to 100 by default, with Cargo features for 80 or 90. The functions take "a" explicitly.
 
 ## Usage Examples
 
@@ -18,7 +18,7 @@ use reciprocal_spouge::{
     digamma_c256, loggamma, spouge_c256, trigamma_c256, Complex256, ComplexOps,
 };
 
-const A: usize = 75;
+const A: usize = 80;
 
 fn assert_close(actual: Complex256, expected: Complex256, tolerance: f64) {
     let difference = actual.sub(expected).magnitude();
