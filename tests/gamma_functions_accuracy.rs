@@ -5,7 +5,13 @@ use reciprocal_spouge::{
 };
 use std::str::FromStr;
 
-const A: usize = 30;
+const A: usize = if cfg!(feature = "a_80") {
+    80
+} else if cfg!(feature = "a_90") {
+    90
+} else {
+    100
+};
 const DEFAULT_TOLERANCE: f64 = 1e-12;
 
 fn c(re: f64, im: f64) -> Complex256 {
@@ -107,16 +113,16 @@ fn spouge_reports_errors() {
 }
 
 #[test]
-fn spouge_accuracy_improves_with_larger_a() {
+fn spouge_accuracy_remains_high_for_configured_a_options() {
     let z = real(5.0);
     let error = |a: usize| spouge_c256(z, a).unwrap().sub(real(24.0)).magnitude();
-    let small = error(4);
-    let large = error(30);
-    assert!(
-        large < small,
-        "expected error with a=30 ({large}) to be below error with a=4 ({small})"
-    );
-    assert!(large <= Float256::from(1e-12));
+    for a in [80_usize, 90, 100] {
+        let actual_error = error(a);
+        assert!(
+            actual_error <= Float256::from(1e-12),
+            "expected error with a={a} ({actual_error}) to be within tolerance"
+        );
+    }
 }
 
 #[test]

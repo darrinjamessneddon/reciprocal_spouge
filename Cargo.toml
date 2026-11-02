@@ -9,8 +9,8 @@ readme = "README.md"
 build = "build.rs"
 
 [features]
-a_50 = []
-a_75 = []
+a_80 = []
+a_90 = []
 a_100 = []
 
 [dependencies]

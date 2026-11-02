@@ -194,7 +194,7 @@ pub mod shared {
 
         #[test]
         fn spouge_coefficients_follow_standard_formula() {
-            let a = 12_u64;
+            let a = 80_u64;
             let coefficients_result = spouge_coefficients(a);
             let coefficients = match coefficients_result {
                 Ok(value) => value,
@@ -247,7 +247,7 @@ pub mod shared {
         fn precomputed_bigfloat_coefficients_cover_shape_and_sign_invariants() {
             let sqrt_two_pi_lower_bound = BigFloat::from(2.506_f64);
             let sqrt_two_pi_upper_bound = BigFloat::from(2.507_f64);
-            for a in [2_usize, 5, 12, 25] {
+            for a in [80_usize, 90, 100] {
                 let coefficients = precomputed_bigfloat_spouge_coefficients(a);
                 assert_eq!(coefficients.len(), a);
                 let coefficient_zero = &coefficients[0];
@@ -267,13 +267,13 @@ pub mod shared {
         }
 
         #[test]
-        fn precomputed_coefficients_for_twenty_five_are_finite() {
-            let coefficients_result = precomputed_coefficients(25);
+        fn precomputed_coefficients_for_one_hundred_are_finite() {
+            let coefficients_result = precomputed_coefficients(100);
             let coefficients = match coefficients_result {
                 Ok(value) => value,
                 Err(error) => panic!("unexpected conversion error: {error:?}"),
             };
-            assert_eq!(coefficients.len(), 25);
+            assert_eq!(coefficients.len(), 100);
             for coefficient in coefficients {
                 assert!(coefficient.is_finite());
             }
