@@ -8,7 +8,7 @@
 // The rationale for this was that the reciprocal gamma function has the following key properties:
 // 1. It is an entire function (analytic across the entire complex plane).
 // 2. It has zeros instead of singularites and these are located at negative integers.
-// 3. It has no essential singularity (no poles), and as such is a completely smooth and well-behaved function. 
+// 3. It has no essential singularity (no poles), and as such is a completely smooth and well-behaved function.
 //! ! References:
 //! Wikipedia: en.wikipedia.org
 //! The Ohio State University: A Historical Profile of the Gamma Function: https://people.math.osu.edu/gautam.42/S20/DavisGammaFunction.pdf
