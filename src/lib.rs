@@ -75,8 +75,10 @@
 // and using the Stirling approximation, which is a special case of the Spouge approximation.
 
 // The digamma function can be defined as:
+// ψ(z) = d/dz lnΓ(z)
 
 // The trigamma function can be defined as:
+// ψ'(z) = d^2/dz^2 lnΓ(z)
 
 pub mod core;
 
