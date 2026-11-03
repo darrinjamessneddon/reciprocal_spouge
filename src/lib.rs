@@ -76,6 +76,20 @@
 
 // The digamma function can be defined as:
 // ψ(z) = d/dz lnΓ(z)
+// The digamma function is a meromorphic function on the complex plane with well-defined poles and zeros.
+// It has poles at all non-positive integers.
+// At each pole where z = -n (for n >= 0) the residue is -1.
+// The function is analytic (holomorphic) everywhere on the complex plane. It has no branch points, branch cuts, or essential singularities
+// in the finite complex plane.
+// The zeros of the digamma function correspond to the saddle points of hte complex gamma function.
+// All zeros of the digamma function are real and simple.
+// There is a single zero on the positive real axis located near z = 1.46163.
+// There is an infinite sequence of negative real zeros.
+// There are no zeros off the real axis in the complex plane.
+//! ! references:
+//! Scribd: Zeros of Digamma and Barnes G Functions | PDF|
+//! Digamma Function- an overview| ScienceDirect Topics (ScienceDirect.com)
+//! The zeros of the digamma function- MathOverflow
 
 // The trigamma function can be defined as:
 // ψ'(z) = d^2/dz^2 lnΓ(z)
@@ -96,4 +110,4 @@ pub use core::{
 // error: a submodule providing error handling for the library (this is far from complete, and may need to be completely reworked).
 // lngamma: a submodule holding an implementation of the natural logarithm of the gamma function.
 // digamma: a submodule holding an implementation of the digamma function.
-// trigamma: a submodule holding an implenetation of the trigamma function.
+// trigamma: a submodule holding an implementation of the trigamma function.
