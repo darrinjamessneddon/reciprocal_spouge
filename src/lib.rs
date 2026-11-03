@@ -8,7 +8,7 @@
 // The rationale for this was that the reciprocal gamma function has the following key properties:
 // 1. It is an entire function (analytic across the entire complex plane).
 // 2. It has zeros instead of singularites and these are located at negative integers.
-// 3. It has no essential singularity (no poles), and as such is a completely smooth and well-behaved function. 
+// 3. It has no essential singularity (no poles), and as such is a completely smooth and well-behaved function.
 //! ! References:
 //! Wikipedia: en.wikipedia.org
 //! The Ohio State University: A Historical Profile of the Gamma Function: https://people.math.osu.edu/gautam.42/S20/DavisGammaFunction.pdf
@@ -16,17 +16,23 @@
 
 // It was envisaged that computation of the reciprocal gamma function would be a good starting point to compute other functions in the gamma function family.
 
-// This library is built entirely in the Rust programming language.
+// The original unpublished public repository for reciprocal_spouge was deleted, and the project was re-started from scratch because of structure h submodules and the way the code was organized. The original code was also flawed. I humbly apologize to anyone who may have
+// been inconvenienced by the original code, and I hope that this new version will be more useful to those who wish to use it.
 
-// In order to facilitate this, a custom Complex256 struct was created and the f256 crate was used as a dependency.
+// This library is built entirely in the Rust programming language.
+// When the library was re-built the scope of the project was expanded to include the following functions:
+// 1. The gamma function.
+// 2. The reciprocal gamma function.
+// 3. The log-gamma function.
+// 4. The digamma function.
+// 5. The trigamma function.
+
+// In order to facilitate the implementation of these functions listed above, a custom Complex256 struct was created and the f256 crate was used as a dependency.
 
 // This Complex256 struct has two traits: ComplexOps and ComplexComparisons.
 // ComplexOps deals with mathematical operations.
 // ComplexComparisons deals with a small number of boolean comparison operations. This contains few functions, but can be extended if users of this library
 // wish to make greater use of the Complex256 struct as a feature in itself.
-
-// The original unpublished public repository for reciprocal_spouge was deleted, and the project was re-started from scratch because of structure h submodules and the way the code was organized. The original code was also flawed. I humbly apologize to anyone who may have
-// been inconvenienced by the original code, and I hope that this new version will be more useful to those who wish to use it.
 
 //! As far as the Spouge approximation is concerned. The implementation is based on a mathematical formulation presented by John
 //! Spouge in his paper "Computation of the Gamma, Digamma, and Trigamma functions" (Mathematics of Computation, Vol.63 No.208, pp. 361-368, 1994),
@@ -68,6 +74,10 @@
 // There are also other ways to define the natural logarithm of the gamma function, including using the Spouge approximation,
 // and using the Stirling approximation, which is a special case of the Spouge approximation.
 
+// The digamma function can be defined as:
+
+// The trigamma function can be defined as:
+
 pub mod core;
 
 pub use core::{
@@ -84,3 +94,4 @@ pub use core::{
 // error: a submodule providing error handling for the library (this is far from complete, and may need to be completely reworked).
 // lngamma: a submodule holding an implementation of the natural logarithm of the gamma function.
 // digamma: a submodule holding an implementation of the digamma function.
+// trigamma: a submodule holding an implenetation of the trigamma function.
