@@ -3,29 +3,31 @@
 // THIS CODE IS NOT YET READY FOR PRODUCTION USE..
 
 // This project was inspired by the idea of implementing the reciprocal gamma function using a re-arranged formula of the
-// Spouge approximation of the gamma function.
+// Spouge approximation of the gamma function, and so the repository was given the name reciprocal_spouge.
 
-// It was found that it was also necessary to implement the gamma function itself, using the Spouge approximation in order to
-// compare the results of the reciprocal gamma function to the gamma function for testing purposes.
+// The rationale for this was that the reciprocal gamma function has the following key properties:
+// 1. It is an entire function (analytic across the entire complex plane).
+// 2. It has zeros instead of singularites and these are located at negative integers.
+// 3. It has no essential singularity (no poles), and as such is a completely smooth and well-behaved function. 
+//! ! References:
+//! Wikipedia: en.wikipedia.org
+//! The Ohio State University: A Historical Profile of the Gamma Function: https://people.math.osu.edu/gautam.42/S20/DavisGammaFunction.pdf
+//! Google AI
 
-// The library is built entirely in the Rust programming language.
-// The library is built on top of the f256 crate in order to attempt to provide greater precision than can be achieved using f64 values.
+// It was envisaged that computation of the reciprocal gamma function would be a good starting point to compute other functions in the gamma function family.
 
-// The original unpublished public repository for this project was deleted, and the project was re-started from scratch because of structural issues
-// with submodules and the way the code was organized. The original code was also flawed. I humbly apologize to anyone who may have
+// This library is built entirely in the Rust programming language.
+
+// In order to facilitate this, a custom Complex256 struct was created and the f256 crate was used as a dependency.
+
+// This Complex256 struct has two traits: ComplexOps and ComplexComparisons.
+// ComplexOps deals with mathematical operations.
+// ComplexComparisons deals with a small number of boolean comparison operations. This contains few functions, but can be extended if users of this library
+// wish to make greater use of the Complex256 struct as a feature in itself.
+
+// The original unpublished public repository for reciprocal_spouge was deleted, and the project was re-started from scratch because of structure h submodules and the way the code was organized. The original code was also flawed. I humbly apologize to anyone who may have
 // been inconvenienced by the original code, and I hope that this new version will be more useful to those who wish to use it.
 
-// In addition to providing a Spouge-based implementation of the gamma function and the reciprocal gamma function, this library
-// will also provide an implementation of the natural logarithm of the gamma function, and will also provide a complex number type
-// for complex numbers using f256, along with the capacity to parse complex numbers from Complex256 to Complex64 and vice versa.
-
-// The library will also provide some limited functions for working with complex numbers using Complex256 should you wish to do si.
-
-//! Computation of gamma related functions using Spouge's approximation.
-//! This module provides functions for computing the gamma function, the reciprocal gamma function, and the natural logarithm of the
-//! gamma function, as well as a complex number type for complex numbers using f256, along with the capacity to parse complex numbers
-//! from Complex256 to Complex64 and vice versa. The library also provides some limited functions for working with complex numbers
-//! using COmplex256 should you wish to do so.
 //! As far as the Spouge approximation is concerned. The implementation is based on a mathematical formulation presented by John
 //! Spouge in his paper "Computation of the Gamma, Digamma, and Trigamma functions" (Mathematics of Computation, Vol.63 No.208, pp. 361-368, 1994),
 //! DOI: 10.1090/S0025-5718-1994-1209956-2.pdf
