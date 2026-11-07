@@ -38,10 +38,10 @@
 //! Spouge in his paper "Computation of the Gamma, Digamma, and Trigamma functions" (Mathematics of Computation, Vol.63 No.208, pp. 361-368, 1994),
 //! DOI: 10.1090/S0025-5718-1994-1209956-2.pdf
 //! ! Other references:
-//! ! -https://en.wikipedia.org/wiki/Spouge%27s_approx
-//! ! -https://dl.acm.org/doi/10.1145/19582.19585
-//! ! -https://math.stackexchange.com/questions/2218764/spouge-approximation-for-the-gamma-function
-//! ! -https:://functions.wolfram.com/GammaBetaErf/Gamma/06/01/03/01/
+//! ! -<https://en.wikipedia.org/wiki/Spouge%27s_approx>
+//! ! -<https://dl.acm.org/doi/10.1145/19582.19585>
+//! ! -<https://math.stackexchange.com/questions/2218764/spouge-approximation-for-the-gamma-function>
+//! ! -<https:://functions.wolfram.com/GammaBetaErf/Gamma/06/01/03/01/>
 //!
 
 // For a positive integer grater than 0, the gamma function is defined as:
