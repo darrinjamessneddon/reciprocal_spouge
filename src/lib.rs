@@ -11,7 +11,7 @@
 // 3. It has no essential singularity (no poles), and as such is a completely smooth and well-behaved function.
 //! ! References:
 //! Wikipedia: en.wikipedia.org
-//! The Ohio State University: A Historical Profile of the Gamma Function: https://people.math.osu.edu/gautam.42/S20/DavisGammaFunction.pdf
+//! The Ohio State University: A Historical Profile of the Gamma Function: <https://people.math.osu.edu/gautam.42/S20/DavisGammaFunction.pdf>
 //! Google AI
 
 // It was envisaged that computation of the reciprocal gamma function would be a good starting point to compute other functions in the gamma function family.
