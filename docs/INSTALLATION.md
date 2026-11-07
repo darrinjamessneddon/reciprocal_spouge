@@ -26,5 +26,12 @@ Error <= a^-0.5 * (2* pi)^-(a + 0.5)
   
 [2] increases computation cost
 The summation is Spouge's formula runs from k = 1 to a - 1
+* As the value of "a" becomes larger more terms must be calculated in the sum. This means you need to precompute
+and store a larger vector of coefficients.
+
+[3] modifies the convergence domain
+* As Spouge's approximation is valid over the entire complex plane (except where z is a negative integer)
+and the approximation is most accurate when the real part of z is greater than negative a, increasing the Spouge parameter,
+effectively shifts the "safe" region of high accuracy further left along the negative real axis.
 A larger sum 
 [3] modifies the convergence domain
