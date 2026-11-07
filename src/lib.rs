@@ -67,15 +67,28 @@
 
 // The reciprocal gamma function is useful in many areas of mathematics, including number theory, combinatorics, and mathematical
 // physics, and has applications in various field such as probability theory, statistical mechanics, and quantum field theory.
+//! !references:
+//! ! en.wikipedia.org
+//! ! Google AI.
 
 // The natural logarithm of the gamma function can be defined as:
 // ln(Γ(z)) = integral from 0 to infinity of { (t^(z - 1) * e^(-t) - (e^(-t) - 1) / t) } dt))
 // for a complex number z with a positive real part.
 // There are also other ways to define the natural logarithm of the gamma function, including using the Spouge approximation,
 // and using the Stirling approximation, which is a special case of the Spouge approximation.
+//! !references:
+//! ! en.wikipedia.org
+//! Google AI.
 
 // The digamma function can be defined as:
 // ψ(z) = d/dz lnΓ(z)
+
+// Main uses and applications of the digamma function include:
+// (i) exploiting its relationship with harmonic numbers, especially to evaluate and sum complex or alternating series.
+// (ii) using it in maximum likelihood estimation.
+// (iii) using it in the regularization of divergent integrals (particularly in mathematical physics and analysis where
+// the function is used in analytical continuation and the regularization of certain divergent series and integrals.
+
 // The digamma function is a meromorphic function on the complex plane with well-defined poles and zeros.
 // It has poles at all non-positive integers.
 // At each pole where z = -n (for n >= 0) the residue is -1.
@@ -93,6 +106,16 @@
 
 // The trigamma function can be defined as:
 // ψ'(z) = d^2/dz^2 lnΓ(z)
+
+// The trigamma funciton is a meromorphic function on the complex plane.
+// It is holomorphic (analytic) everywhere on the complex plane except at its poles.
+// It has poles at all the non-positive integers.
+// Near each non-positive integer, the trigamma function has a pole of order 2 (a double pole).
+// Since it is a quotient/derivative derived from the gamma function (which itself is analytic everywhere on the complex
+// plane except for isolated poles), the trigamma function fits the precise definition of a meromorphic function.
+//! ! references:
+//! GitHub: diofant/diofant/functions/special/gamma_functions.py at master
+//! Google AI.
 
 pub mod core;
 
