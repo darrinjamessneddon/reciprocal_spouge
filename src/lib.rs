@@ -107,7 +107,7 @@
 // The trigamma function can be defined as:
 // ψ'(z) = d^2/dz^2 lnΓ(z)
 
-// The trigamma funciton is a meromorphic function on the complex plane.
+// The trigamma function is a meromorphic function on the complex plane.
 // It is holomorphic (analytic) everywhere on the complex plane except at its poles.
 // It has poles at all the non-positive integers.
 // Near each non-positive integer, the trigamma function has a pole of order 2 (a double pole).
