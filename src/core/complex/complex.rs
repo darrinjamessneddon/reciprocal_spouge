@@ -530,12 +530,27 @@ pub mod complex {
         }
     }
 
+    fn fmt_component(value: Float256) -> String {
+        let abs = value.abs();
+        let large = Float256::from(10_000_000.0);
+        let small = Float256::from(1.0) / Float256::from(10_000.0);
+
+        if abs >= large || abs <= small {
+            format!("{:e}", value)
+        } else {
+            value.to_string()
+        }
+    }
+
     impl std::fmt::Display for Complex256 {
         fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+            let re = fmt_component(self.re);
+            let im = fmt_component(self.im.abs());
+
             if self.im >= Float256::from(0.0) {
-                write!(f, "{} + {}i", self.re, self.im)
+                write!(f, "{} + {}i", re, im)
             } else {
-                write!(f, "{} - {}i", self.re, -self.im)
+                write!(f, "{} - {}i", re, im)
             }
         }
     }
