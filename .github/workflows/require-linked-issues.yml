@@ -25,8 +25,8 @@ jobs:
             }
 
             // Matches the issue-linking phrases documented in the PR template:
-            // e.g., "Fixes #123", "Closes owner/repo#456", "Related #789", "Related to #101"
-            const linkedIssuePattern = /\b(close[sd]?|fix(e[sd])?|resolve[sd]?|related)(\s+to)?\s+([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)?#\d+\b/i;
+            // e.g., "Fixes #123", "Closes issue #456", "Closes owner/repo#456", "Related to #101"
+            const linkedIssuePattern = /\b(close[sd]?|fix(e[sd])?|resolve[sd]?|related)(\s+to)?\s+(issues?\s+)?([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)?#\d+\b/i;
 
             if (!linkedIssuePattern.test(body)) {
               core.setFailed(
